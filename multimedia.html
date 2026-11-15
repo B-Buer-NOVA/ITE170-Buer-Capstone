@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multimedia &ndash; Multimedia Capstone Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+  </style>
+
+  <!-- Loads the Phosphor icon library (used for the small icons like the music note and camera) -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+</head>
+
+<body>
+
+  <!-- ===== HEADER / DESKTOP NAVBAR =====
+       Fixed bar at the top of every page: site name on the left,
+       navigation links on the right. "active" marks the current page. -->
+  <header>
+    <!-- Site logo/name; clicking it returns to the home page -->
+    <a class="brand" href="index.html">Your<span>Portfolio</span></a>
+    <!-- Navigation links shown on larger screens -->
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="multimedia.html" class="active">Multimedia</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <!-- Hamburger button, only visible on small screens; opens the mobile menu below -->
+    <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMobileNav()"><span></span></button>
+  </header>
+
+  <!-- ===== MOBILE NAVIGATION =====
+       Slide-in menu for phones. Hidden off-screen until JavaScript adds
+       the "open" class. Each link also closes the menu when clicked. -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html"      onclick="toggleMobileNav()">Home</a>
+    <a href="about.html"      onclick="toggleMobileNav()">About</a>
+    <a href="projects.html"   onclick="toggleMobileNav()">Projects</a>
+    <a href="multimedia.html" class="active" onclick="toggleMobileNav()">Multimedia</a>
+    <a href="contact.html"    onclick="toggleMobileNav()">Contact</a>
+  </nav>
+
+  <!-- ===== MAIN CONTENT =====
+       Everything between the header and footer. The inline padding-top
+       pushes content down so the fixed 64px header doesn't cover it. -->
+  <main class="page-main">
+
+    <!-- ===== HERO SECTION =====
+         Large dark banner at the top of the page with a background image,
+         a small label ("eyebrow"), the page title, and a short intro. -->
+    <section class="page-hero hero-image">
+
+      <!-- Full-width background image for the hero. alt="" + aria-hidden
+           because it is decorative only (screen readers skip it). -->
+      <img
+        class="page-hero-media"
+        src="https://placehold.co/1600x900/e8e8ed/86868b?text=Multimedia%5CnHero"
+        alt="" aria-hidden="true">
+
+      <!-- Text that sits on top of the hero image -->
+      <div class="page-hero-content">
+        <span class="page-hero-eyebrow">Creative Work</span>
+        <h1>Multimedia</h1>
+        <p>The song, video, and images I created for my multimedia capstone.</p>
+      </div>
+    </section>
+
+    <!-- ===== VIDEO SECTION =====
+         Shows the capstone video. The poster attribute is a placeholder
+         image shown until the video plays; save the exported video as
+         media/my-video.mp4 and the player picks it up automatically. -->
+    <section class="media-section active" id="tab-video">
+      <div class="video-gallery">
+
+        <!-- Section heading: small purple label, title, and description.
+             "fade-up" makes it animate in when scrolled into view. -->
+        <div class="section-header fade-up">
+          <span class="section-label">Video Work</span>
+          <h2>Motion &amp; storytelling</h2>
+          <p>A short video I planned, recorded, and edited for the capstone.</p>
+        </div>
+
+        <div class="video-feature">
+
+          <!-- Card that holds the video (or placeholder) plus its title,
+               description, and the tools used to make it -->
+          <div class="video-card fade-up">
+            <!-- HTML5 video player. poster = the placeholder image shown
+                 before the video plays (swap in a still from your video). -->
+            <video controls preload="metadata"
+                   poster="https://placehold.co/1280x720/e8e8ed/86868b?text=Video+Poster+Image"
+                   src="media/my-video.mp4">
+              Your browser does not support the video element.
+            </video>
+            <!-- Text portion of the card -->
+            <div class="video-card-body">
+              <h3>My Video Title</h3>
+              <p>Describe what this video is about — the story you were trying to tell, how you made it, and what you learned in the process.</p>
+              <!-- Small pill-shaped badges listing the tools used -->
+              <div class="video-tools">
+                <span class="tool-badge">Storyboarding</span>
+                <span class="tool-badge">Video Editing</span>
+                <span class="tool-badge">Captions</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IMAGES SECTION =====
+         A masonry-style photo gallery (Pinterest-like columns). Clicking any
+         photo opens it full-size in the lightbox at the bottom of the page. -->
+    <section class="media-section" id="tab-photos">
+      <div class="image-gallery">
+
+        <!-- Section heading for the photo gallery -->
+        <div class="section-header fade-up">
+          <span class="section-label">Images</span>
+          <h2>Images I created</h2>
+          <p>
+            Original images I created and edited for the capstone. Click
+            any image to open the slideshow.
+          </p>
+        </div>
+
+        <!-- Container the JavaScript scans to build the lightbox slideshow.
+             Each photo-item = one thumbnail image + a caption that appears
+             on hover. data-full = the larger version shown in the lightbox.
+             loading="lazy" tells the browser to load images only when needed. -->
+        <div class="photo-columns" id="photoColumns">
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=Image+1" data-full="https://placehold.co/1200x800/e8e8ed/86868b?text=Image+1" alt="Image 1 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 1</span>
+          </div>
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x560/e8e8ed/86868b?text=Image+2" data-full="https://placehold.co/1200x1120/e8e8ed/86868b?text=Image+2" alt="Image 2 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 2</span>
+          </div>
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x320/e8e8ed/86868b?text=Image+3" data-full="https://placehold.co/1200x640/e8e8ed/86868b?text=Image+3" alt="Image 3 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 3</span>
+          </div>
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x480/e8e8ed/86868b?text=Image+4" data-full="https://placehold.co/1200x960/e8e8ed/86868b?text=Image+4" alt="Image 4 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 4</span>
+          </div>
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x360/e8e8ed/86868b?text=Image+5" data-full="https://placehold.co/1200x720/e8e8ed/86868b?text=Image+5" alt="Image 5 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 5</span>
+          </div>
+
+          <div class="photo-item fade-up">
+            <img src="https://placehold.co/600x600/e8e8ed/86868b?text=Image+6" data-full="https://placehold.co/1200x1200/e8e8ed/86868b?text=Image+6" alt="Image 6 placeholder" loading="lazy">
+            <span class="photo-caption">Caption for Image 6</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AUDIO SECTION =====
+         Embeds an audio player for the Suno AI song assignment.
+         Reuses the video-card styling so it matches the rest of the page. -->
+    <section class="media-section" id="tab-audio">
+      <div class="video-gallery">
+
+        <!-- Section heading for the audio project -->
+        <div class="section-header fade-up">
+          <span class="section-label">Audio</span>
+          <h2>Creating a song with Suno</h2>
+          <p>An original song generated with Suno — written from a text prompt,
+             then refined over several versions until it sounded right.</p>
+        </div>
+
+        <div class="video-feature">
+          <div class="video-card fade-up">
+            <!-- Dark gradient panel holding the cover art and the audio player -->
+            <div class="audio-wrap">
+              <img class="audio-cover"
+                   src="https://placehold.co/400x400/e8e8ed/86868b?text=Song+Cover+Art"
+                   alt="Song cover art placeholder" loading="lazy">
+              <!-- HTML5 audio player: controls = show play/pause bar,
+                   preload="metadata" = load only the track length (not the
+                   whole file) until the user presses play. The text inside
+                   only appears in very old browsers that can't play audio. -->
+              <audio controls preload="metadata" src="media/my-song.mp3">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+            <!-- Title, description, and tool badges for the song -->
+            <div class="video-card-body">
+              <h3>My Suno Song Title</h3>
+              <p>Press play to hear the song. Save your exported Suno track as
+                 media/my-song.mp3 — the player above picks it up automatically.
+                 Then describe the prompt you wrote and what you learned about
+                 writing prompts for AI-generated music.</p>
+              <div class="video-tools">
+                <span class="tool-badge">Suno AI</span>
+                <span class="tool-badge">Prompt Writing</span>
+                <span class="tool-badge">Audio Editing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SKILLS SECTION =====
+         Grid of small cards showing the multimedia skills from the capstone.
+         Each card has a Phosphor icon (<i class="ph ..."></i>) and a name. -->
+    <section class="tools-section">
+      <div class="tools-inner fade-up">
+        <span class="section-label">Multimedia Skills</span>
+        <h2>What I can do</h2>
+
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-music-notes" aria-hidden="true"></i></div>
+            <div class="tool-name">AI Music (Suno)</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-film-slate" aria-hidden="true"></i></div>
+            <div class="tool-name">Video Editing</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-image" aria-hidden="true"></i></div>
+            <div class="tool-name">Image Creation</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-palette" aria-hidden="true"></i></div>
+            <div class="tool-name">Poster Design</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-sparkle" aria-hidden="true"></i></div>
+            <div class="tool-name">Prompt Writing</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon"><i class="ph ph-certificate" aria-hidden="true"></i></div>
+            <div class="tool-name">Canva (3 certificates)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CALL-TO-ACTION (CTA) BAND =====
+         Invitation strip near the bottom with a button linking to the
+         Contact page. -->
+    <section class="cta-band">
+      <div class="cta-inner fade-up">
+        <div class="cta-text">
+          <h2>Want to work together?</h2>
+          <p>Send me a message about a project, a class or a question.</p>
+        </div>
+        <a href="contact.html" class="btn-primary">Get in Touch <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER: copyright line shown at the very bottom ===== -->
+  <footer>
+    <p>&copy; <strong>Berry Buer</strong> &sdot; ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</p>
+  </footer>
+
+  <!-- ===== LIGHTBOX (photo viewer overlay) =====
+       Hidden full-screen dark overlay. JavaScript opens it when a gallery
+       photo is clicked, filling in the big image and caption. It has a
+       close (X) button, previous/next arrows, and clicking the dark
+       background also closes it. -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close slideshow">&times;</button>
+    <button class="lightbox-arrow prev" onclick="prevPhoto(event)" aria-label="Previous image"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-arrow next" onclick="nextPhoto(event)" aria-label="Next image"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+
+  <!-- ===== JAVASCRIPT =====
+       All the interactive behavior for this page: the mobile menu,
+       the photo lightbox/slideshow, keyboard shortcuts, and the
+       fade-in-on-scroll animations. -->
+  <script>
+
+    // --- MOBILE MENU ---
+    // Adds or removes the "open" class on the mobile menu.
+    // The CSS slides the menu in when "open" is present.
+    function toggleMobileNav() {
+      document.getElementById("mobileNav").classList.toggle("open");
+    }
+    // Closes the mobile menu if the user clicks anywhere outside of it
+    // (and outside the hamburger button).
+    document.addEventListener("click", function(e) {
+      const nav = document.getElementById("mobileNav");
+      const toggle = document.querySelector(".mobile-toggle");
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove("open");
+    });
+
+    // --- LIGHTBOX / PHOTO SLIDESHOW ---
+    // galleryItems = a real array of every .photo-item in the gallery,
+    // so we can loop through them like a slideshow.
+    var galleryItems = Array.prototype.slice.call(
+      document.querySelectorAll("#photoColumns .photo-item")
+    );
+    // currentPhoto = which photo (by index) is showing in the lightbox.
+    var currentPhoto = 0;
+
+    // Displays photo number i in the lightbox.
+    // The math with % "wraps around" so going past the last photo
+    // loops back to the first (and vice versa).
+    function showPhoto(i) {
+      currentPhoto = (i + galleryItems.length) % galleryItems.length;
+      var img = galleryItems[currentPhoto].querySelector("img");
+      var caption = galleryItems[currentPhoto].querySelector(".photo-caption").textContent;
+      var lbImg = document.getElementById("lightbox-img");
+      // Use the big data-full version if it exists, otherwise the thumbnail.
+      lbImg.src = img.dataset.full || img.src;
+      lbImg.alt = caption;
+      // Show the caption plus a counter like "3 / 6".
+      document.getElementById("lightbox-caption").textContent =
+        caption + "  ·  " + (currentPhoto + 1) + " / " + galleryItems.length;
+    }
+
+    // Give every gallery photo a click handler: clicking it loads that
+    // photo into the lightbox, shows the overlay, and stops the page
+    // behind it from scrolling.
+    galleryItems.forEach(function (item, i) {
+      item.querySelector("img").addEventListener("click", function () {
+        showPhoto(i);
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    // Show the previous photo. stopPropagation keeps the click from
+    // also reaching the overlay (which would close the lightbox).
+    function prevPhoto(e) {
+      if (e) e.stopPropagation();
+      showPhoto(currentPhoto - 1);
+    }
+
+    // Show the next photo (same stopPropagation trick as above).
+    function nextPhoto(e) {
+      if (e) e.stopPropagation();
+      showPhoto(currentPhoto + 1);
+    }
+
+    // Closes the lightbox — unless the click was on the photo itself,
+    // in which case we ignore it. Also restores normal page scrolling.
+    function closeLightbox(e) {
+      if (e && e.target === document.getElementById("lightbox-img")) return;
+      document.getElementById("lightbox").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    // Keyboard shortcuts: when the lightbox is open, the left and right
+    // arrow keys move through the photos.
+    document.addEventListener("keydown", function (e) {
+      if (!document.getElementById("lightbox").classList.contains("open")) return;
+      if (e.key === "ArrowLeft") prevPhoto();
+      if (e.key === "ArrowRight") nextPhoto();
+    });
+
+    // Pressing the Escape key closes the lightbox.
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    // --- FADE-IN ON SCROLL ---
+    // An IntersectionObserver watches elements and tells us when they
+    // scroll into view. When a ".fade-up" element appears, we add the
+    // "visible" class (the CSS fades/slides it in) and stop watching it.
+    // threshold 0.08 = trigger when ~8% of the element is visible;
+    // rootMargin shrinks the trigger area 40px from the bottom edge.
+    const observer = new IntersectionObserver(
+      function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    // Start observing every element that has the fade-up class.
+    document.querySelectorAll(".fade-up").forEach(function(el) { observer.observe(el); });
+  </script>
+
+</body>
+</html>

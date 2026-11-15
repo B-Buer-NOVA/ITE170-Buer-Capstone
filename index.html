@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multimedia Capstone Portfolio &ndash; ITE 170</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* The active slideshow dot pulses with the glowing ripple animation */
+    .slide-dots button.active {
+      animation: pulse-glow 1.8s ease-out infinite;
+    }
+
+    /* Dots grow smoothly when hovered */
+    .slide-dots button {
+      transition: transform .25s ease, background .3s, border-color .3s;
+    }
+
+    .slide-dots button:hover {
+      transform: scale(1.35);
+    }
+
+    /* Skill icons wiggle and turn purple when you hover their card */
+    .skill-card .skill-icon {
+      display: inline-block;
+      transition: transform .3s ease, color .3s ease;
+    }
+
+    .skill-card:hover .skill-icon {
+      animation: wiggle .6s ease-in-out;
+      color: var(--accent);
+    }
+
+    /* Skill bar fill upgrade: a shimmering gradient that also "grows" in.
+       transform-origin: left center makes scaleX grow from the LEFT edge
+       (like a loading bar) instead of from the middle. It starts at
+       scaleX(0) (zero width) and animates to full width when JS adds
+       the "visible" class to the card. */
+    .skill-bar-fill {
+      background: linear-gradient(90deg,
+          var(--accent) 0%,
+          #93c5fd 40%,
+          #ffffff 50%,
+          #93c5fd 60%,
+          var(--accent) 100%);
+      background-size: 200% 100%;
+      /* extra-wide gradient so shimmer can slide */
+      animation: shimmer 3s linear infinite;
+
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    /* The image inside each slide fills the whole slide.
+       object-fit: cover scales the image to cover the box completely
+       (cropping the edges if needed) instead of squishing it. */
+    .slide-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      /* keep the middle of the image visible */
+    }
+
+    /* Fallback dark-blue gradient backgrounds for each of the three slides,
+       shown behind (or instead of) the slide images */
+    .hero-slide:nth-child(1) {
+      background: linear-gradient(160deg, #0a1628 0%, #0f2545 50%, #0a1628 100%);
+    }
+
+    .hero-slide:nth-child(2) {
+      background: linear-gradient(160deg, #0c1a35 0%, #102040 50%, #080e20 100%);
+    }
+
+    .hero-slide:nth-child(3) {
+      background: linear-gradient(160deg, #080e20 0%, #0e1e38 50%, #0c1a35 100%);
+    }
+
+    /* Semi-transparent dark tint layered over the slide images (z-index: 2,
+       above the slides) so the white hero text stays easy to read. */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--shadow);
+      z-index: 2;
+    }
+
+    /* The text/buttons block. z-index: 3 puts it above the slides (0-1)
+       and the dark tint (2), so it's always readable and clickable. */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 840px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Container for the three rotating text blocks. The min-height reserves
+       space so the layout doesn't jump when texts of different lengths swap. */
+    .slide-text-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+      margin-bottom: 32px;
+    }
+
+    /* Small pill-shaped badge above the headline ("ITE 170 · Multimedia...") */
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: color-mix(in srgb, var(--blue) 14%, transparent);
+      border: 1px solid color-mix(in srgb, var(--blue) 35%, transparent);
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+
+    /* Big hero heading style (kept for pages that use an <h1> in the hero).
+       clamp(min, preferred, max) makes the font size scale with the screen
+       width but never smaller than 2.6rem or larger than 4.8rem.
+       The heading is plain white, so it reads clearly over every slide. */
+    .hero h1 {
+      font-size: clamp(2.6rem, 6.5vw, 4.8rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -.025em;
+      margin-bottom: 22px;
+    }
+
+    /* Subtitle paragraph under the hero heading (also responsive via clamp) */
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+
+      color: var(--whiteShadow);
+
+      max-width: 520px;
+
+      margin: 0 auto 42px;
+
+      line-height: 1.7;
+    }
+
+    /* Row of hero buttons; flex-wrap lets them stack on narrow screens */
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+
+      flex-wrap: wrap;
+    }
+
+    /* ===== HERO SLIDESHOW ===== */
+
+    /* The big dark banner at the top of the page. position: relative makes
+       it the anchor that the absolutely-positioned slides sit inside.
+       min-height: 92vh = almost the full height of the browser window.
+       overflow: hidden clips anything that pokes outside the box. */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 100px;
+      overflow: hidden;
+      background: var(--mainText);
+    }
+
+    /* Each slide is stretched to fill the entire hero (inset: 0 = pin all
+       four edges). All slides are stacked in the same spot; opacity: 0
+       hides them, and the transition creates the slow cross-fade. */
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+
+      opacity: 0;
+      transition: opacity 1.2s ease;
+
+      z-index: 0;
+      background: var(--shadow);
+    }
+
+    /* The slide JavaScript marks "active" fades in and sits on top */
+    .hero-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* ===== SLIDESHOW DOTS & ROTATING SLIDE TEXT ===== */
+
+    /* Row of dot buttons pinned near the bottom of the hero.
+       left: 50% + translateX(-50%) is the classic centering trick:
+       move the left edge to the middle, then shift back by half its width. */
+    .slide-dots {
+      position: absolute;
+      bottom: 28px;
+
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: flex;
+      gap: 9px;
+      z-index: 10;
+    }
+
+    /* Each dot: a small hollow circle */
+    .slide-dots button {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+
+      border: 2px solid rgba(255, 255, 255, 0.35);
+
+      background: transparent;
+
+      cursor: pointer;
+      transition: background .3s, border-color .3s;
+      padding: 0;
+    }
+
+    /* The dot for the current slide fills in with the accent color */
+    .slide-dots button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* The three headline/paragraph blocks are stacked on top of each other
+       (all absolutely positioned at the same spot) and hidden by default.
+       pointer-events: none makes invisible ones unclickable. */
+    .slide-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+
+      opacity: 0;
+      transition: opacity 1.2s ease;
+
+      pointer-events: none;
+    }
+
+    /* The "active" text block fades in and becomes clickable again */
+    .slide-text.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Big white headline inside each slide text (responsive size via clamp).
+       Slide 1 uses h1 (the page's main heading); slides 2 and 3 use h2. */
+    .slide-text h1,
+    .slide-text h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* Supporting paragraph under each slide headline */
+    .slide-text p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 520px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* ===== CONTENT SECTIONS (SHARED STYLES) ===== */
+
+    /* Small uppercase purple label above each section heading
+       (e.g. "WHAT I BUILD") */
+    .section-label {
+      display: block;
+
+      font-size: .875rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+
+      text-transform: uppercase;
+      color: var(--accent);
+
+      margin-bottom: 10px;
+    }
+
+    /* Main section heading; clamp() scales it between 1.7rem and 2.5rem
+       depending on screen width */
+    .section-heading {
+      font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--mainText);
+      margin-bottom: 14px;
+    }
+
+    /* Gray descriptive paragraph under section headings */
+    .section-sub {
+      font-size: 1.05rem;
+      color: #556;
+
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* Generic centered content wrapper with a max width so text
+       doesn't stretch too wide on big monitors */
+    .inner {
+      max-width: 1180px;
+      margin: 0 auto;
+
+      padding: 0 24px;
+    }
+
+    /* Base spacing for every big page section, with a thin divider on top */
+    .section {
+      padding: 100px 24px;
+
+      border-top: 1px solid var(--soft-border);
+    }
+
+    /* Alternating section backgrounds: white vs. light gray */
+    .section.white {
+      background: var(--white);
+    }
+
+    .section.gray {
+      background: var(--bg);
+    }
+
+    /* Two-column feature layout: image in one column, text in the other,
+       side by side and vertically centered (CSS Grid, 1fr 1fr = equal halves) */
+    .feature-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 64px;
+
+      align-items: center;
+    }
+
+    /* The "reverse" trick: direction: rtl (right-to-left) makes the grid
+       lay out its columns in the opposite order, so the image swaps sides
+       WITHOUT changing the HTML. */
+    .feature-inner.reverse {
+      direction: rtl;
+    }
+
+    /* ...but set the children back to ltr so the text itself still
+       reads normally left-to-right */
+    .feature-inner.reverse>* {
+      direction: ltr;
+    }
+
+    /* The text column: stacks label, heading, paragraph, and button vertically */
+    .feature-text {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Dark rounded placeholder box used when a feature has no real image yet */
+    .feature-visual .placeholder {
+      width: 100%;
+      min-height: 340px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #080d2a, #0a1f3a);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--whiteShadow);
+
+      font-size: .875rem;
+      text-align: center;
+      padding: 24px;
+    }
+
+    /* Bigger tap area for the slideshow dots (24 x 24), the dot itself stays small */
+    .slide-dots button {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .slide-dots button::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: transparent;
+    }
+
+    .slide-dots button.active::before {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+  </style>
+  <!-- Loads the Phosphor icon font library from a CDN (lets us use <i> icon tags) -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+</head>
+
+<body>
+
+  <!-- Dark, semi-transparent overlay that covers the page behind the mobile menu.
+       Hidden by default; JavaScript shows it when the menu opens.
+       Clicking it closes the mobile menu. -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+
+  <!-- ================= HEADER / TOP NAVIGATION BAR =================
+       Fixed bar that stays pinned to the top of the screen while you scroll.
+       Contains the site logo (brand), the desktop nav links, and the
+       hamburger button that appears on small screens. -->
+  <header>
+
+    <!-- Site logo / brand name; links back to the home page.
+         The <span> lets CSS color part of the name differently. -->
+    <a class="brand" href="index.html">My<span>Portfolio</span>
+    </a>
+
+    <!-- Main navigation links, shown only on desktop-size screens.
+         The "active" class highlights the page you are currently on. -->
+    <nav class="desktop-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="multimedia.html">Multimedia</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Right side of the header: holds the mobile hamburger button -->
+    <div class="header-actions">
+
+      <!-- Hamburger button: hidden on desktop, visible on small screens.
+           Clicking it runs the JavaScript function that slides the mobile menu open.
+           aria-label describes the button for screen readers. -->
+      <button class="mobile-toggle" aria-label="Open navigation" onclick="openMobileNav()">
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- ================= MOBILE NAVIGATION DRAWER =================
+       Slide-in menu for phones/tablets. It sits off-screen (right: -100%)
+       until JavaScript adds the "open" class, which slides it into view.
+       Every link also calls closeMobileNav() so the menu closes after you tap. -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+
+    <!-- "X" button in the corner that closes the drawer -->
+    <button class="mobile-nav-close" aria-label="Close navigation" onclick="closeMobileNav()">
+      &times;
+    </button>
+
+    <!-- Small uppercase heading inside the drawer -->
+    <span class="mobile-nav-label">Navigation</span>
+
+    <!-- Same page links as the desktop nav, styled for the drawer -->
+    <a href="index.html" class="active" onclick="closeMobileNav()">Home</a>
+    <a href="about.html" onclick="closeMobileNav()">About</a>
+    <a href="projects.html" onclick="closeMobileNav()">Projects</a>
+    <a href="multimedia.html" onclick="closeMobileNav()">Multimedia</a>
+    <a href="contact.html" onclick="closeMobileNav()">Contact</a>
+
+    <!-- Call-to-action button pinned to the bottom of the drawer -->
+    <div class="mobile-nav-cta">
+      <a href="contact.html" onclick="closeMobileNav()">Let's Connect <i class="ph ph-arrow-right"
+          aria-hidden="true"></i></a>
+    </div>
+
+  </nav>
+
+  <!-- ================= MAIN PAGE CONTENT =================
+       padding-top: 64px pushes the content down so it isn't hidden
+       underneath the fixed 64px-tall header. -->
+  <main class="page-main">
+
+    <!-- ================= HERO SLIDESHOW =================
+         Full-screen banner at the top of the page. Three background slides
+         are stacked on top of each other; JavaScript rotates which one has
+         the "active" class every 4 seconds, fading between them.
+         The matching text blocks and dot buttons rotate in sync. -->
+    <section class="hero">
+
+      <!-- Slide 1 background image (starts visible because it has "active") -->
+      <div class="hero-slide active">
+        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn1" class="slide-media" alt="">
+      </div>
+
+      <!-- Slide 2 background image (hidden until JavaScript makes it active) -->
+      <div class="hero-slide">
+        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn2" class="slide-media" alt="">
+
+      </div>
+
+      <!-- Slide 3 background image -->
+      <div class="hero-slide">
+        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn3" class="slide-media" alt="">
+      </div>
+
+      <!-- Text layer that sits on top of the slide images -->
+      <div class="hero-content">
+
+        <!-- Small pill-shaped badge above the headline -->
+        <span class="hero-eyebrow">ITE 170 · Multimedia Capstone · NOVA Annandale</span>
+
+        <!-- Holds the three headline/paragraph pairs; only the "active" one is visible,
+             and it changes together with the background slides -->
+        <div class="slide-text-wrapper">
+
+          <!-- Text for slide 1 (visible first) -->
+          <div class="slide-text active">
+            <!-- h1: the one main heading on this page (screen readers jump to it) -->
+            <h1>Your Name Here</h1>
+            <p>Multimedia creator. This capstone brings together my
+              song, video, images, and poster.</p>
+          </div>
+
+          <!-- Text for slide 2 -->
+          <div class="slide-text">
+            <h2>Sound, Video &amp; Image</h2>
+            <p>An original Suno song, a short video, and images I
+              created and edited myself.</p>
+          </div>
+
+          <!-- Text for slide 3 -->
+          <div class="slide-text">
+            <h2>Design &amp; Certified Skills</h2>
+            <p>A poster, a midterm exam project, and three Canva
+              Design School certificates.</p>
+          </div>
+
+        </div>
+
+        <!-- Two main action buttons under the hero text -->
+        <div class="hero-buttons">
+          <a href="about.html" class="btn-primary">About Me <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+          <a href="projects.html" class="btn-secondary">View My Projects</a>
+        </div>
+
+      </div>
+
+      <!-- The three small dot buttons at the bottom of the hero.
+           Clicking a dot jumps directly to that slide via goToSlide(n). -->
+      <div class="slide-dots" id="slideDots">
+        <button class="active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+        <button onclick="goToSlide(1)" aria-label="Slide 2"></button>
+        <button onclick="goToSlide(2)" aria-label="Slide 3"></button>
+      </div>
+
+    </section>
+
+    <!-- ================= CONTENT SECTION 1: "WHAT I CREATE" =================
+         Two-column feature section (image on the left, text on the right).
+         The "fade-up" class makes it animate into view as you scroll to it. -->
+    <section class="section white" id="about">
+      <div class="feature-inner fade-up">
+
+        <!-- Left column: placeholder screenshot image -->
+        <div class="feature-visual">
+          <img class="feature-img" src="https://placehold.co/800x520/e8e8ed/86868b?text=Song+%26+Video"
+            alt="Song and video placeholder" loading="lazy">
+        </div>
+
+        <!-- Right column: label, heading, description, and button -->
+        <div class="feature-text">
+          <span class="section-label">What I Create</span>
+          <h2 class="section-heading">Create. Edit. Share.</h2>
+          <p class="section-sub">
+            For my multimedia capstone I wrote and produced an original
+            song with Suno, planned and edited a short video, and created
+            my own images. Each piece started with an idea and ended with
+            something I can share.
+          </p>
+          <a href="multimedia.html" class="btn-primary feature-btn">
+            See the Multimedia <i class="ph ph-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= CONTENT SECTION 2: "DESIGN & CERTIFICATES" =================
+         Same two-column layout, but the "reverse" class flips it so the
+         image appears on the RIGHT and the text on the LEFT, for variety. -->
+    <section class="section gray">
+      <div class="feature-inner reverse fade-up">
+
+        <!-- Image column -->
+        <div class="feature-visual">
+          <img class="feature-img" src="https://placehold.co/800x520/e8e8ed/86868b?text=Poster+%26+Certificates"
+            alt="Poster and certificates placeholder" loading="lazy">
+        </div>
+
+        <!-- Text column -->
+        <div class="feature-text">
+          <span class="section-label">Design</span>
+          <h2 class="section-heading">Designed and certified.</h2>
+          <p class="section-sub">
+            I designed a poster, completed a midterm exam project, and
+            earned three Canva Design School certificates — proof of the
+            design skills behind everything else in this portfolio.
+          </p>
+          <a href="projects.html" class="btn-primary feature-btn">
+            Explore Projects <i class="ph ph-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= PROJECT CARDS SECTION: "MY PAGES" =================
+         A responsive grid of clickable cards, one for each page of the site.
+         Each card is one big <a> link containing a thumbnail image, a tag
+         badge, a title, and a short description. -->
+    <section class="section white" id="projects">
+
+      <!-- Section title row: label + heading on the left, "View all" link on the right -->
+      <div class="projects-header fade-up">
+        <div>
+          <span class="section-label">Explore the Site</span>
+          <h2 class="section-heading heading-tight">My Pages</h2>
+        </div>
+        <a href="projects.html" class="view-all">View all projects <i class="ph ph-arrow-right"
+            aria-hidden="true"></i></a>
+      </div>
+
+      <!-- Grid container: cards automatically wrap to fit the screen width -->
+      <div class="project-grid">
+
+        <!-- Card 1: links to the About page -->
+        <a href="about.html" class="project-card fade-up">
+
+          <!-- Thumbnail area: image plus a small tag badge in the corner.
+               loading="lazy" tells the browser to wait to load the image
+               until it's about to scroll into view (faster page load). -->
+          <div class="card-thumb">
+            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=About+Me" alt="About page preview" loading="lazy">
+            <span class="card-tag">About</span>
+          </div>
+
+          <!-- Card text: title and short description -->
+          <div class="card-body">
+            <h3>About Me</h3>
+
+            <p>Get to know who I am — my background, my multimedia skills, and my capstone.</p>
+          </div>
+
+        </a>
+
+        <!-- Card 2: links to the Projects page -->
+        <a href="projects.html" class="project-card fade-up">
+          <div class="card-thumb">
+            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=Projects" alt="Projects page preview"
+              loading="lazy">
+            <span class="card-tag">Projects</span>
+          </div>
+          <div class="card-body">
+            <h3>Projects</h3>
+            <p>My poster, midterm exam, and three Canva certificates.</p>
+          </div>
+        </a>
+
+        <!-- Card 3: links to the Multimedia page -->
+        <a href="multimedia.html" class="project-card fade-up">
+          <div class="card-thumb">
+            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=Multimedia" alt="Multimedia page preview"
+              loading="lazy">
+            <span class="card-tag">Multimedia</span>
+          </div>
+          <div class="card-body">
+            <h3>Multimedia</h3>
+            <p>My Suno song, my video, and the images I created.</p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ================= CALL-TO-ACTION (CTA) BAND =================
+         Wide strip near the bottom inviting visitors to reach out.
+         The button goes to your Contact page. There is no mailto: link on purpose:
+         spam bots read every public page looking for email addresses. -->
+    <section class="cta-band" id="contact">
+      <div class="cta-inner fade-up">
+
+        <!-- Invitation heading and message -->
+        <div class="cta-text">
+          <h2>Let's connect.</h2>
+          <p>
+            Interested in my work, want to give feedback, or just want to say hello?
+            I'd love to hear from you.
+          </p>
+        </div>
+
+        <!-- Get in Touch button: opens the Contact page and its form -->
+        <a href="contact.html" class="btn-primary">
+          Get in Touch <i class="ph ph-arrow-right" aria-hidden="true"></i>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER =================
+       Dark strip at the very bottom with the copyright line and course info. -->
+  <footer>
+    <p>&copy; <strong>Berry Buer</strong> &sdot; ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</p>
+  </footer>
+
+  <!-- ================= JAVASCRIPT =================
+       All the page's interactive behavior:
+       1. The hero slideshow (auto-rotates every 4 seconds, dots jump to a slide)
+       2. Opening/closing the mobile navigation drawer
+       3. Closing the drawer with the Escape key
+       4. The scroll-triggered "fade-up" animation using IntersectionObserver -->
+  <script>
+
+    // --- Slideshow setup: grab all the pieces the slideshow needs ---
+
+    // All three background slide <div>s in the hero
+    const slides = document.querySelectorAll('.hero-slide');
+
+    // The three matching headline/paragraph text blocks
+    const slideTexts = document.querySelectorAll('.slide-text-wrapper .slide-text');
+
+    // The three dot buttons at the bottom of the hero
+    const dotButtons = document.querySelectorAll('#slideDots button');
+
+    // Index (0, 1, or 2) of the slide currently showing
+    let currentSlide = 0;
+
+    // Holds the timer ID so we can cancel/restart the auto-rotation
+    let slideTimer;
+
+    // Switches the slideshow to slide number n.
+    // It removes "active" from the current slide/text/dot, then adds
+    // "active" to the new ones — CSS handles the actual fade animation.
+    function goToSlide(n) {
+
+      slides[currentSlide].classList.remove('active');
+      slideTexts[currentSlide].classList.remove('active');
+      dotButtons[currentSlide].classList.remove('active');
+
+      currentSlide = n;
+
+      slides[currentSlide].classList.add('active');
+      slideTexts[currentSlide].classList.add('active');
+      dotButtons[currentSlide].classList.add('active');
+
+      // Restart the 4-second timer so a manual dot click doesn't
+      // cause the next auto-advance to happen too soon
+      startSlideTimer();
+    }
+
+    // Advances to the next slide. The % (remainder) math wraps
+    // back around to slide 0 after the last slide.
+    function nextSlide() {
+
+      goToSlide((currentSlide + 1) % slides.length);
+    }
+
+    // Reduce motion: if the visitor turned on "Reduce motion" in their
+    // computer's settings, the slides stay still. The dots still work.
+    const calmMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Starts (or restarts) the automatic rotation: a new slide every 4000 ms (4 seconds),
+    // unless the visitor asked for less motion
+    function startSlideTimer() {
+      clearInterval(slideTimer);
+      if (!calmMotion.matches) slideTimer = setInterval(nextSlide, 4000);
+    }
+
+    startSlideTimer();
+
+    // If the setting changes while the page is open, follow it
+    calmMotion.addEventListener('change', startSlideTimer);
+
+    // --- Mobile navigation drawer ---
+
+    // Opens the mobile menu: slides the drawer in, shows the dark overlay,
+    // and locks the page so it can't scroll behind the open menu
+    function openMobileNav() {
+
+      document.getElementById('mobileNav').classList.add('open');
+
+      document.getElementById('mobileOverlay').classList.add('show');
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Closes the mobile menu: slides the drawer out, hides the overlay,
+    // and lets the page scroll again
+    function closeMobileNav() {
+
+      document.getElementById('mobileNav').classList.remove('open');
+
+      document.getElementById('mobileOverlay').classList.remove('show');
+
+      document.body.style.overflow = '';
+
+    }
+
+    // Keyboard shortcut: pressing the Escape key closes the mobile menu
+    // (good for accessibility and convenience)
+    document.addEventListener('keydown', function (e) {
+
+      if (e.key === 'Escape') closeMobileNav();
+    });
+
+    // --- Scroll animation ("fade-up" effect) ---
+
+    // IntersectionObserver watches elements and tells us when they
+    // scroll into the visible part of the screen
+    const observer = new IntersectionObserver(
+
+      // This runs whenever a watched element enters or leaves the screen
+      function (entries) {
+        entries.forEach(function (entry) {
+
+          // If the element is now on screen...
+          if (entry.isIntersecting) {
+
+            // ...add "visible", which triggers the CSS fade/slide-up animation
+            entry.target.classList.add('visible');
+
+            // Stop watching it — the animation only needs to play once
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+
+      {
+        // Fire when at least 10% of the element is visible
+        threshold: 0.1,
+
+        // Shrink the detection area by 40px at the bottom, so elements
+        // animate slightly AFTER they enter the screen (looks smoother)
+        rootMargin: '0px 0px -40px 0px'
+
+      }
+    );
+
+    // Find every element with the "fade-up" class and start watching it
+    document.querySelectorAll('.fade-up').forEach(function (el) {
+      observer.observe(el);
+
+    });
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects &ndash; Multimedia Capstone Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== PROJECTS GRID & CARDS ===== */
+
+    /* Section wrapper around the whole card grid */
+    .projects-section {
+      padding: 60px 24px 100px;
+      background: var(--light-bg);
+    }
+
+    /* Responsive card grid: auto-fit creates as many 320px-minimum
+       columns as there are cards, and each column stretches to share the
+       space (1fr). With two cards it shows two across, then stacks. */
+    .projects-grid {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+      gap: 28px;
+    }
+
+    /* Base card: white rounded box. overflow:hidden clips the image to
+       the rounded corners. The transition animates the hover lift. */
+    .project-card {
+      background: var(--white);
+      border-radius: 24px;
+      border: 1px solid var(--soft-border);
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* On hover the card floats up 8px and casts a soft shadow */
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--card-shadow);
+    }
+
+    /* The image area at the top of a card. position:relative anchors
+       badges placed inside it; overflow:hidden clips the zoom effect. */
+    .card-thumb {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+    }
+
+    /* Variant: a gradient background instead of a photo. var() with a
+       fallback lets each card override --thumb-grad for its own colors. */
+    .card-thumb.thumb-gradient {
+      background: var(--thumb-grad, color-mix(in srgb, var(--purple) 25%, #0c0c12));
+    }
+
+    /* The thumbnail image fills its box; object-fit:cover crops instead
+       of stretching. The transition sets up the hover zoom below. */
+    .card-thumb .thumb-media {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* contain = never cut off words on a poster */
+      display: block;
+      transition: transform .4s ease;
+    }
+
+    /* Hovering the card gently zooms the image to 105% */
+    .project-card:hover .card-thumb .thumb-media {
+      transform: scale(1.05);
+    }
+
+    /* Video thumbnails get a black background behind the video */
+    .card-thumb.thumb-video .thumb-media {
+      background: #000;
+    }
+
+    /* Same fill + zoom behavior for plain <img> children of the thumb
+       (covers cards that don't use the .thumb-media class) */
+    .card-thumb>img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .4s ease;
+    }
+
+    .project-card:hover .card-thumb>img {
+      transform: scale(1.05);
+    }
+
+    /* Small category pill pinned to the top-left corner of a thumbnail.
+       backdrop-filter:blur(8px) blurs the image behind the pill. */
+    .card-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, .65);
+      color: #fff;
+      font-size: .875rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Status pill pinned to the top-right corner of a thumbnail */
+    .card-status {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    /* Status colors: green = done, yellow = in progress, gray = planned */
+    .card-status.done {
+      background: rgba(22, 163, 74, .8);
+      color: #fff;
+    }
+
+    .card-status.progress {
+      background: rgba(234, 179, 8, .85);
+      color: #000;
+    }
+
+    .card-status.planned {
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+    }
+
+    /* Text area of a card (title, description, tags) */
+    .card-body {
+      padding: 24px 24px 28px;
+    }
+
+    /* Card title */
+    .card-body h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* Card description text */
+    .card-body p {
+      font-size: .92rem;
+      color: #555;
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    /* Row of skill/tool pills; flex-wrap lets them wrap to new lines */
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* One small pill, e.g. "HTML5" or "Typography" */
+    .tech-tag {
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: var(--light-bg);
+      border: 1px solid var(--soft-border);
+      font-size: .875rem;
+      font-weight: 600;
+      color: #555;
+    }
+
+    /* Optional "View project →" link at the bottom of a card. The gap
+       transition makes the arrow slide away from the text on hover. */
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--purple);
+      text-decoration: none;
+      transition: color .2s, gap .2s;
+    }
+
+    .card-link:hover {
+      color: var(--purple);
+      gap: 10px;
+    }
+
+    /* Stop grid items from stretching to equal heights — each card is
+       only as tall as its own content. */
+    .projects-grid {
+      align-items: start;
+    }
+
+    /* ===== POSTER-STYLE CARDS (IMAGE FILLS WHOLE CARD) ===== */
+
+    /* Poster layout: the card becomes a tall flex column so the text
+       can be pushed to the bottom over the image. */
+    .project-card.card-poster {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 560px;
+    }
+
+    /* The thumbnail stretches over the ENTIRE card (inset:0 pins all
+       four edges), acting as a full background image. */
+    .card-poster .card-thumb {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+    }
+
+    /* The text block sits on top of the image, pushed to the bottom by
+       margin-top:auto. The gradient fades from transparent at the top
+       to nearly black at the bottom so white text stays readable. */
+    .card-poster .card-body {
+      position: relative;
+      margin-top: auto;
+      width: 100%;
+      padding-top: 72px;
+      background: linear-gradient(180deg, rgba(5, 5, 9, 0) 0%, rgba(5, 5, 9, .78) 42%, rgba(5, 5, 9, .92) 100%);
+    }
+
+    /* On the dark overlay, titles are white... */
+    .card-poster .card-body h3 {
+      color: #fff;
+    }
+
+    /* ...and body text is translucent white */
+    .card-poster .card-body p {
+      color: rgba(255, 255, 255, .8);
+    }
+
+    /* Tech pills switch to a frosted white-on-dark look */
+    .card-poster .tech-tag {
+      background: rgba(255, 255, 255, .14);
+      border-color: rgba(255, 255, 255, .28);
+      color: #fff;
+    }
+
+    /* Links get a light blue that reads on the dark background */
+    .card-poster .card-link {
+      color: #9ec5ff;
+    }
+
+    .card-poster .card-link:hover {
+      color: #fff;
+    }
+
+
+    /* ===== FEATURED PROJECT SECTION ===== */
+
+    /* White section wrapper for the spotlighted project */
+    .featured-project {
+      background: var(--white);
+      border-top: 1px solid var(--soft-border);
+      padding: 80px 24px;
+    }
+
+    /* Two-column grid: image column (1.2fr) is slightly wider than the
+       text column (1fr). Collapses to one column on mobile (see media
+       query below). */
+    .featured-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    /* Rounded, shadowed frame around the featured image */
+    .featured-visual {
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+
+    /* The featured image fills its frame; the gradient shows while the
+       image loads (or if it fails). */
+    .featured-visual img {
+      width: 100%;
+      display: block;
+      height: auto;
+      object-fit: contain;
+      /* whole image, no cropping */
+      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+    }
+
+    /* Fallback box shown if there is no image yet — dark gradient with
+       centered placeholder text/icon. */
+    .featured-placeholder {
+      width: 100%;
+      min-height: 360px;
+      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, .3);
+      text-align: center;
+      padding: 24px;
+    }
+
+    .featured-placeholder span {
+      font-size: 3rem;
+    }
+
+    /* Right column: stacks badge, heading, paragraph, list, and button
+       with even vertical spacing. */
+    .featured-text {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* "Featured Project" pill with a purple-to-blue gradient.
+       width:fit-content keeps the pill only as wide as its text. */
+    .featured-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--purple);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    /* Featured project title and description */
+    .featured-text h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .featured-text p {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    /* Outcomes list: bullets removed and items stacked with spacing */
+    .outcomes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .outcomes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .95rem;
+      color: #333;
+    }
+
+    /* Adds a purple checkmark in front of each list item using a
+       ::before pseudo-element instead of a normal bullet. */
+    .outcomes li::before {
+      content: "✓";
+      color: var(--purple);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ===== CANVA CERTIFICATIONS SECTION ===== */
+
+    /* White band holding the three certificate cards */
+    .cert-section {
+      background: var(--white);
+      border-top: 1px solid var(--soft-border);
+      padding: 80px 24px;
+    }
+
+    .cert-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* Heading block above the cards */
+    .cert-header {
+      margin-bottom: 40px;
+    }
+
+    /* Small uppercase purple label ("CERTIFICATIONS") */
+    .cert-header .section-label {
+      display: inline-block;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+
+    .cert-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 6px 0 10px;
+    }
+
+    .cert-header p {
+      font-size: 1.05rem;
+      color: #555;
+      max-width: 560px;
+    }
+
+    /* Three equal columns on desktop; auto-fit + minmax drops to two,
+       then one column as the screen narrows — no media query needed */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 28px;
+    }
+
+    /* One certificate card: rounded white box with a light border */
+    .cert-card {
+      background: var(--white);
+      border-radius: 22px;
+      border: 1px solid var(--soft-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, border-color .35s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10), 0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+    }
+
+    /* Certificate image area. aspect-ratio 1.414/1 matches a landscape
+       A4/letter certificate. A solid color frame
+       surrounds the image; object-fit:contain shows the WHOLE certificate. */
+    .cert-image {
+      display: block;
+      aspect-ratio: 1.414 / 1;
+      background: var(--purple);
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .cert-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #fff;
+      transition: transform .45s ease;
+    }
+
+    .cert-card:hover .cert-image img {
+      transform: scale(1.03);
+    }
+
+    /* Text area under the image */
+    .cert-body {
+      padding: 22px 24px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    /* Issuer line with a certificate icon */
+    .cert-issuer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+
+    .cert-issuer i {
+      font-size: 1.05rem;
+    }
+
+    .cert-body h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .cert-date {
+      font-size: .88rem;
+      color: #666;
+    }
+
+    /* "View certificate" link — margin-top:auto pins it to the bottom so
+       links line up across cards even when titles wrap differently */
+    .cert-link {
+      margin-top: auto;
+      padding-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--purple);
+      text-decoration: none;
+      transition: color .2s, gap .2s;
+    }
+
+    .cert-link:hover {
+      text-decoration: underline;
+      gap: 10px;
+    }
+
+    /* Optional section label with a small pulsing dot to its left
+       (the dot uses the pj-pulse-glow ripple animation). transform:
+       translateY(-50%) vertically centers the dot on the text line. */
+    .section-label {
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .section-label::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translateY(-50%);
+      animation: pj-pulse-glow 2.2s ease-out infinite;
+    }
+
+    /* Filter tabs get smoother transitions plus a tiny hover lift */
+    .filter-btn {
+      transition: background .25s ease, color .25s ease,
+        border-color .25s ease, transform .2s ease;
+    }
+
+    .filter-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Upgraded card hover (overrides the earlier version): a springy
+       cubic-bezier easing curve for the lift... */
+    .project-card {
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s ease, border-color .35s ease;
+    }
+
+    /* ...plus a purple-tinted border and a subtle purple glow ring
+       (the second box-shadow) around the card. */
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.10),
+        0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+    }
+
+    /* Keep the zooming image clipped inside the thumbnail box */
+    .card-thumb {
+      overflow: hidden;
+    }
+
+    /* Slightly slower, smoother image zoom on hover */
+    .card-thumb img {
+      transition: transform .45s ease;
+    }
+
+    .project-card:hover .card-thumb img {
+      transform: scale(1.05);
+    }
+
+    /* Corner category pill lifts and grows a little when the card is
+       hovered, and takes on the accent color. */
+    .card-tag {
+      transition: transform .3s ease, background .3s ease;
+    }
+
+    .project-card:hover .card-tag {
+      transform: translateY(-2px) scale(1.05);
+      background: var(--accent);
+    }
+
+    /* Smooth color changes on tech pills */
+    .tech-tag {
+      transition: background .25s ease, color .25s ease;
+    }
+
+    /* Featured image gets a slow, springy transition... */
+    .featured-visual {
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .5s ease;
+    }
+
+    /* ...and a 3D tilt on hover: perspective() gives depth, rotateY/
+       rotateX tip the image slightly, translateY lifts it. */
+    .featured-visual:hover {
+      transform: perspective(900px) rotateY(-3deg) rotateX(2deg) translateY(-4px);
+    }
+
+    /* The "Featured Project" badge bobs like the hero eyebrow */
+    .featured-badge {
+      animation: pj-float 4s ease-in-out infinite;
+    }
+  </style>
+
+  <!-- Loads the Phosphor icon font (used for arrow and star icons below) -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER / DESKTOP NAVBAR
+       Fixed bar at the top of every page. Contains the site brand
+       (logo text linking home), the desktop navigation links, and
+       a hamburger button that only appears on small screens.
+       ============================================================ -->
+  <header>
+    <!-- Brand/logo text; clicking it returns to the home page -->
+    <a class="brand" href="index.html">Your<span>Portfolio</span></a>
+    <!-- Main navigation links (hidden on mobile via CSS).
+         "active" marks the current page so it can be highlighted. -->
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="multimedia.html">Multimedia</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <!-- Hamburger button (mobile only). Clicking it runs the
+         toggleMobileNav() JavaScript function to open/close the menu.
+         The empty <span> is drawn as the three hamburger lines by CSS. -->
+    <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMobileNav()"><span></span></button>
+  </header>
+
+  <!-- ============================================================
+       MOBILE NAVIGATION DRAWER
+       A slide-in menu for phones/tablets. It sits off-screen until
+       JavaScript adds the "open" class. Each link also closes the
+       menu when tapped (onclick="toggleMobileNav()").
+       ============================================================ -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="toggleMobileNav()">Home</a>
+    <a href="about.html" onclick="toggleMobileNav()">About</a>
+    <a href="projects.html" class="active" onclick="toggleMobileNav()">Projects</a>
+    <a href="multimedia.html" onclick="toggleMobileNav()">Multimedia</a>
+    <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       Everything between the header and footer. The inline
+       padding-top pushes content down so it isn't hidden behind
+       the 64px fixed header.
+       ============================================================ -->
+  <main class="page-main">
+
+    <!-- ------------------------------------------------------------
+         PAGE HERO
+         Large dark banner at the top of the page with a background
+         image, an "eyebrow" label, the page title, and a subtitle.
+         ------------------------------------------------------------ -->
+    <section class="page-hero hero-image">
+
+      <!-- Full-bleed background image for the hero. It is decorative,
+           so alt="" and aria-hidden="true" hide it from screen readers.
+           (Currently a placeholder image — swap in your own.) -->
+      <img class="page-hero-media" src="https://placehold.co/1600x900/e8e8ed/86868b?text=Projects%5CnHero" alt=""
+        aria-hidden="true">
+
+      <!-- Text that sits on top of the hero image -->
+      <div class="page-hero-content">
+        <!-- Small uppercase label above the heading -->
+        <span class="page-hero-eyebrow">My Work</span>
+        <!-- Main page heading -->
+        <h1>Projects</h1>
+        <!-- Short description of what this page shows -->
+        <p>The poster, midterm exam, and certifications from my multimedia capstone.</p>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------
+         PROJECTS GRID
+         The main gallery of project cards. CSS Grid lays the cards
+         out in responsive columns. Each card has a thumbnail image,
+         a title, a description, and small "tech tag" pills.
+         ------------------------------------------------------------ -->
+    <section class="projects-section">
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- PROJECT CARD 1: Poster (design project).
+             "card-poster" makes the image fill the whole card with the
+             text overlaid at the bottom; "fade-up" animates it into
+             view as you scroll (see the script at the bottom). -->
+        <div class="project-card card-poster fade-up" data-category="design">
+          <!-- Thumbnail image area. loading="lazy" tells the browser to
+               wait to download the image until it's about to be seen. -->
+          <div class="card-thumb thumb-image">
+            <img class="thumb-media" src="https://placehold.co/640x960/e8e8ed/86868b?text=Poster+Project"
+              alt="Poster placeholder — replace with your poster" loading="lazy">
+          </div>
+          <!-- Card text: title, description, and skill tags -->
+          <div class="card-body">
+            <h3>Poster</h3>
+            <p>
+              A poster designed for the capstone — practicing layout,
+              color, typography, and visual hierarchy.
+            </p>
+            <!-- Small pill labels listing the skills/tools used -->
+            <div class="card-tags">
+              <span class="tech-tag">Design</span>
+              <span class="tech-tag">Typography</span>
+              <span class="tech-tag">Layout</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT CARD 2: Midterm Exam (HTML/CSS project) -->
+        <div class="project-card card-poster fade-up" data-category="multimedia">
+          <div class="card-thumb thumb-image">
+            <img class="thumb-media" src="https://placehold.co/640x960/e8e8ed/86868b?text=Midterm+Exam"
+              alt="Midterm exam placeholder — replace with your project" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>Midterm Exam</h3>
+            <p>
+              My midterm exam — a multimedia project that pulls together
+              the design, image, and editing skills from the first half
+              of the semester.
+            </p>
+            <div class="card-tags">
+              <span class="tech-tag">Multimedia</span>
+              <span class="tech-tag">Image Editing</span>
+              <span class="tech-tag">Design</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------
+         CANVA CERTIFICATIONS
+         A row of three certificate cards. Each card shows the
+         certificate image, its name, the issuer, and a link that
+         opens the full-size certificate in a new tab.
+         To use your real certificates: export each one from Canva as
+         a PNG, save it in the images/ folder, and change both the
+         <img> src and the link href to the new file name.
+         ------------------------------------------------------------ -->
+    <section class="cert-section" id="certifications">
+      <div class="cert-inner">
+
+        <!-- Section heading -->
+        <div class="cert-header fade-up">
+          <span class="section-label">Certifications</span>
+          <h2>Canva Design School</h2>
+          <p>Three certificates earned through Canva Design School.</p>
+        </div>
+
+        <!-- Grid of three certificate cards -->
+        <div class="cert-grid">
+
+          <!-- CERTIFICATE 1 -->
+          <article class="cert-card fade-up">
+            <!-- Clicking the image opens the full certificate -->
+            <a class="cert-image" href="images/canva-cert-1.svg" target="_blank" rel="noopener">
+              <img src="images/canva-cert-1.svg" alt="Canva Essentials certificate" loading="lazy">
+            </a>
+            <div class="cert-body">
+              <div class="cert-issuer"><i class="ph ph-certificate" aria-hidden="true"></i> Canva Design School</div>
+              <h3>Canva Essentials</h3>
+              <p class="cert-date">Completed: Month Year</p>
+              <a class="cert-link" href="images/canva-cert-1.svg" target="_blank" rel="noopener">
+                View certificate <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- CERTIFICATE 2 -->
+          <article class="cert-card fade-up">
+            <a class="cert-image" href="images/canva-cert-2.svg" target="_blank" rel="noopener">
+              <img src="images/canva-cert-2.svg" alt="Meet Canva's Visual Suite certificate" loading="lazy">
+            </a>
+            <div class="cert-body">
+              <div class="cert-issuer"><i class="ph ph-certificate" aria-hidden="true"></i> Canva Design School</div>
+              <h3>Meet Canva's Visual Suite</h3>
+              <p class="cert-date">Completed: Month Year</p>
+              <a class="cert-link" href="images/canva-cert-2.svg" target="_blank" rel="noopener">
+                View certificate <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- CERTIFICATE 3 -->
+          <article class="cert-card fade-up">
+            <a class="cert-image" href="images/canva-cert-3.svg" target="_blank" rel="noopener">
+              <img src="images/canva-cert-3.svg" alt="Create Scroll-Stopping Content certificate" loading="lazy">
+            </a>
+            <div class="cert-body">
+              <div class="cert-issuer"><i class="ph ph-certificate" aria-hidden="true"></i> Canva Design School</div>
+              <h3>Create Scroll-Stopping Content</h3>
+              <p class="cert-date">Completed: Month Year</p>
+              <a class="cert-link" href="images/canva-cert-3.svg" target="_blank" rel="noopener">
+                View certificate <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------
+         FEATURED PROJECT
+         A spotlight section for one "best" project: a large image on
+         the left and text on the right (two-column grid on desktop,
+         stacked on mobile). Includes a badge, description, a bullet
+         list of outcomes, and a call-to-action button.
+         ------------------------------------------------------------ -->
+    <section class="featured-project">
+      <div class="featured-inner fade-up">
+
+        <!-- Left column: large screenshot/image of the project -->
+        <div class="featured-visual">
+          <img src="https://placehold.co/900x560/e8e8ed/86868b?text=Capstone+Project"
+            alt="Capstone project placeholder — replace with an image of your work" loading="lazy">
+        </div>
+
+        <!-- Right column: text about the featured project -->
+        <div class="featured-text">
+          <!-- Small gradient badge with a star icon -->
+          <div class="featured-badge"><i class="ph-fill ph-star" aria-hidden="true"></i> Capstone Project</div>
+
+          <h2>My Multimedia Capstone</h2>
+
+          <p>
+            Describe your capstone in your own words. What story did you
+            want to tell across your song, video, images, and poster?
+            What was hardest, and what are you most proud of?
+          </p>
+
+          <!-- Checkmark list of accomplishments (the ✓ comes from CSS) -->
+          <ul class="outcomes">
+            <li>Created an original song with Suno</li>
+            <li>Produced and edited a short video</li>
+            <li>Created and edited original images</li>
+            <li>Designed a poster and earned three Canva certificates</li>
+          </ul>
+
+          <!-- Button linking to the song, video, and images -->
+          <div class="featured-actions">
+            <a href="multimedia.html" class="btn-primary">See the Multimedia <i class="ph ph-arrow-right"
+                aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------
+         CALL-TO-ACTION (CTA) BAND
+         A strip near the bottom of the page inviting visitors to
+         view the Multimedia page, with a heading, short text, and
+         a button.
+         ------------------------------------------------------------ -->
+    <section class="cta-band">
+      <div class="cta-inner fade-up">
+        <div class="cta-text">
+          <h2>Want to see my multimedia work?</h2>
+          <p>My Suno song, video, and the images I created this semester.</p>
+        </div>
+        <a href="multimedia.html" class="btn-primary">Explore Multimedia <i class="ph ph-arrow-right"
+            aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       Simple black bar with the copyright line, shown on every page.
+       ============================================================ -->
+  <footer>
+    <p>&copy; <strong>Berry Buer</strong> &sdot; ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</p>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       Two behaviors: (1) open/close the mobile menu, and
+       (2) fade elements in as they scroll into view.
+       ============================================================ -->
+  <script>
+
+    // Opens or closes the mobile navigation drawer.
+    // classList.toggle() adds the "open" class if it's missing and
+    // removes it if it's there — the CSS slides the menu in/out.
+    function toggleMobileNav() {
+      document.getElementById("mobileNav").classList.toggle("open");
+    }
+    // Closes the mobile menu when you click anywhere OUTSIDE it.
+    // "e.target" is the element that was clicked; if the click was not
+    // inside the menu or on the hamburger button, remove "open".
+    document.addEventListener("click", function (e) {
+      const nav = document.getElementById("mobileNav");
+      const toggle = document.querySelector(".mobile-toggle");
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove("open");
+    });
+
+    // Scroll animation: an IntersectionObserver watches elements and
+    // reports when they scroll into the visible part of the screen.
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          // When an element becomes visible, add the "visible" class
+          // (which triggers the CSS fade/slide-up animation), then
+          // stop watching it so the animation only happens once.
+          if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+        });
+      },
+      // threshold: 0.08 = fire when 8% of the element is visible.
+      // rootMargin shrinks the bottom edge by 40px so elements must
+      // scroll a little further into view before animating.
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    // Find every element with the "fade-up" class and start watching it.
+    document.querySelectorAll(".fade-up").forEach(function (el) { observer.observe(el); });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1799 @@
+/* 
+im gonna collect all the unifying CSS and condense it into one doc
+id or class specific tags can go into internal css for each doc
+
+the index.css header doesn't match the rest of the headers
+*/
+
+:root {
+    /* fill with our own colors and whatnot */
+    --bg: rgb(245, 245, 247);
+    --mainText: rgb(17, 17, 17);
+
+    --white: rgb(255, 255, 255);
+    --purple: rgb(233, 212, 255);
+    --accent-dark: rgb(233, 212, 255);
+    --accent: rgb(88, 24, 152);
+    --blue: rgb(11, 130, 140);
+    --soft-border: rgb(224, 224, 229);
+
+    --whiteShadow: rgba(255, 255, 255, .5);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 18px 45px var(--shadow);
+    /* soft drop shadow used on cards/images */
+
+    --soft-border: rgb(224, 224, 229);
+}
+
+/* ===== @KEYFRAMES ANIMATIONS =====
+   Reusable named animations. Each one defines the "frames" of a motion;
+   an element plays it via the animation: property. */
+
+/* float — gentle up-and-down bobbing (used on the hero eyebrow badge) */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* pulse-glow — a purple ring that expands outward and fades, like a
+       ripple (used on the active slideshow dot and the section-label dot) */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purple) 60%, transparent);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 0%, transparent);
+    }
+}
+
+/* shimmer — slides a wide gradient across an element so a highlight
+       appears to sweep over it (used on the skill progress bars) */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* wiggle — quick left-right rotation shake (used on skill icons on hover) */
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-8deg);
+    }
+
+    75% {
+        transform: rotate(8deg);
+    }
+}
+
+/* arrow-nudge — nudges an element 4px right and back (for arrow icons) */
+@keyframes arrow-nudge {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+}
+
+/* scroll-bounce — small downward bounce with a fade, for a
+       "scroll down" indicator */
+@keyframes scroll-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: .5;
+    }
+
+    50% {
+        transform: translateY(8px);
+        opacity: 1;
+    }
+}
+
+/* Aurora animation: slides the gradient layers from one corner to the
+       other and back (the "alternate" keyword above reverses it) */
+@keyframes aurora {
+    0% {
+        background-position: 0% 0%, 100% 100%, 50% 50%;
+    }
+
+    100% {
+        background-position: 100% 100%, 0% 0%, 50% 50%;
+    }
+}
+
+/* Animation for [.page-hero.hero-gradient::before]: over 14s the gradient layers move
+       from one corner to the opposite corner, then reverse (alternate). */
+@keyframes pj-aurora {
+    0% {
+        background-position: 0% 0%, 100% 100%, 50% 50%;
+    }
+
+    100% {
+        background-position: 100% 100%, 0% 0%, 50% 50%;
+    }
+}
+
+/* Gentle bobbing motion: element floats up 5px and back down */
+@keyframes pj-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Pulsing glow: a purple ring expands outward and fades away,
+       like a ripple, then repeats. */
+@keyframes pj-pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purple) 50%, transparent);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 0%, transparent);
+    }
+}
+
+/* Slowly drifts the gradient blobs from one corner to the other and
+       back (the animation alternates direction) */
+@keyframes mm-aurora {
+    0% {
+        background-position: 0% 0%, 100% 100%, 50% 50%;
+    }
+
+    100% {
+        background-position: 100% 100%, 0% 0%, 50% 50%;
+    }
+}
+
+/* Flip the cursor's border color on and off to make it blink */
+@keyframes blink {
+
+    0%,
+    100% {
+        border-color: var(--purple);
+    }
+
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Gentle 5px up-and-down bob (used on the hero eyebrow below) */
+@keyframes mm-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Soft purple ring that expands outward and fades, like a radar ping
+       (used on the section-label dot below) */
+@keyframes mm-pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purple) 50%, transparent);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 0%, transparent);
+    }
+}
+
+/* Animation: slides the gradient layers from one corner to the other
+       and back (14s, forever), creating the drifting-light effect. */
+@keyframes ct-aurora {
+    0% {
+        background-position: 0% 0%, 100% 100%, 50% 50%;
+    }
+
+    100% {
+        background-position: 100% 100%, 0% 0%, 50% 50%;
+    }
+}
+
+/* ===== SCROLL ANIMATION (FADE-UP) =====
+   Works together with the IntersectionObserver JavaScript in index.html:
+   elements start invisible and shifted down; when they scroll into view,
+   JS adds the "visible" class and they fade + slide up into place. */
+
+/* Starting state: invisible and pushed 36px down */
+.fade-up {
+    opacity: 0;
+
+    transform: translateY(36px);
+
+    transition: opacity .8s ease, transform .8s ease;
+}
+
+/* Final state (added by JS): fully visible, back in normal position */
+.fade-up.visible {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+/* Stagger effect: sibling fade-up elements (like the three project
+       cards) each wait slightly longer, so they animate one after another */
+.fade-up:nth-child(2) {
+    transition-delay: .08s;
+}
+
+.fade-up:nth-child(3) {
+    transition-delay: .16s;
+}
+
+.fade-up:nth-child(4) {
+    transition-delay: .24s;
+}
+
+.fade-up:nth-child(5) {
+    transition-delay: .32s;
+}
+
+.fade-up:nth-child(6) {
+    transition-delay: .40s;
+}
+
+/* ===== RESET & BASE STYLES ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--light-bg);
+    color: var(--mainText);
+    overflow-x: hidden;
+    line-height: 1.65;
+}
+
+img,
+video {
+    max-width: 100%;
+    display: block;
+}
+
+/* ===== HEADER / DESKTOP NAVIGATION ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: var(--whiteShadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--shadow);
+}
+
+/* ===== FOOTER ===== */
+/* Dark strip at the very bottom with faint white text */
+footer {
+    background: #060611;
+    color: var(--whiteShadow);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: .875rem;
+}
+
+/* Footer links match the faint footer text (no underline) */
+footer a {
+    color: var(--whiteShadow);
+    text-decoration: none;
+}
+
+/* Footer name, slightly brighter than the rest of the footer line */
+footer strong {
+    color: var(--whiteShadow);
+}
+
+/* Site logo text ("YourName") in the top-left corner */
+.brand {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: .02em;
+    text-decoration: none;
+    color: var(--blue);
+}
+
+/* The <span> half of the logo gets the accent color */
+.brand span {
+    color: var(--accent);
+}
+
+/* Logo hover: letters tighten together and the accent word turns blue */
+.brand {
+    transition: letter-spacing .3s ease;
+}
+
+.brand:hover {
+    letter-spacing: 0;
+}
+
+.brand span {
+    transition: color .3s ease;
+}
+
+.brand:hover span {
+    color: var(--blue);
+}
+
+/* Row of desktop nav links. margin-left: auto pushes the whole
+       group to the right side of the header. */
+.desktop-nav {
+    display: flex;
+    gap: 28px;
+    font-size: .95rem;
+    font-weight: 500;
+    /* had to copy these margins to the other files since they didn't match*/
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+/* Individual nav links: slightly faded until you interact with them */
+.desktop-nav a {
+    text-decoration: none;
+    color: var(--mainText);
+    opacity: .8;
+    transition: opacity .2s, color .2s;
+}
+
+/* On hover: full opacity and blue color */
+.desktop-nav a:hover {
+    opacity: 1;
+    color: var(--blue);
+}
+
+/* The link for the page you're currently on: purple and bolder */
+.desktop-nav a.active {
+    color: var(--purple);
+    opacity: 1;
+    font-weight: 600;
+}
+
+
+/* Hamburger menu button. display: none hides it on desktop —
+       the 900px media query at the bottom switches it to display: flex
+       on small screens. */
+.mobile-toggle {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(0, 0, 0, 0.12);
+    background: var(--white);
+
+    cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+
+    transition: background .2s;
+}
+
+/* Light gray tint when hovering the hamburger button */
+.mobile-toggle:hover {
+    background: #eef0f6;
+}
+
+/* The three hamburger lines: only ONE <span class="bar"> exists in the
+       HTML — the top and bottom lines are drawn with ::before and ::after
+       pseudo-elements, so no extra markup is needed. */
+.mobile-toggle .bar,
+.mobile-toggle .bar::before,
+.mobile-toggle .bar::after {
+    width: 20px;
+    height: 2px;
+
+    background: var(--mainText);
+
+    border-radius: 2px;
+
+    display: block;
+
+    transition: transform .3s, opacity .3s;
+}
+
+/* The middle bar is the positioning anchor for the other two */
+.mobile-toggle .bar {
+    position: relative;
+}
+
+/* Top hamburger line: drawn 6px above the middle bar */
+.mobile-toggle .bar::before {
+    content: "";
+
+    position: absolute;
+    top: -6px;
+    left: 0;
+}
+
+/* Bottom hamburger line: drawn 6px below the middle bar */
+.mobile-toggle .bar::after {
+    content: "";
+
+    position: absolute;
+    top: 6px;
+    left: 0;
+}
+
+/* ===== MOBILE NAVIGATION DRAWER ===== */
+
+/* The slide-in menu panel. It's parked OFF-screen (right: -100%) until
+       JavaScript adds the "open" class, then the transition slides it in
+       from the right. Dark frosted-glass look via backdrop-filter. */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    /* hidden: pushed completely off the right edge */
+    width: 76%;
+    max-width: 300px;
+    height: 100vh;
+    /* full viewport height */
+    background: var(--mainText);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    display: flex;
+    flex-direction: column;
+    padding: 80px 28px 40px;
+    transition: right .32s ease;
+    /* animates the slide in/out */
+    z-index: 999;
+    border-left: 1px solid var(--whiteShadow);
+}
+
+/* When JavaScript adds "open", the drawer slides to right: 0 (visible) */
+.mobile-nav.open {
+    right: 0;
+}
+
+/* Dark see-through layer behind the open drawer. inset: 0 is shorthand
+       for top/right/bottom/left all 0, i.e. cover the whole screen.
+       Hidden until JavaScript adds the "show" class. */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--shadow);
+    z-index: 998;
+}
+
+/* Shown while the mobile menu is open */
+.mobile-overlay.show {
+    display: block;
+}
+
+/* Round "X" close button in the top-right corner of the drawer */
+.mobile-nav-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    /* perfect circle */
+    background: var(--whiteShadow);
+    border: 1px solid var(--whiteShadow);
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+}
+
+/* Slightly brighter circle on hover */
+.mobile-nav-close:hover {
+    background: var(--whiteShadow);
+}
+
+/* Small uppercase "NAVIGATION" label at the top of the drawer */
+.mobile-nav-label {
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--whiteShadow);
+    margin-bottom: 24px;
+}
+
+/* Large white menu links inside the drawer, each with a faint divider line */
+.mobile-nav a {
+    text-decoration: none;
+    color: var(--whiteShadow);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--whiteShadow);
+    transition: color .2s, padding-left .2s;
+    display: block;
+}
+
+/* Hover: link turns purple and nudges right slightly */
+.mobile-nav a:hover {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    padding-left: 6px;
+}
+
+/* Current page's link stays purple */
+.mobile-nav a.active {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+
+/* Hamburger bars squeeze narrower when the button is hovered
+       (targets a .bar class — the current HTML uses <span> instead) */
+.mobile-toggle .bar {
+    transition: transform .3s ease;
+}
+
+.mobile-toggle:hover .bar {
+    transform: scaleX(.7);
+}
+
+/* Mobile menu links start invisible and shifted right... */
+.mobile-nav a {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: color .2s, padding-left .2s,
+        opacity .4s ease, transform .4s ease;
+}
+
+/* ...then slide in one after another when the menu opens, each with a
+       slightly longer delay for a staggered entrance */
+.mobile-nav.open a {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.mobile-nav.open a:nth-of-type(1) {
+    transition-delay: .10s;
+}
+
+.mobile-nav.open a:nth-of-type(2) {
+    transition-delay: .16s;
+}
+
+.mobile-nav.open a:nth-of-type(3) {
+    transition-delay: .22s;
+}
+
+.mobile-nav.open a:nth-of-type(4) {
+    transition-delay: .28s;
+}
+
+.mobile-nav.open a:nth-of-type(5) {
+    transition-delay: .34s;
+}
+
+/* Wrapper for the "Let's Connect" button. margin-top: auto pushes
+       it all the way to the bottom of the flex-column drawer. */
+.mobile-nav-cta {
+    margin-top: auto;
+    padding-top: 28px;
+}
+
+/* The "Let's Connect" button itself. The !important flags override
+       the general .mobile-nav a link styles above. */
+.mobile-nav-cta a {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    background: var(--accent);
+    color: var(--blue) !important;
+
+    border-radius: 12px;
+    font-size: 1rem !important;
+    border-bottom: none !important;
+    padding-left: 0 !important;
+}
+
+
+
+/* The active slideshow dot pulses with the glowing ripple animation */
+.slide-dots button.active {
+    animation: pulse-glow 1.8s ease-out infinite;
+}
+
+/* Dots grow smoothly when hovered */
+.slide-dots button {
+    transition: transform .25s ease, background .3s, border-color .3s;
+}
+
+.slide-dots button:hover {
+    transform: scale(1.35);
+}
+
+/* Skill icons wiggle and turn purple when you hover their card */
+.skill-card .skill-icon {
+    display: inline-block;
+    transition: transform .3s ease, color .3s ease;
+}
+
+.skill-card:hover .skill-icon {
+    animation: wiggle .6s ease-in-out;
+    color: var(--accent);
+}
+
+/* Skill bar fill upgrade: a shimmering gradient that also "grows" in.
+       transform-origin: left center makes scaleX grow from the LEFT edge
+       (like a loading bar) instead of from the middle. It starts at
+       scaleX(0) (zero width) and animates to full width when JS adds
+       the "visible" class to the card. */
+.skill-bar-fill {
+    background: linear-gradient(90deg,
+            var(--accent) 0%,
+            #93c5fd 40%,
+            #ffffff 50%,
+            #93c5fd 60%,
+            var(--accent) 100%);
+    background-size: 200% 100%;
+    /* extra-wide gradient so shimmer can slide */
+    animation: shimmer 3s linear infinite;
+
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+/* When the card scrolls into view, the bar fills to full width */
+.skill-card.visible .skill-bar-fill {
+    transform: scaleX(1);
+}
+
+/* Upgraded project-card hover: springier easing (cubic-bezier) plus
+       a purple border and soft purple ring around the card */
+.project-card {
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s ease,
+        border-color .35s ease;
+}
+
+.project-card:hover,
+.project-card.fade-up.visible:hover {
+    /* .fade-up.visible would otherwise cancel the lift */
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+    box-shadow:
+        0 18px 45px var(--shadow),
+        0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+}
+
+/* Card tag badge lifts, grows, and turns purple when the card is hovered */
+.card-tag {
+    transition: transform .3s ease, background .3s ease;
+}
+
+.project-card:hover .card-tag {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--accent);
+}
+
+/* "View all" link: the gap between the text and the arrow widens on
+       hover, so the arrow appears to slide away from the words */
+.view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color .2s, gap .2s ease;
+}
+
+.view-all:hover {
+    gap: 10px;
+}
+
+/* Placeholder feature image tilts in 3D on hover:
+       perspective() gives depth, rotateY/rotateX angle it like a card */
+.feature-visual .placeholder {
+    transition: transform .5s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .5s ease;
+}
+
+.feature-visual .placeholder:hover {
+    transform: perspective(900px) rotateY(-4deg) rotateX(2deg) translateY(-4px);
+    box-shadow: 0 28px 60px var(--shadow);
+}
+
+
+/* ===== BUTTONS ===== */
+/* Main pill-shaped purple button used for calls to action */
+.btn-primary {
+    display: inline-block;
+    padding: 14px 30px;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .95rem;
+    transition: background .25s, transform .25s;
+    width: fit-content;
+}
+
+/* Darker purple + a small upward lift on hover */
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-3px);
+}
+
+/* Secondary outlined button (lower-emphasis alternative) */
+.btn-secondary {
+    display: inline-block;
+    padding: 13px 30px;
+    border-radius: 999px;
+    border: 1.5px solid var(--soft-border);
+    color: #444;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .95rem;
+    transition: border-color .25s, color .25s, transform .25s;
+}
+
+.btn-secondary:hover {
+    border-color: #aaa;
+    color: #111;
+    transform: translateY(-3px);
+}
+
+/* hero images */
+
+/* ===== PAGE HERO (dark banner at the top of the page) ===== */
+/* position:relative makes this the anchor that the absolutely-positioned
+       image and overlays inside it are measured against.
+       overflow:hidden clips anything that pokes outside the banner. */
+.page-hero {
+    background: #050509;
+    padding: 140px 24px 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+}
+
+/* The hero background photo.
+       inset:0 is shorthand for top/right/bottom/left = 0, stretching it to
+       every edge of the hero. object-fit:cover scales the photo to fill the
+       box without squashing it (edges get cropped instead).
+       z-index:0 puts it on the bottom layer; opacity dims it. */
+.page-hero-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 1;
+    /* full strength: your picture is the point */
+}
+
+/* Alternate hero style (used when the section has class "hero-gradient"):
+       a ::before layer filled with three overlapping colored glows
+       (radial gradients) that slowly drift via the "aurora" animation.
+       background-size:200% makes the gradients bigger than the box so
+       moving background-position creates visible motion. */
+.page-hero.hero-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--purple) 55%, transparent), transparent 55%),
+        radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--blue) 50%, transparent), transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.25), transparent 60%);
+    background-size: 200% 200%;
+    animation: aurora 14s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+
+/* Dark overlay laid over hero photos/videos so the white text on top
+       stays readable. z-index:1 = above the image (0), below the text (2). */
+.page-hero.hero-image::after,
+.page-hero.hero-video::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+            rgba(5, 5, 9, .56) 0%,
+            rgba(5, 5, 9, .64) 100%);
+    z-index: 1;
+}
+
+/* Hero text wrapper: z-index:2 lifts it above the image and overlay */
+.page-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+/* Small pill-shaped "eyebrow" label above the heading.
+       border-radius:999px = fully rounded ends (the pill shape). */
+.page-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(20, 12, 30, .6);
+    /* dark pill keeps white text readable (contrast 4.5:1+) */
+    border: 1px solid rgba(255, 255, 255, .25);
+    padding: 8px 18px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--purple) 35%, transparent);
+}
+
+.page-hero-eyebrow i {
+    font-size: 1rem;
+}
+
+/* Main hero heading.
+       clamp(min, preferred, max) makes the font size responsive: never
+       smaller than 2.6rem, never larger than 4.2rem, scaling with the
+       viewport width (5.5vw) in between.
+       Plain white text: one solid color reads more clearly than a gradient. */
+.page-hero h1 {
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 18px;
+    color: #fff;
+}
+
+/* Hero subtitle line */
+.page-hero p {
+    font-size: 1.2rem;
+    color: #fff;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* Row of round frosted-glass icon badges under the hero text */
+.page-hero-icons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.page-hero-icons i {
+    font-size: 1.4rem;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18);
+    backdrop-filter: blur(10px);
+    transition: transform .3s ease, background .3s ease;
+}
+
+/* On hover the badge lifts up 4px and grows 8% */
+.page-hero-icons i:hover {
+    transform: translateY(-4px) scale(1.08);
+    background: color-mix(in srgb, var(--purple) 35%, transparent);
+}
+
+.hero {
+    padding: 100px 16px 80px;
+}
+
+.hero-eyebrow {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* ===== HOVER EFFECTS & MICRO-INTERACTIONS =====
+   Extra polish: small animations layered onto elements styled above. */
+
+/* The hero badge slowly bobs up and down forever (float animation) */
+
+
+/* Animated underline for desktop nav links: an invisible 0-width bar
+       (::after) under each link grows outward from the center on hover */
+.desktop-nav a {
+    position: relative;
+}
+
+.desktop-nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: var(--blue);
+    transition: width .3s ease, left .3s ease;
+}
+
+/* On hover (or on the active page) the underline expands to full width */
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+    width: 100%;
+    left: 0;
+}
+
+/* The active page's underline is purple instead of blue */
+.desktop-nav a.active::after {
+    background: var(--purple);
+}
+
+/* Shine sweep on the header CTA: a diagonal white streak (::before)
+       starts off-screen left and slides across the button on hover */
+.header-cta {
+    position: relative;
+    overflow: hidden;
+}
+
+.header-cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.35) 50%,
+            transparent 100%);
+    transition: left .6s ease;
+}
+
+.header-cta:hover::before {
+    left: 120%;
+}
+
+/* Same shine-sweep effect on all primary buttons */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            transparent 100%);
+    transition: left .7s ease;
+}
+
+.btn-primary:hover::before {
+    left: 140%;
+}
+
+/* Purple pill-shaped button (border-radius:999px = fully rounded) */
+.btn-primary {
+    display: inline-block;
+    padding: 15px 34px;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background .25s, transform .25s, box-shadow .25s;
+}
+
+/* Hover: darker purple, lifts 3px, and glows */
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--purple) 40%, transparent);
+}
+
+
+/* The active slideshow dot pulses with the glowing ripple animation */
+.slide-dots button.active {
+    animation: pulse-glow 1.8s ease-out infinite;
+}
+
+/* Dots grow smoothly when hovered */
+.slide-dots button {
+    transition: transform .25s ease, background .3s, border-color .3s;
+}
+
+.slide-dots button:hover {
+    transform: scale(1.35);
+}
+
+/* Skill icons wiggle and turn purple when you hover their card */
+.skill-card .skill-icon {
+    display: inline-block;
+    transition: transform .3s ease, color .3s ease;
+}
+
+.skill-card:hover .skill-icon {
+    animation: wiggle .6s ease-in-out;
+    color: var(--accent);
+}
+
+/* Skill bar fill upgrade: a shimmering gradient that also "grows" in.
+       transform-origin: left center makes scaleX grow from the LEFT edge
+       (like a loading bar) instead of from the middle. It starts at
+       scaleX(0) (zero width) and animates to full width when JS adds
+       the "visible" class to the card. */
+.skill-bar-fill {
+    background: linear-gradient(90deg,
+            var(--accent) 0%,
+            #93c5fd 40%,
+            #ffffff 50%,
+            #93c5fd 60%,
+            var(--accent) 100%);
+    background-size: 200% 100%;
+    /* extra-wide gradient so shimmer can slide */
+    animation: shimmer 3s linear infinite;
+
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+/* When the card scrolls into view, the bar fills to full width */
+.skill-card.visible .skill-bar-fill {
+    transform: scaleX(1);
+}
+
+/* Upgraded project-card hover: springier easing (cubic-bezier) plus
+       a purple border and soft purple ring around the card */
+.project-card {
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s ease,
+        border-color .35s ease;
+}
+
+.project-card:hover,
+.project-card.fade-up.visible:hover {
+    /* .fade-up.visible would otherwise cancel the lift */
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.10),
+        0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+}
+
+/* Card tag badge lifts, grows, and turns purple when the card is hovered */
+.card-tag {
+    transition: transform .3s ease, background .3s ease;
+}
+
+.project-card:hover .card-tag {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--accent);
+}
+
+/* "View all" link: the gap between the text and the arrow widens on
+       hover, so the arrow appears to slide away from the words */
+.view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color .2s, gap .2s ease;
+}
+
+.view-all:hover {
+    gap: 10px;
+}
+
+/* Placeholder feature image tilts in 3D on hover:
+       perspective() gives depth, rotateY/rotateX angle it like a card */
+.feature-visual .placeholder {
+    transition: transform .5s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .5s ease;
+}
+
+.feature-visual .placeholder:hover {
+    transform: perspective(900px) rotateY(-4deg) rotateX(2deg) translateY(-4px);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* Mobile menu links start invisible and shifted right... */
+.mobile-nav a {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: color .2s, padding-left .2s,
+        opacity .4s ease, transform .4s ease;
+}
+
+/* ...and slide into place when the drawer opens */
+.mobile-nav.open a {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Each link waits a bit longer than the one above it,
+       creating a cascading entrance effect */
+.mobile-nav.open a:nth-of-type(1) {
+    transition-delay: .10s;
+}
+
+.mobile-nav.open a:nth-of-type(2) {
+    transition-delay: .16s;
+}
+
+.mobile-nav.open a:nth-of-type(3) {
+    transition-delay: .22s;
+}
+
+.mobile-nav.open a:nth-of-type(4) {
+    transition-delay: .28s;
+}
+
+.mobile-nav.open a:nth-of-type(5) {
+    transition-delay: .34s;
+}
+
+/* Hovering the hamburger button squeezes its lines to 70% width */
+.mobile-toggle:hover .bar {
+    transform: scaleX(.7);
+}
+
+.mobile-toggle .bar {
+    transition: transform .3s ease;
+}
+
+/* Adds a small pulsing purple dot (::before) to the left of every
+       section label; padding-left makes room for it */
+
+.section-label {
+    position: relative;
+    padding-left: 16px;
+}
+
+.section-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+    /* vertically centers the dot on the text */
+    animation: pulse-glow 2.2s ease-out infinite;
+}
+
+/* ===== CLEANUP: styles moved out of inline style="" attributes ===== */
+/* Pushes content below the fixed 64px header */
+.page-main {
+    padding-top: 64px;
+}
+
+/* Wrapper for the hamburger button on the right side of the header */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Feature-section images: fill the column with rounded corners */
+.feature-img {
+    /* height:auto + contain show the WHOLE image, so words in it are never cut off */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    display: block;
+}
+
+/* Feature-section buttons sit at the left instead of stretching */
+.feature-btn {
+    align-self: flex-start;
+    margin-top: 8px;
+}
+
+/* Heading with no bottom margin (used beside the "View all" link) */
+.heading-tight {
+    margin-bottom: 0;
+}
+
+
+/* Bigger tap area for the slideshow dots (24 x 24), the dot itself stays small */
+.slide-dots button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.slide-dots button::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    background: transparent;
+}
+
+.slide-dots button.active::before {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+/* ===== CALL-TO-ACTION BAND & BUTTON ===== */
+/* Pill-shaped call-to-action button style for the header
+       (border-radius: 999px makes fully rounded ends) */
+.header-cta {
+    display: inline-block;
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--white);
+    font-size: .88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+}
+
+/* Header CTA hover: darker color and a small upward lift */
+.header-cta:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+.cta-band {
+    background: var(--white);
+    border-top: 1px solid var(--soft-border);
+    padding: 80px 24px;
+}
+
+/* Text on the left, button on the right; flex-wrap lets them stack
+       when the screen is too narrow */
+.cta-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.cta-text h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.cta-text p {
+    color: #555;
+    max-width: 480px;
+}
+
+/* ===== PROJECT CARDS ===== */
+
+/* Title row above the card grid: heading on the left,
+       "View all projects" link on the right */
+.projects-header {
+    max-width: 1180px;
+    margin: 0 auto 48px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* The "View all projects →" text link */
+.view-all {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: color .2s;
+}
+
+.view-all:hover {
+    color: var(--accent-dark);
+}
+
+/* Responsive card grid: auto-fit + minmax means "fit as many 300px-or-
+       wider columns as possible" — 3 across on desktop, fewer on smaller
+       screens, down to 1 column on phones, with no media query needed. */
+.project-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+
+    gap: 26px;
+}
+
+/* One clickable card: white rounded box with a light border.
+       overflow: hidden clips the image to the rounded corners.
+       color: inherit stops link styling from turning the text blue. */
+.project-card {
+    background: var(--white);
+    border-radius: 22px;
+
+    border: 1px solid var(--soft-border);
+
+    overflow: hidden;
+
+    transition: transform .3s ease, box-shadow .3s ease;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    display: block;
+}
+
+/* Card hover: floats up 8px and gains a shadow */
+.project-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow: var(--card-shadow);
+}
+
+/* Image area at the top of each card. position: relative lets the
+       tag badge be positioned inside it; overflow: hidden keeps the
+       zooming image from spilling out. */
+.card-thumb {
+    height: 200px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: linear-gradient(135deg, #0a1030, #0d1f40);
+}
+
+/* Thumbnail image fills its box; object-fit: cover crops instead of
+       stretching, so the photo never looks distorted */
+.card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    /* page screenshots: keep the top (your header and title) in view */
+
+    transition: transform .4s ease;
+}
+
+/* Hovering the card gently zooms the image to 105% */
+.project-card:hover .card-thumb img {
+    transform: scale(1.05);
+}
+
+/* Optional gradient background choices for card thumbnails
+       (used when a card has no photo) */
+.thumb-gradient-purple {
+    background: linear-gradient(135deg, #804070, #4a90e2);
+}
+
+.thumb-gradient-sunset {
+    background: linear-gradient(135deg, #ff7a59, #ffb347, #ffd86b);
+}
+
+.thumb-gradient-mint {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+}
+
+.thumb-gradient-ink {
+    background: linear-gradient(135deg, #1f1f3a, #5a2c4f);
+}
+
+/* Optional solid-color thumbnail backgrounds */
+.thumb-solid-purple {
+    background: var(--purple);
+}
+
+.thumb-solid-blue {
+    background: var(--blue);
+}
+
+.thumb-solid-ink {
+    background: var(--mainText);
+}
+
+/* Big white text centered over a gradient/solid thumbnail
+       (inset: 0 stretches it to cover the whole thumb area) */
+.thumb-label {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -.01em;
+    text-align: center;
+    padding: 0 20px;
+
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Video thumbnails behave the same as image thumbnails */
+.card-thumb video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform .4s ease;
+}
+
+/* Same gentle zoom on hover for video thumbnails */
+.project-card:hover .card-thumb video {
+    transform: scale(1.05);
+}
+
+/* Small dark pill badge in the top-left corner of each thumbnail
+       (e.g. "About"). backdrop-filter blurs whatever is behind it. */
+.card-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+
+    padding: 4px 12px;
+    border-radius: 999px;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+
+    backdrop-filter: blur(8px);
+}
+
+/* Padding around the card's title and description text */
+.card-body {
+    padding: 22px 24px 26px;
+}
+
+/* Card title */
+.card-body h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* Card description text */
+.card-body p {
+    font-size: .9rem;
+    color: #667;
+
+    line-height: 1.55;
+}
+
+/* ===== SKILLS SECTION =====
+   (Styles for skill cards used on other pages of the site) */
+
+/* Responsive grid of skill cards, same auto-fit technique as the
+       project grid but with smaller 200px-minimum columns */
+.skills-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+
+    gap: 18px;
+}
+
+/* One skill card: white rounded box */
+.skill-card {
+    background: var(--white);
+    border-radius: 18px;
+    border: 1px solid var(--soft-border);
+    padding: 28px 22px;
+
+    transition: transform .3s, box-shadow .3s;
+}
+
+/* Skill card hover: small lift and shadow */
+.skill-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Emoji/icon at the top of a skill card */
+.skill-icon {
+    font-size: 2rem;
+
+    margin-bottom: 14px;
+}
+
+/* Skill title text */
+.skill-name {
+    font-weight: 700;
+    font-size: .97rem;
+    margin-bottom: 6px;
+    color: var(--mainText);
+}
+
+/* Short skill description text */
+.skill-desc {
+    font-size: .875rem;
+    color: #778;
+
+    line-height: 1.5;
+}
+
+/* Thin gray track for the skill-level progress bar */
+.skill-bar {
+    height: 4px;
+
+    background: #e8eaf0;
+
+    border-radius: 2px;
+    margin-top: 14px;
+}
+
+/* The colored fill inside the progress bar (purple-to-light-blue gradient) */
+.skill-bar-fill {
+    height: 100%;
+
+    border-radius: 2px;
+
+    background: linear-gradient(90deg, var(--accent), #93c5fd);
+}
+
+/* ===== CALL-TO-ACTION (CTA) BAND ===== */
+
+/* White strip near the bottom of the page ("Let's connect.") */
+.cta-band {
+    background: var(--white);
+    border-top: 1px solid var(--soft-border);
+    padding: 80px 24px;
+}
+
+/* Lays out the CTA: text on the left, button on the right;
+       flex-wrap lets them stack on narrow screens */
+.cta-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+/* CTA heading (responsive size via clamp) */
+.cta-text h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+/* CTA supporting paragraph */
+.cta-text p {
+    color: #556;
+    max-width: 480px;
+}
+
+/* ===== MEDIA QUERIES (RESPONSIVE BREAKPOINTS) ===== */
+
+/* Accessibility: if the user's device is set to "reduce motion",
+       effectively turn off all animations and transitions site-wide
+       (helps people who get motion sickness from moving interfaces) */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+
+/* ===== CLEANUP: styles moved out of inline style="" attributes ===== */
+.page-main {
+  padding-top: 64px;
+}
+
+/* Closing band: heading and text centered */
+.cta-centered {
+  justify-content: center;
+}
+
+.cta-centered .cta-text {
+  text-align: center;
+  width: 100%;
+}
+
+.cta-centered .cta-text p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tablet & phone layout (screens 900px wide or less):
+       swap desktop nav for the hamburger menu and stack
+       side-by-side layouts into single columns */
+@media (max-width: 900px) {
+
+    /* Hide the desktop nav links... */
+    .desktop-nav {
+        display: none;
+    }
+
+    /* ...and the header CTA button... */
+    .header-cta {
+        display: none;
+    }
+
+    /* ...and show the hamburger button instead */
+    .mobile-toggle {
+        display: flex;
+    }
+
+    /* Feature sections collapse from two columns to one */
+    .feature-inner {
+        grid-template-columns: 1fr;
+
+        gap: 32px;
+    }
+
+    /* Undo the rtl column-swap trick — with only one column,
+         the order doesn't need reversing anymore */
+    .feature-inner.reverse {
+        direction: ltr;
+    }
+
+    /* CTA text and button stack vertically and center */
+    .cta-inner {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    /* Projects header stacks: heading above the "View all" link */
+    .projects-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .photo-columns {
+        column-count: 2;
+    }
+
+    .contact-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form-wrap {
+        padding: 28px 22px;
+    }
+}
+
+/* Small phone tweaks (screens 600px wide or less):
+       tighten up padding so content has more room */
+@media (max-width: 600px) {
+    header {
+        padding: 0 20px;
+    }
+
+    .scroll-tile {
+        width: 180px;
+        height: 120px;
+    }
+
+    .scroll-track {
+        animation-duration: 28s;
+    }
+
+    .lightbox-arrow {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+    }
+
+    .lightbox-arrow.prev {
+        left: 10px;
+    }
+
+    .lightbox-arrow.next {
+        right: 10px;
+    }
+
+    .photo-columns {
+        column-count: 1;
+    }
+
+    .page-hero {
+        padding: 100px 16px 60px;
+    }
+}
+
+
+/* On very small phones (480px and under): let labels shrink and let
+       row contents wrap onto a second line instead of overflowing */
+@media (max-width:480px) {
+    .glance-label {
+        width: auto;
+    }
+
+    .glance-row {
+        flex-wrap: wrap;
+    }
+
+}

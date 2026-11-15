@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact &ndash; My Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== CONTACT SECTION (info + form layout) ===== */
+
+    /* White band that holds the contact info and the form */
+    .contact-section {
+      background: var(--white);
+      padding: 80px 24px 100px;
+      border-top: 1px solid var(--soft-border);
+    }
+
+    /* Two-column CSS Grid: left column (info) is 1 share wide,
+       right column (form) is 1.4 shares — so the form gets more room.
+       Collapses to one column on small screens (see media query). */
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Left column: stacks the intro text and the contact cards vertically */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Small uppercase purple label above section headings */
+    .section-label {
+      display: block;
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 6px;
+    }
+
+    /* "Let's connect" heading and intro paragraph */
+    .contact-info h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .contact-info p {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    /* ===== CONTACT METHOD CARDS (email / school / LinkedIn) ===== */
+
+    /* One rounded card per contact method: icon on the left,
+       label + value on the right (flexbox row). */
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 24px;
+      border-radius: 18px;
+      background: var(--light-bg);
+      border: 1px solid var(--soft-border);
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    /* Hover effect: translateY(-4px) lifts the card up slightly
+       and a shadow appears, so it feels clickable */
+    .contact-method:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow);
+    }
+
+    /* Square tile in one solid color holding the icon.
+       place-items:center centers the icon; flex-shrink:0 stops the
+       tile from being squeezed when text is long. */
+    .method-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: var(--purple);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: #fff;
+      box-shadow: 0 10px 24px color-mix(in srgb, var(--purple) 28%, transparent);
+    }
+
+    /* Sizes the Phosphor icon font inside the tile */
+    .method-icon i {
+      display: block;
+      color: #fff;
+      font-size: 2.25rem;
+      line-height: 1;
+    }
+
+    /* The icon glyph itself lives in the ::before pseudo-element of <i> */
+    .method-icon i::before {
+      display: block;
+      line-height: 1;
+    }
+
+    /* Card text: small uppercase label (e.g. "Email") + the actual value */
+    .method-info .method-type {
+      font-size: .875rem;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .method-info .method-value {
+      font-size: .95rem;
+      font-weight: 500;
+      color: #111;
+    }
+
+    /* Links inside cards are blue; underline only on hover */
+    .method-info .method-value a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* darker blue: 4.5:1 or more on white */
+    .method-info .method-value a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== CONTACT FORM ===== */
+
+    /* White rounded card that contains the whole form */
+    .contact-form-wrap {
+      background: var(--white);
+      border: 1px solid var(--soft-border);
+      border-radius: 24px;
+      padding: 40px 36px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    }
+
+    /* "Send a message" heading and the smaller line under it */
+    .form-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-subtitle {
+      font-size: .92rem;
+      color: #666;
+      margin-bottom: 28px;
+    }
+
+    /* One label + input pair, stacked vertically with a small gap */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    /* Field labels */
+    .form-group label {
+      font-size: .88rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Shared look for text boxes, the drop-down, and the textarea.
+       outline:none removes the default focus ring because we draw our
+       own focus style below; font-family:inherit makes the fields use
+       the page font instead of the browser default. */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--soft-border);
+      font-size: .95rem;
+      font-family: inherit;
+      color: var(--ink);
+      background: var(--white);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    /* :focus = when the user clicks/tabs into a field. The border turns
+       purple and a soft purple ring (box-shadow) appears — this replaces
+       the default outline we removed, keeping the form keyboard-accessible. */
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--purple) 12%, transparent);
+    }
+
+    /* Message box: user may drag it taller but not sideways */
+    .form-group textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    /* Puts First Name and Last Name side by side in two equal columns */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Purple "Send Message" button, full width of the form */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      background: var(--purple);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .25s, transform .2s, box-shadow .2s;
+      margin-top: 6px;
+    }
+
+    /* Hover: darker purple, lifts up 2px, glowing shadow */
+    .btn-submit:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--purple) 35%, transparent);
+    }
+
+    /* While the mouse button is held down, the button drops back down —
+       gives a "pressed" feel */
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* ===== SOCIAL LINKS SECTION ===== */
+
+    /* Light gray centered band under the contact form */
+    .social-section {
+      background: var(--light-bg);
+      border-top: 1px solid var(--soft-border);
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .social-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .social-inner h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 6px 0 12px;
+    }
+
+    .social-inner p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    /* Row of social buttons; flex-wrap lets them wrap onto a new line
+       on narrow screens */
+    .social-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Pill-shaped button (border-radius:999px = fully rounded ends)
+       with an icon and the site name */
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      background: var(--white);
+      border: 1px solid var(--soft-border);
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+
+    /* Hover: lifts up, gains a shadow, and the border turns purple */
+    .social-link:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow);
+      border-color: var(--purple);
+    }
+
+    /* Purple icon inside the pill, centered with grid */
+    .social-link-icon {
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--purple);
+    }
+
+    .social-link-icon i {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    /* The icon glyph itself lives in the ::before pseudo-element of <i> */
+    .social-link-icon i::before {
+      display: block;
+      line-height: 1;
+    }
+
+    /* ===== FORM SUCCESS MESSAGE ===== */
+
+    /* Green-bordered "Message sent!" box. display:none hides it until
+       JavaScript adds the .show class after a successful submit. */
+    .success-message {
+      display: none;
+      background: var(--light-bg);
+      border: 1.5px solid #22c55e;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    /* Dark green heading and text inside the box */
+    .success-message h3 {
+      font-size: 1.2rem;
+      color: #166534;
+      margin-bottom: 6px;
+    }
+
+    .success-message p {
+      font-size: .92rem;
+      color: #166534;
+    }
+
+
+    /* ===== RESPONSIVE BREAKPOINTS (media queries) ===== */
+
+    /* Tablets and below (900px or narrower): swap the desktop nav for the
+       hamburger button, stack the contact info and form in ONE column,
+       shrink the form padding, and center the CTA content. */
+    @media(max-width:900px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+
+      .cta-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Phones (600px or narrower): stack First/Last name fields on top of
+       each other and reduce the hero padding to fit the smaller screen. */
+    @media(max-width:600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding: 100px 16px 60px;
+      }
+    }
+
+    /* ===== KEYFRAME ANIMATIONS ===== */
+
+    /* float: gently bobs an element up 5px and back down (used on the
+       hero eyebrow pill) */
+
+    /* ===== EXTRA HOVER & MOTION POLISH ===== */
+    /* The rules below layer additional animation details on top of the
+   base styles defined earlier in the file. */
+
+    /* Animated underline for desktop nav links: an invisible 0-width bar
+       (::after) sits under each link and grows to full width on hover.
+       Starting at left:50% and moving to left:0 makes it grow outward
+       from the center. */
+    .desktop-nav a {
+      position: relative;
+    }
+
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--blue);
+      transition: width .3s ease, left .3s ease;
+    }
+
+    .desktop-nav a:hover::after,
+    .desktop-nav a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* The current page's underline is purple instead of blue */
+    .desktop-nav a.active::after {
+      background: var(--purple);
+    }
+
+    /* The colored part of the logo shifts purple -> blue on hover */
+    .brand span {
+      transition: color .3s ease;
+    }
+
+    .brand:hover span {
+      color: var(--blue);
+    }
+
+
+
+    /* The "Get in Touch" pill slowly floats up and down forever */
+    .page-hero-eyebrow {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Refines the contact-card hover (overrides the earlier version):
+       also animates the border color */
+    .contact-method {
+      transition: transform .3s ease, box-shadow .3s ease,
+        border-color .3s ease;
+    }
+
+    .contact-method:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+      border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+    }
+
+    /* Hovering a contact card makes its icon tile wiggle */
+    .method-icon {
+      transition: transform .3s ease;
+    }
+
+    .contact-method:hover .method-icon {
+      animation: wiggle .6s ease-in-out;
+    }
+
+    /* Form fields also animate a tiny upward movement... */
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      transition: border-color .25s ease, box-shadow .25s ease,
+        transform .25s ease;
+    }
+
+    /* ...rising 1px when focused, so the active field feels "picked up" */
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      transform: translateY(-1px);
+    }
+
+    /* Social pills lift AND grow 4% on hover (scale = zoom) */
+    .social-link {
+      transition: transform .25s ease, background .25s ease, color .25s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-3px) scale(1.04);
+    }
+  </style>
+
+  <!-- Loads the Phosphor icon library (used for the envelope, LinkedIn, etc. icons) -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+</head>
+
+<body>
+
+  <!-- ===== HEADER / DESKTOP NAVBAR =====
+       Fixed bar at the top of every page: site name (brand) on the left,
+       navigation links on the right. The hamburger button only appears
+       on small screens (CSS hides it on desktop). -->
+  <header>
+    <!-- Site logo/brand — clicking it returns to the home page -->
+    <a class="brand" href="index.html">Your<span>Portfolio</span></a>
+    <!-- Main navigation links (shown on desktop only) -->
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="multimedia.html">Multimedia</a>
+      <!-- "active" class highlights the page you are currently on -->
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <!-- Hamburger button (mobile only) — clicking it opens/closes the slide-in menu below -->
+    <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMobileNav()"><span></span></button>
+  </header>
+
+  <!-- ===== MOBILE NAVIGATION =====
+       Slide-in menu for phones/tablets. It sits off-screen until the
+       hamburger button adds the "open" class (see the script at the bottom).
+       Each link also closes the menu after it is tapped. -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="toggleMobileNav()">Home</a>
+    <a href="about.html" onclick="toggleMobileNav()">About</a>
+    <a href="projects.html" onclick="toggleMobileNav()">Projects</a>
+    <a href="multimedia.html" onclick="toggleMobileNav()">Multimedia</a>
+    <a href="contact.html" class="active" onclick="toggleMobileNav()">Contact</a>
+  </nav>
+
+  <!-- ===== MAIN PAGE CONTENT =====
+       padding-top:64px pushes the content down so the fixed header
+       doesn't cover the top of the page. -->
+  <main class="page-main">
+
+    <!-- ===== HERO SECTION =====
+         Big dark banner at the top of the page with a background image
+         and the page title. -->
+    <section class="page-hero hero-image">
+
+      <!-- Background photo for the hero. alt="" + aria-hidden="true" tell
+           screen readers to skip it because it is decorative only. -->
+      <img class="page-hero-media" src="https://placehold.co/1600x900/e8e8ed/86868b?text=Contact%5CnHero" alt=""
+        aria-hidden="true">
+
+      <!-- Text that sits on top of the hero image -->
+      <div class="page-hero-content">
+        <span class="page-hero-eyebrow">Get in Touch</span>
+        <h1>Contact</h1>
+        <p>Have feedback, a question, or just want to connect? I'd love to hear from you.</p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION =====
+         Two-column layout: contact info cards on the left,
+         the message form on the right. "fade-up" elements animate
+         into view as you scroll (see the IntersectionObserver script). -->
+    <section class="contact-section">
+      <div class="contact-inner">
+
+        <!-- LEFT COLUMN: intro text + three "contact method" cards -->
+        <div class="contact-info fade-up">
+          <div>
+            <span class="section-label">Contact</span>
+            <h2>Let's connect</h2>
+            <p>
+              Whether you're a fellow student, potential collaborator, or
+              employer reviewing my work — feel free to reach out.
+              I typically respond within 24 hours.
+            </p>
+          </div>
+
+          <!-- Contact card: points to the form. There is NO email address here on purpose.
+               Spam bots scan web pages for addresses; the form (Formspree) emails you
+               without your address ever appearing in your code. -->
+          <div class="contact-method">
+            <div class="method-icon"><i class="ph ph-envelope" aria-hidden="true"></i></div>
+            <div class="method-info">
+              <div class="method-type">Message</div>
+              <div class="method-value">
+                <a href="#contactForm">Send me a message <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact card: school / course info -->
+          <div class="contact-method">
+            <div class="method-icon"><i class="ph ph-graduation-cap" aria-hidden="true"></i></div>
+            <div class="method-info">
+              <div class="method-type">Institution</div>
+              <div class="method-value">NOVA Annandale · ITE 170</div>
+            </div>
+          </div>
+
+          <!-- Contact card: LinkedIn profile. target="_blank" opens a new tab;
+               rel="noopener" is a security best practice for new-tab links. -->
+          <div class="contact-method">
+            <div class="method-icon"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></div>
+            <div class="method-info">
+              <div class="method-type">LinkedIn</div>
+              <div class="method-value">
+                <a href="#" target="_blank" rel="noopener">My LinkedIn profile <i class="ph ph-arrow-right"
+                    aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: the contact form card -->
+        <div class="contact-form-wrap fade-up">
+          <div class="form-title">Send a message</div>
+          <div class="form-subtitle">Fill out the form and I'll get back to you shortly.</div>
+
+          <!-- THE CONTACT FORM
+               action  = the Formspree URL the message is sent to
+                         (replace YOUR_FORM_ID with a real Formspree ID)
+               method  = POST sends the data in the request body
+               onsubmit = runs our JavaScript instead of a normal page reload
+               novalidate = turns off the browser's built-in checks so our
+                            own JavaScript validation runs instead -->
+          <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST"
+            onsubmit="handleSubmit(event)" novalidate>
+
+            <!-- Spam trap ("honeypot"). People never see this box, but spam robots fill in
+                 every box they find. Formspree throws away any message where _gotcha has
+                 text in it, so robot spam never reaches your inbox. Leave it exactly as is. -->
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+
+            <!-- First and last name side by side (two-column grid row) -->
+            <div class="form-row">
+              <div class="form-group">
+                <!-- "for" matches the input's id so clicking the label focuses the box -->
+                <label for="firstName">First Name *</label>
+                <!-- required = must be filled in; autocomplete helps the browser suggest the value -->
+                <input type="text" id="firstName" name="firstName" placeholder="Sarah" required
+                  autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Lin" required
+                  autocomplete="family-name">
+              </div>
+            </div>
+
+            <!-- Email field — type="email" brings up the email keyboard on phones -->
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+
+            <!-- Drop-down menu asking why the visitor is writing (optional) -->
+            <div class="form-group">
+              <label for="subject">What's this about?</label>
+              <select id="subject" name="subject">
+                <option value="">— Select a topic —</option>
+                <option value="feedback">Project feedback</option>
+                <option value="collaborate">Collaboration opportunity</option>
+                <option value="employer">Employer / hiring inquiry</option>
+                <option value="class">ITE 170 classmate</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <!-- Multi-line text box for the visitor's message -->
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" placeholder="Tell me what's on your mind..." required></textarea>
+            </div>
+
+            <!-- Submit button — clicking it triggers handleSubmit() above -->
+            <button type="submit" class="btn-submit">
+              Send Message <i class="ph ph-arrow-right" aria-hidden="true"></i>
+            </button>
+
+          </form>
+
+          <!-- Success message — hidden by default; JavaScript shows it
+               (and hides the form) after the message is sent. -->
+          <div class="success-message" id="successMsg">
+            <h3>✅ Message sent!</h3>
+            <p>Thank you for reaching out. I'll get back to you soon.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOCIAL LINKS SECTION =====
+         Pill-shaped buttons linking to social media profiles. -->
+    <section class="social-section">
+      <div class="social-inner fade-up">
+        <span class="section-label">Find Me Online</span>
+        <h2>Connect on social</h2>
+        <p>Follow my work, see what I'm building, and stay in touch.</p>
+
+        <div class="social-links">
+
+          <!-- LinkedIn button (add more social-link anchors here for other sites) -->
+          <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <span class="social-link-icon"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></span>
+            LinkedIn
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA (CALL-TO-ACTION) BAND =====
+         A closing strip that thanks the visitor and points them
+         to the rest of the portfolio. -->
+    <section class="cta-band">
+      <div class="cta-inner cta-centered fade-up">
+        <div class="cta-text">
+          <h2>Thanks for visiting.</h2>
+          <p>Explore more of my work — my song, video, images, poster, and certificates.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER =====
+       Copyright line shown at the very bottom of every page. -->
+  <footer>
+    <p>&copy; <strong>Berry Buer</strong> &sdot; ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</p>
+  </footer>
+
+  <!-- ===== JAVASCRIPT =====
+       All the page's behavior: the mobile menu, form validation and
+       submission, and the scroll-in fade animations. -->
+  <script>
+
+    // ----- MOBILE MENU -----
+    // Adds/removes the "open" class on the slide-in menu.
+    // The CSS uses that class to slide the menu in from the right.
+    function toggleMobileNav() {
+      document.getElementById("mobileNav").classList.toggle("open");
+    }
+    // Close the mobile menu if the user clicks anywhere OUTSIDE
+    // the menu and the hamburger button.
+    document.addEventListener("click", function (e) {
+      const nav = document.getElementById("mobileNav");
+      const toggle = document.querySelector(".mobile-toggle");
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove("open");
+    });
+
+    // ----- FORM SUBMISSION -----
+    // Runs when the visitor clicks "Send Message".
+    // "async" lets us use "await" for the network request below.
+    async function handleSubmit(e) {
+      // Stop the browser's default behavior (reloading the page)
+      e.preventDefault();
+
+      // Grab the form element so we can read and send its data
+      const form = document.getElementById("contactForm");
+
+      // Read the required fields; .trim() removes accidental spaces
+      const firstName = document.getElementById("firstName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      // Validation step 1: make sure no required field is empty
+      if (!firstName || !email || !message) {
+        alert("Please fill in all required fields (marked with *).");
+        return; // stop here — don't send the form
+      }
+      // Validation step 2: check the email looks like "something@something.something"
+      // using a regular expression (a text-matching pattern)
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      // Helper: hide the form, show the green success box, and clear the fields
+      const showSuccess = () => {
+        form.style.display = "none";
+        document.getElementById("successMsg").classList.add("show");
+        form.reset();
+      };
+
+      // Demo mode: if the Formspree ID hasn't been filled in yet,
+      // just pretend the send worked so the page can be tested.
+      if (form.action.includes("YOUR_FORM_ID")) {
+        showSuccess();
+        return;
+      }
+
+      // Real send: POST the form data to Formspree without reloading the page.
+      // try/catch handles the case where the network request fails.
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),               // packages all form fields
+          headers: { "Accept": "application/json" } // ask Formspree for a JSON reply
+        });
+        if (res.ok) showSuccess();                // success — show the thank-you box
+        else alert("Sorry — something went wrong. Please try again in a few minutes.");
+      } catch (err) {
+        // Runs if the request couldn't reach the server at all (e.g. no internet)
+        alert("Network error. Please check your connection and try again.");
+      }
+    }
+
+    // ----- SCROLL-IN ANIMATIONS -----
+    // An IntersectionObserver watches elements and tells us when they
+    // scroll into view. When a ".fade-up" element appears on screen,
+    // we add the "visible" class (CSS fades it in and slides it up),
+    // then stop watching it so the animation only happens once.
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+        });
+      },
+      // threshold: trigger when 8% of the element is visible
+      // rootMargin: shrink the trigger area by 40px at the bottom
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    // Start watching every element that has the "fade-up" class
+    document.querySelectorAll(".fade-up").forEach(function (el) { observer.observe(el); });
+  </script>
+
+</body>
+
+</html>
