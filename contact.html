@@ -360,95 +360,6 @@
       color: #166534;
     }
 
-
-    /* ===== RESPONSIVE BREAKPOINTS (media queries) ===== */
-
-    /* Tablets and below (900px or narrower): swap the desktop nav for the
-       hamburger button, stack the contact info and form in ONE column,
-       shrink the form padding, and center the CTA content. */
-    @media(max-width:900px) {
-      .desktop-nav {
-        display: none;
-      }
-
-      .mobile-toggle {
-        display: flex;
-      }
-
-
-      .cta-inner {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    /* Phones (600px or narrower): stack First/Last name fields on top of
-       each other and reduce the hero padding to fit the smaller screen. */
-    @media(max-width:600px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .page-hero {
-        padding: 100px 16px 60px;
-      }
-    }
-
-    /* ===== KEYFRAME ANIMATIONS ===== */
-
-    /* float: gently bobs an element up 5px and back down (used on the
-       hero eyebrow pill) */
-
-    /* ===== EXTRA HOVER & MOTION POLISH ===== */
-    /* The rules below layer additional animation details on top of the
-   base styles defined earlier in the file. */
-
-    /* Animated underline for desktop nav links: an invisible 0-width bar
-       (::after) sits under each link and grows to full width on hover.
-       Starting at left:50% and moving to left:0 makes it grow outward
-       from the center. */
-    .desktop-nav a {
-      position: relative;
-    }
-
-    .desktop-nav a::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -4px;
-      width: 0;
-      height: 2px;
-      background: var(--blue);
-      transition: width .3s ease, left .3s ease;
-    }
-
-    .desktop-nav a:hover::after,
-    .desktop-nav a.active::after {
-      width: 100%;
-      left: 0;
-    }
-
-    /* The current page's underline is purple instead of blue */
-    .desktop-nav a.active::after {
-      background: var(--purple);
-    }
-
-    /* The colored part of the logo shifts purple -> blue on hover */
-    .brand span {
-      transition: color .3s ease;
-    }
-
-    .brand:hover span {
-      color: var(--blue);
-    }
-
-
-
-    /* The "Get in Touch" pill slowly floats up and down forever */
-    .page-hero-eyebrow {
-      animation: float 4s ease-in-out infinite;
-    }
-
     /* Refines the contact-card hover (overrides the earlier version):
        also animates the border color */
     .contact-method {
@@ -501,39 +412,71 @@
 </head>
 
 <body>
+  <!-- Dark, semi-transparent overlay that covers the page behind the mobile menu.
+       Hidden by default; JavaScript shows it when the menu opens.
+       Clicking it closes the mobile menu. -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
 
-  <!-- ===== HEADER / DESKTOP NAVBAR =====
-       Fixed bar at the top of every page: site name (brand) on the left,
-       navigation links on the right. The hamburger button only appears
-       on small screens (CSS hides it on desktop). -->
+  <!-- ================= HEADER / TOP NAVIGATION BAR =================
+       Fixed bar that stays pinned to the top of the screen while you scroll.
+       Contains the site logo (brand), the desktop nav links, and the
+       hamburger button that appears on small screens. -->
   <header>
-    <!-- Site logo/brand — clicking it returns to the home page -->
-    <a class="brand" href="index.html">Your<span>Portfolio</span></a>
-    <!-- Main navigation links (shown on desktop only) -->
+
+    <!-- Site logo / brand name; links back to the home page.
+         The <span> lets CSS color part of the name differently. -->
+    <a class="brand" href="index.html">Berry's<span>Portfolio</span>
+    </a>
+
+    <!-- Main navigation links, shown only on desktop-size screens.
+         The "active" class highlights the page you are currently on. -->
     <nav class="desktop-nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="projects.html">Projects</a>
       <a href="multimedia.html">Multimedia</a>
-      <!-- "active" class highlights the page you are currently on -->
       <a href="contact.html" class="active">Contact</a>
     </nav>
-    <!-- Hamburger button (mobile only) — clicking it opens/closes the slide-in menu below -->
-    <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMobileNav()"><span></span></button>
+
+    <!-- Right side of the header: holds the mobile hamburger button -->
+    <div class="header-actions">
+
+      <!-- Hamburger button: hidden on desktop, visible on small screens.
+           Clicking it runs the JavaScript function that slides the mobile menu open.
+           aria-label describes the button for screen readers. -->
+      <button class="mobile-toggle" aria-label="Open navigation" onclick="openMobileNav()">
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
   </header>
 
-  <!-- ===== MOBILE NAVIGATION =====
-       Slide-in menu for phones/tablets. It sits off-screen until the
-       hamburger button adds the "open" class (see the script at the bottom).
-       Each link also closes the menu after it is tapped. -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html" onclick="toggleMobileNav()">Home</a>
-    <a href="about.html" onclick="toggleMobileNav()">About</a>
-    <a href="projects.html" onclick="toggleMobileNav()">Projects</a>
-    <a href="multimedia.html" onclick="toggleMobileNav()">Multimedia</a>
-    <a href="contact.html" class="active" onclick="toggleMobileNav()">Contact</a>
-  </nav>
+  <!-- ================= MOBILE NAVIGATION DRAWER =================
+       Slide-in menu for phones/tablets. It sits off-screen (right: -100%)
+       until JavaScript adds the "open" class, which slides it into view.
+       Every link also calls closeMobileNav() so the menu closes after you tap. -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
 
+    <!-- "X" button in the corner that closes the drawer // i don't see it for some reasons-->
+    <button class="mobile-nav-close" aria-label="Close navigation" onclick="closeMobileNav()"></button>
+    <!-- Small uppercase heading inside the drawer -->
+    <span class="mobile-nav-label">Navigation</span>
+
+    <!-- Same page links as the desktop nav, styled for the drawer -->
+    <a href="index.html" onclick="closeMobileNav()">Home</a>
+    <a href="about.html" onclick="closeMobileNav()">About</a>
+    <a href="projects.html" onclick="closeMobileNav()">Projects</a>
+    <a href="multimedia.html" onclick="closeMobileNav()">Multimedia</a>
+    <a href="contact.html" class="active" onclick="closeMobileNav()">Contact</a>
+
+    <!-- Call-to-action button pinned to the bottom of the drawer -->
+    <div class="mobile-nav-cta">
+      <a href="contact.html" onclick="closeMobileNav()">Let's Connect <i class="ph ph-arrow-right"
+          aria-hidden="true"></i></a>
+    </div>
+
+  </nav>
   <!-- ===== MAIN PAGE CONTENT =====
        padding-top:64px pushes the content down so the fixed header
        doesn't cover the top of the page. -->
@@ -644,8 +587,7 @@
               </div>
               <div class="form-group">
                 <label for="lastName">Last Name *</label>
-                <input type="text" id="lastName" name="lastName" placeholder="Lin" required
-                  autocomplete="family-name">
+                <input type="text" id="lastName" name="lastName" placeholder="Lin" required autocomplete="family-name">
               </div>
             </div>
 
@@ -731,25 +673,35 @@
   <footer>
     <p>&copy; <strong>Berry Buer</strong> &sdot; ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</p>
   </footer>
-
   <!-- ===== JAVASCRIPT =====
        All the page's behavior: the mobile menu, form validation and
        submission, and the scroll-in fade animations. -->
   <script>
+    // copied from index.html alongside its header formatting to retain consistent logic across pages
+    // --- Mobile navigation drawer ---
 
-    // ----- MOBILE MENU -----
-    // Adds/removes the "open" class on the slide-in menu.
-    // The CSS uses that class to slide the menu in from the right.
-    function toggleMobileNav() {
-      document.getElementById("mobileNav").classList.toggle("open");
+    // Opens the mobile menu: slides the drawer in, shows the dark overlay,
+    // and locks the page so it can't scroll behind the open menu
+    function openMobileNav() {
+      document.getElementById('mobileNav').classList.add('open');
+      document.getElementById('mobileOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
     }
-    // Close the mobile menu if the user clicks anywhere OUTSIDE
-    // the menu and the hamburger button.
-    document.addEventListener("click", function (e) {
-      const nav = document.getElementById("mobileNav");
-      const toggle = document.querySelector(".mobile-toggle");
-      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove("open");
+
+    // Closes the mobile menu: slides the drawer out, hides the overlay,
+    // and lets the page scroll again
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+
+      if (e.key === 'Escape') closeMobileNav();
     });
+  </script>
+  <script>
 
     // ----- FORM SUBMISSION -----
     // Runs when the visitor clicks "Send Message".

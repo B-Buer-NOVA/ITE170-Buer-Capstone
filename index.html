@@ -38,12 +38,7 @@
        scaleX(0) (zero width) and animates to full width when JS adds
        the "visible" class to the card. */
     .skill-bar-fill {
-      background: linear-gradient(90deg,
-          var(--accent) 0%,
-          #93c5fd 40%,
-          #ffffff 50%,
-          #93c5fd 60%,
-          var(--accent) 100%);
+      background: var(--skillGradient);
       background-size: 200% 100%;
       /* extra-wide gradient so shimmer can slide */
       animation: shimmer 3s linear infinite;
@@ -69,15 +64,15 @@
     /* Fallback dark-blue gradient backgrounds for each of the three slides,
        shown behind (or instead of) the slide images */
     .hero-slide:nth-child(1) {
-      background: linear-gradient(160deg, #0a1628 0%, #0f2545 50%, #0a1628 100%);
+      background: linear-gradient(160deg, rgb(10, 22, 40) 0%, rgb(15, 37, 69) 50%, rgb(10, 22, 40) 100%);
     }
 
     .hero-slide:nth-child(2) {
-      background: linear-gradient(160deg, #0c1a35 0%, #102040 50%, #080e20 100%);
+      background: linear-gradient(160deg, rgb(12, 26, 53) 0%, rgb(16, 32, 64) 50%, rgb(8, 14, 32) 100%);
     }
 
     .hero-slide:nth-child(3) {
-      background: linear-gradient(160deg, #080e20 0%, #0e1e38 50%, #0c1a35 100%);
+      background: linear-gradient(160deg, rgb(8, 14, 32) 0%, rgb(14, 30, 56) 50%, rgb(12, 26, 53) 100%);
     }
 
     /* Semi-transparent dark tint layered over the slide images (z-index: 2,
@@ -142,7 +137,7 @@
     .hero-sub {
       font-size: clamp(1rem, 2.2vw, 1.3rem);
 
-      color: var(--whiteShadow);
+      color: var(--whiteLight);
 
       max-width: 520px;
 
@@ -156,7 +151,6 @@
       display: flex;
       gap: 14px;
       justify-content: center;
-
       flex-wrap: wrap;
     }
 
@@ -175,7 +169,7 @@
       text-align: center;
       padding: 120px 24px 100px;
       overflow: hidden;
-      background: var(--mainText);
+      background: var(--accent-dark);
     }
 
     /* Each slide is stretched to fill the entire hero (inset: 0 = pin all
@@ -184,12 +178,10 @@
     .hero-slide {
       position: absolute;
       inset: 0;
-
       opacity: 0;
       transition: opacity 1.2s ease;
-
       z-index: 0;
-      background: var(--shadow);
+      background: var(--accent);
     }
 
     /* The slide JavaScript marks "active" fades in and sits on top */
@@ -221,7 +213,7 @@
       height: 9px;
       border-radius: 50%;
 
-      border: 2px solid rgba(255, 255, 255, 0.35);
+      border: 2px solid var(--whiteShadow);
 
       background: transparent;
 
@@ -263,17 +255,20 @@
     .slide-text h1,
     .slide-text h2 {
       font-size: clamp(2rem, 5vw, 3.5rem);
+      text-shadow: 5px 5px 10px var(--purpleShadow);
       font-weight: 900;
-      color: #fff;
+      color: var(--white);
       line-height: 1.15;
       margin-bottom: 16px;
       text-align: center;
     }
 
     /* Supporting paragraph under each slide headline */
-    .slide-text p {
+    .slide-text mark {
       font-size: clamp(1rem, 2vw, 1.25rem);
-      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      color: var(--mainText);
+      background: var(--whiteLight);
       max-width: 520px;
       text-align: center;
       line-height: 1.7;
@@ -300,20 +295,19 @@
        depending on screen width */
     .section-heading {
       font-size: clamp(1.7rem, 3.2vw, 2.5rem);
-
       font-weight: 800;
       line-height: 1.15;
-      color: var(--mainText);
+      color: var(--accent);
       margin-bottom: 14px;
     }
 
     /* Gray descriptive paragraph under section headings */
     .section-sub {
       font-size: 1.05rem;
-      color: #556;
-
+      color: var(--mainText);
       line-height: 1.7;
       max-width: 600px;
+      font-weight: 500;
     }
 
     /* Generic centered content wrapper with a max width so text
@@ -321,15 +315,13 @@
     .inner {
       max-width: 1180px;
       margin: 0 auto;
-
       padding: 0 24px;
     }
 
     /* Base spacing for every big page section, with a thin divider on top */
     .section {
       padding: 100px 24px;
-
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--whiteLight);
     }
 
     /* Alternating section backgrounds: white vs. light gray */
@@ -338,7 +330,7 @@
     }
 
     .section.gray {
-      background: var(--bg);
+      background: var(--light-bg);
     }
 
     /* Two-column feature layout: image in one column, text in the other,
@@ -380,7 +372,7 @@
       width: 100%;
       min-height: 340px;
       border-radius: 24px;
-      background: linear-gradient(135deg, #080d2a, #0a1f3a);
+      background: var(--thirtyFive);
       box-shadow: var(--card-shadow);
       display: flex;
       align-items: center;
@@ -409,7 +401,7 @@
       position: absolute;
       inset: 7px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.6);
+      border: 2px solid var(--whiteLight);
       background: transparent;
     }
 
@@ -437,7 +429,7 @@
 
     <!-- Site logo / brand name; links back to the home page.
          The <span> lets CSS color part of the name differently. -->
-    <a class="brand" href="index.html">My<span>Portfolio</span>
+    <a class="brand" href="index.html">Berry's<span>Portfolio</span>
     </a>
 
     <!-- Main navigation links, shown only on desktop-size screens.
@@ -470,11 +462,8 @@
        Every link also calls closeMobileNav() so the menu closes after you tap. -->
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
 
-    <!-- "X" button in the corner that closes the drawer -->
-    <button class="mobile-nav-close" aria-label="Close navigation" onclick="closeMobileNav()">
-      &times;
-    </button>
-
+    <!-- "X" button in the corner that closes the drawer // i don't see it for some reasons-->
+    <button class="mobile-nav-close" aria-label="Close navigation" onclick="closeMobileNav()"></button>
     <!-- Small uppercase heading inside the drawer -->
     <span class="mobile-nav-label">Navigation</span>
 
@@ -507,25 +496,25 @@
 
       <!-- Slide 1 background image (starts visible because it has "active") -->
       <div class="hero-slide active">
-        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn1" class="slide-media" alt="">
+        <img src="images/alpaca_planets.png" class="slide-media" alt="screenshot of the software FireAlpaca">
       </div>
 
       <!-- Slide 2 background image (hidden until JavaScript makes it active) -->
       <div class="hero-slide">
-        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn2" class="slide-media" alt="">
+        <img src="images/peerIntoMyOrganization.png" class="slide-media" alt="screenshot of windows file explorer">
 
       </div>
 
       <!-- Slide 3 background image -->
       <div class="hero-slide">
-        <img src="https://placehold.co/1920x1080/e8e8ed/86868b?text=Slide%5Cn3" class="slide-media" alt="">
+        <img src="images/someOfMyCoding.png" class="slide-media" alt="a screenshot of html source code I wrote">
       </div>
 
       <!-- Text layer that sits on top of the slide images -->
       <div class="hero-content">
 
         <!-- Small pill-shaped badge above the headline -->
-        <span class="hero-eyebrow">ITE 170 · Multimedia Capstone · NOVA Annandale</span>
+        <span class="hero-eyebrow">ITE 170 &sdot; Multimedia Capstone &sdot; NOVA Online</span>
 
         <!-- Holds the three headline/paragraph pairs; only the "active" one is visible,
              and it changes together with the background slides -->
@@ -534,23 +523,21 @@
           <!-- Text for slide 1 (visible first) -->
           <div class="slide-text active">
             <!-- h1: the one main heading on this page (screen readers jump to it) -->
-            <h1>Your Name Here</h1>
-            <p>Multimedia creator. This capstone brings together my
-              song, video, images, and poster.</p>
+            <h1>Berry Buer</h1>
+            <mark>Art Major and aspiring Web Developer. This capstone brings together the media I've created through
+              this course.</mark>
           </div>
 
           <!-- Text for slide 2 -->
           <div class="slide-text">
             <h2>Sound, Video &amp; Image</h2>
-            <p>An original Suno song, a short video, and images I
-              created and edited myself.</p>
+            <mark>Some music, a short video, and images I created and edited myself.</mark>
           </div>
 
           <!-- Text for slide 3 -->
           <div class="slide-text">
             <h2>Design &amp; Certified Skills</h2>
-            <p>A poster, a midterm exam project, and three Canva
-              Design School certificates.</p>
+            <mark>A poster, a midterm exam project, and three Canva Design School certificates.</mark>
           </div>
 
         </div>
@@ -581,19 +568,17 @@
 
         <!-- Left column: placeholder screenshot image -->
         <div class="feature-visual">
-          <img class="feature-img" src="https://placehold.co/800x520/e8e8ed/86868b?text=Song+%26+Video"
-            alt="Song and video placeholder" loading="lazy">
+          <img class="feature-img" src="images/beepbox.png" alt="screenshot of BeepBox" loading="lazy">
         </div>
 
         <!-- Right column: label, heading, description, and button -->
         <div class="feature-text">
           <span class="section-label">What I Create</span>
-          <h2 class="section-heading">Create. Edit. Share.</h2>
+          <h2 class="section-heading">Create &sdot; Edit &sdot; Share</h2>
           <p class="section-sub">
-            For my multimedia capstone I wrote and produced an original
-            song with Suno, planned and edited a short video, and created
-            my own images. Each piece started with an idea and ended with
-            something I can share.
+            During my time with this course, I've created several multimedia project using Canva: from posters to
+            videos. I've utilized a plethora of software to create and contribute to various multimedia pieces I've
+            created throughout this course.
           </p>
           <a href="multimedia.html" class="btn-primary feature-btn">
             See the Multimedia <i class="ph ph-arrow-right" aria-hidden="true"></i>
@@ -611,8 +596,8 @@
 
         <!-- Image column -->
         <div class="feature-visual">
-          <img class="feature-img" src="https://placehold.co/800x520/e8e8ed/86868b?text=Poster+%26+Certificates"
-            alt="Poster and certificates placeholder" loading="lazy">
+          <img class="feature-img" src="images/awkward_photoshop.png"
+            alt="the smirking emoji looking at the Canva Certificate badge" loading="lazy">
         </div>
 
         <!-- Text column -->
@@ -620,9 +605,8 @@
           <span class="section-label">Design</span>
           <h2 class="section-heading">Designed and certified.</h2>
           <p class="section-sub">
-            I designed a poster, completed a midterm exam project, and
-            earned three Canva Design School certificates — proof of the
-            design skills behind everything else in this portfolio.
+            I've designed posters, completed online Canva certificates, and utilized the online resources at my disposal
+            to create my projects. I also recently received my actual Application Programming Certificate!
           </p>
           <a href="projects.html" class="btn-primary feature-btn">
             Explore Projects <i class="ph ph-arrow-right" aria-hidden="true"></i>
@@ -658,15 +642,14 @@
                loading="lazy" tells the browser to wait to load the image
                until it's about to scroll into view (faster page load). -->
           <div class="card-thumb">
-            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=About+Me" alt="About page preview" loading="lazy">
+            <img src="images/berry_selfie_squashed.jpg" alt="About page preview" loading="lazy">
             <span class="card-tag">About</span>
           </div>
 
           <!-- Card text: title and short description -->
           <div class="card-body">
             <h3>About Me</h3>
-
-            <p>Get to know who I am — my background, my multimedia skills, and my capstone.</p>
+            <p>Learn about my goals and journey at NOVA!</p>
           </div>
 
         </a>
@@ -674,26 +657,24 @@
         <!-- Card 2: links to the Projects page -->
         <a href="projects.html" class="project-card fade-up">
           <div class="card-thumb">
-            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=Projects" alt="Projects page preview"
-              loading="lazy">
+            <img src="images/badge.png" alt="Projects page preview" loading="lazy">
             <span class="card-tag">Projects</span>
           </div>
           <div class="card-body">
             <h3>Projects</h3>
-            <p>My poster, midterm exam, and three Canva certificates.</p>
+            <p>My posters and three Canva certificates.</p>
           </div>
         </a>
 
         <!-- Card 3: links to the Multimedia page -->
         <a href="multimedia.html" class="project-card fade-up">
           <div class="card-thumb">
-            <img src="https://placehold.co/600x400/e8e8ed/86868b?text=Multimedia" alt="Multimedia page preview"
-              loading="lazy">
+            <img src="images/browser_audacity_video.png" alt="Multimedia page preview" loading="lazy">
             <span class="card-tag">Multimedia</span>
           </div>
           <div class="card-body">
             <h3>Multimedia</h3>
-            <p>My Suno song, my video, and the images I created.</p>
+            <p>Various pieces audio, video, and images I've created.</p>
           </div>
         </a>
 
@@ -709,10 +690,10 @@
 
         <!-- Invitation heading and message -->
         <div class="cta-text">
-          <h2>Let's connect.</h2>
+          <h2>Let's Chat!</h2>
           <p>
-            Interested in my work, want to give feedback, or just want to say hello?
-            I'd love to hear from you.
+            Interested in my work? Want to leave feedback or suggestions? Just want to say hiya?
+            Click the link to learn how to contact me!
           </p>
         </div>
 
@@ -805,24 +786,17 @@
     // Opens the mobile menu: slides the drawer in, shows the dark overlay,
     // and locks the page so it can't scroll behind the open menu
     function openMobileNav() {
-
       document.getElementById('mobileNav').classList.add('open');
-
       document.getElementById('mobileOverlay').classList.add('show');
-
       document.body.style.overflow = 'hidden';
     }
 
     // Closes the mobile menu: slides the drawer out, hides the overlay,
     // and lets the page scroll again
     function closeMobileNav() {
-
       document.getElementById('mobileNav').classList.remove('open');
-
       document.getElementById('mobileOverlay').classList.remove('show');
-
       document.body.style.overflow = '';
-
     }
 
     // Keyboard shortcut: pressing the Escape key closes the mobile menu

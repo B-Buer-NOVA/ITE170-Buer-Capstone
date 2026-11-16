@@ -631,17 +631,24 @@
 
 <body>
 
-  <!-- ============================================================
-       HEADER / DESKTOP NAVBAR
-       Fixed bar at the top of every page. Contains the site brand
-       (logo text linking home), the desktop navigation links, and
-       a hamburger button that only appears on small screens.
-       ============================================================ -->
+  <!-- Dark, semi-transparent overlay that covers the page behind the mobile menu.
+       Hidden by default; JavaScript shows it when the menu opens.
+       Clicking it closes the mobile menu. -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+
+  <!-- ================= HEADER / TOP NAVIGATION BAR =================
+       Fixed bar that stays pinned to the top of the screen while you scroll.
+       Contains the site logo (brand), the desktop nav links, and the
+       hamburger button that appears on small screens. -->
   <header>
-    <!-- Brand/logo text; clicking it returns to the home page -->
-    <a class="brand" href="index.html">Your<span>Portfolio</span></a>
-    <!-- Main navigation links (hidden on mobile via CSS).
-         "active" marks the current page so it can be highlighted. -->
+
+    <!-- Site logo / brand name; links back to the home page.
+         The <span> lets CSS color part of the name differently. -->
+    <a class="brand" href="index.html">Berry's<span>Portfolio</span>
+    </a>
+
+    <!-- Main navigation links, shown only on desktop-size screens.
+         The "active" class highlights the page you are currently on. -->
     <nav class="desktop-nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -649,26 +656,46 @@
       <a href="multimedia.html">Multimedia</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <!-- Hamburger button (mobile only). Clicking it runs the
-         toggleMobileNav() JavaScript function to open/close the menu.
-         The empty <span> is drawn as the three hamburger lines by CSS. -->
-    <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMobileNav()"><span></span></button>
+
+    <!-- Right side of the header: holds the mobile hamburger button -->
+    <div class="header-actions">
+
+      <!-- Hamburger button: hidden on desktop, visible on small screens.
+           Clicking it runs the JavaScript function that slides the mobile menu open.
+           aria-label describes the button for screen readers. -->
+      <button class="mobile-toggle" aria-label="Open navigation" onclick="openMobileNav()">
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
   </header>
 
-  <!-- ============================================================
-       MOBILE NAVIGATION DRAWER
-       A slide-in menu for phones/tablets. It sits off-screen until
-       JavaScript adds the "open" class. Each link also closes the
-       menu when tapped (onclick="toggleMobileNav()").
-       ============================================================ -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html" onclick="toggleMobileNav()">Home</a>
-    <a href="about.html" onclick="toggleMobileNav()">About</a>
-    <a href="projects.html" class="active" onclick="toggleMobileNav()">Projects</a>
-    <a href="multimedia.html" onclick="toggleMobileNav()">Multimedia</a>
-    <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
-  </nav>
+  <!-- ================= MOBILE NAVIGATION DRAWER =================
+       Slide-in menu for phones/tablets. It sits off-screen (right: -100%)
+       until JavaScript adds the "open" class, which slides it into view.
+       Every link also calls closeMobileNav() so the menu closes after you tap. -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
 
+    <!-- "X" button in the corner that closes the drawer // i don't see it for some reasons-->
+    <button class="mobile-nav-close" aria-label="Close navigation" onclick="closeMobileNav()"></button>
+    <!-- Small uppercase heading inside the drawer -->
+    <span class="mobile-nav-label">Navigation</span>
+
+    <!-- Same page links as the desktop nav, styled for the drawer -->
+    <a href="index.html" onclick="closeMobileNav()">Home</a>
+    <a href="about.html" onclick="closeMobileNav()">About</a>
+    <a href="projects.html" class="active" onclick="closeMobileNav()">Projects</a>
+    <a href="multimedia.html" onclick="closeMobileNav()">Multimedia</a>
+    <a href="contact.html" onclick="closeMobileNav()">Contact</a>
+
+    <!-- Call-to-action button pinned to the bottom of the drawer -->
+    <div class="mobile-nav-cta">
+      <a href="contact.html" onclick="closeMobileNav()">Let's Connect <i class="ph ph-arrow-right"
+          aria-hidden="true"></i></a>
+    </div>
+
+  </nav>
   <!-- ============================================================
        MAIN CONTENT
        Everything between the header and footer. The inline
@@ -677,11 +704,11 @@
        ============================================================ -->
   <main class="page-main">
 
-    <!-- ------------------------------------------------------------
+    <!-- ============================================================
          PAGE HERO
          Large dark banner at the top of the page with a background
          image, an "eyebrow" label, the page title, and a subtitle.
-         ------------------------------------------------------------ -->
+        ============================================================  -->
     <section class="page-hero hero-image">
 
       <!-- Full-bleed background image for the hero. It is decorative,
@@ -701,13 +728,16 @@
       </div>
     </section>
 
-    <!-- ------------------------------------------------------------
+    <!-- ============================================================
          PROJECTS GRID
          The main gallery of project cards. CSS Grid lays the cards
          out in responsive columns. Each card has a thumbnail image,
          a title, a description, and small "tech tag" pills.
-         ------------------------------------------------------------ -->
+         ============================================================ -->
+
     <section class="projects-section">
+      <h2>Poster Projects</h2>
+
       <div class="projects-grid" id="projectsGrid">
 
         <!-- PROJECT CARD 1: Poster (design project).
@@ -761,7 +791,7 @@
       </div>
     </section>
 
-    <!-- ------------------------------------------------------------
+    <!-- ============================================================
          CANVA CERTIFICATIONS
          A row of three certificate cards. Each card shows the
          certificate image, its name, the issuer, and a link that
@@ -769,7 +799,7 @@
          To use your real certificates: export each one from Canva as
          a PNG, save it in the images/ folder, and change both the
          <img> src and the link href to the new file name.
-         ------------------------------------------------------------ -->
+         ============================================================ -->
     <section class="cert-section" id="certifications">
       <div class="cert-inner">
 
@@ -833,13 +863,13 @@
       </div>
     </section>
 
-    <!-- ------------------------------------------------------------
+    <!-- ============================================================
          FEATURED PROJECT
          A spotlight section for one "best" project: a large image on
          the left and text on the right (two-column grid on desktop,
          stacked on mobile). Includes a badge, description, a bullet
          list of outcomes, and a call-to-action button.
-         ------------------------------------------------------------ -->
+         ============================================================ -->
     <section class="featured-project">
       <div class="featured-inner fade-up">
 
@@ -880,12 +910,12 @@
       </div>
     </section>
 
-    <!-- ------------------------------------------------------------
+    <!-- ============================================================
          CALL-TO-ACTION (CTA) BAND
          A strip near the bottom of the page inviting visitors to
          view the Multimedia page, with a heading, short text, and
          a button.
-         ------------------------------------------------------------ -->
+         ============================================================ -->
     <section class="cta-band">
       <div class="cta-inner fade-up">
         <div class="cta-text">
@@ -913,22 +943,32 @@
        (2) fade elements in as they scroll into view.
        ============================================================ -->
   <script>
+    // copied from index.html alongside its header formatting to retain consistent logic across pages
+    // --- Mobile navigation drawer ---
 
-    // Opens or closes the mobile navigation drawer.
-    // classList.toggle() adds the "open" class if it's missing and
-    // removes it if it's there — the CSS slides the menu in/out.
-    function toggleMobileNav() {
-      document.getElementById("mobileNav").classList.toggle("open");
+    // Opens the mobile menu: slides the drawer in, shows the dark overlay,
+    // and locks the page so it can't scroll behind the open menu
+    function openMobileNav() {
+      document.getElementById('mobileNav').classList.add('open');
+      document.getElementById('mobileOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
     }
-    // Closes the mobile menu when you click anywhere OUTSIDE it.
-    // "e.target" is the element that was clicked; if the click was not
-    // inside the menu or on the hamburger button, remove "open".
-    document.addEventListener("click", function (e) {
-      const nav = document.getElementById("mobileNav");
-      const toggle = document.querySelector(".mobile-toggle");
-      if (!nav.contains(e.target) && !toggle.contains(e.target)) nav.classList.remove("open");
-    });
 
+    // Closes the mobile menu: slides the drawer out, hides the overlay,
+    // and lets the page scroll again
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+
+      if (e.key === 'Escape') closeMobileNav();
+    });
+  </script>
+
+  <script>
     // Scroll animation: an IntersectionObserver watches elements and
     // reports when they scroll into the visible part of the screen.
     const observer = new IntersectionObserver(

@@ -4,25 +4,71 @@ id or class specific tags can go into internal css for each doc
 
 the index.css header doesn't match the rest of the headers
 */
+.thumb-gradient-purple {
+    background: linear-gradient(135deg, rgb(128, 64, 112), rgb(74, 144, 226));
+}
+
+.thumb-gradient-sunset {
+    background: linear-gradient(135deg, #ff7a59, #ffb347, #ffd86b);
+}
+
+.thumb-gradient-mint {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+}
+
+.thumb-gradient-ink {
+    background: linear-gradient(135deg, #1f1f3a, #5a2c4f);
+}
+
+/* Optional solid-color thumbnail backgrounds */
+.thumb-solid-purple {
+    background: var(--purple);
+}
+
+.thumb-solid-blue {
+    background: var(--blue);
+}
+
+.thumb-solid-ink {
+    background: var(--accent-dark);
+}
 
 :root {
     /* fill with our own colors and whatnot */
-    --bg: rgb(245, 245, 247);
-    --mainText: rgb(17, 17, 17);
-
+    --test: rgb(255, 0, 255);
+    --bg: rgba(0, 0, 255, .2);
+    --light-bg: rgba(0, 200, 175, .1);
     --white: rgb(255, 255, 255);
     --purple: rgb(233, 212, 255);
-    --accent-dark: rgb(233, 212, 255);
+    --purpleShadow: rgb(50, 0, 100);
+    --accent-dark: rgb(10, 0, 15);
     --accent: rgb(88, 24, 152);
     --blue: rgb(11, 130, 140);
     --soft-border: rgb(224, 224, 229);
 
     --whiteShadow: rgba(255, 255, 255, .5);
+    --whiteLight: rgba(225, 255, 255, .8);
     --shadow: rgba(0, 0, 0, 0.1);
     --card-shadow: 0 18px 45px var(--shadow);
-    /* soft drop shadow used on cards/images */
-
     --soft-border: rgb(224, 224, 229);
+
+    --mainText: rgb(5, 5, 5);
+
+    --skillGradient: linear-gradient(90deg, var(--accent) 0%, rgb(147, 197, 253) 40%, rgb(255, 255, 255) 50%, rgb(147, 197, 253) 60%, var(--accent) 100%);
+    --thirtyFive: linear-gradient(135deg, rgb(8, 13, 42), rgb(10, 31, 58));
+}
+
+/* ===== RESET & BASE STYLES ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 /* ===== @KEYFRAMES ANIMATIONS =====
@@ -48,11 +94,11 @@ the index.css header doesn't match the rest of the headers
 
     0%,
     100% {
-        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purple) 60%, transparent);
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purpleShadow) 60%, transparent);
     }
 
     50% {
-        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 0%, transparent);
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purpleShadow) 0%, transparent);
     }
 }
 
@@ -157,11 +203,11 @@ the index.css header doesn't match the rest of the headers
 
     0%,
     100% {
-        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purple) 50%, transparent);
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--purpleShadow) 50%, transparent);
     }
 
     50% {
-        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 0%, transparent);
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--purpleShadow) 0%, transparent);
     }
 }
 
@@ -182,7 +228,7 @@ the index.css header doesn't match the rest of the headers
 
     0%,
     100% {
-        border-color: var(--purple);
+        border-color: var(--purpleShadow);
     }
 
     50% {
@@ -272,25 +318,14 @@ the index.css header doesn't match the rest of the headers
     transition-delay: .40s;
 }
 
-/* ===== RESET & BASE STYLES ===== */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+/* primary semantic code */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--light-bg);
     color: var(--mainText);
     overflow-x: hidden;
     line-height: 1.65;
+    font-size: 1.2rem;
 }
 
 img,
@@ -311,7 +346,7 @@ header {
     left: 0;
     width: 100%;
     height: 64px;
-    background: var(--whiteShadow);
+    background: var(--blue);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--shadow);
@@ -320,7 +355,7 @@ header {
 /* ===== FOOTER ===== */
 /* Dark strip at the very bottom with faint white text */
 footer {
-    background: #060611;
+    background: rgb(15, 0, 30);
     color: var(--whiteShadow);
     text-align: center;
     padding: 28px 24px;
@@ -335,21 +370,22 @@ footer a {
 
 /* Footer name, slightly brighter than the rest of the footer line */
 footer strong {
-    color: var(--whiteShadow);
+    color: var(--whiteLight);
 }
 
 /* Site logo text ("YourName") in the top-left corner */
 .brand {
     font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: .02em;
+    font-size: clamp(1rem, 4vw, 2rem);
+    letter-spacing: clamp(0.02rem, 4vw, 0.05rem);
     text-decoration: none;
-    color: var(--blue);
+    color: var(--accent-dark);
 }
 
 /* The <span> half of the logo gets the accent color */
 .brand span {
     color: var(--accent);
+    letter-spacing: clamp(0.5rem, 4vw, 0.7rem);
 }
 
 /* Logo hover: letters tighten together and the accent word turns blue */
@@ -359,21 +395,24 @@ footer strong {
 
 .brand:hover {
     letter-spacing: 0;
+    color: var(--accent)
 }
 
 .brand span {
     transition: color .3s ease;
+    transition: letter-spacing .3s ease;
 }
 
 .brand:hover span {
-    color: var(--blue);
+    color: var(--accent);
+    letter-spacing: 0;
 }
 
 /* Row of desktop nav links. margin-left: auto pushes the whole
        group to the right side of the header. */
 .desktop-nav {
     display: flex;
-    gap: 28px;
+    gap: 30px;
     font-size: .95rem;
     font-weight: 500;
     /* had to copy these margins to the other files since they didn't match*/
@@ -384,24 +423,50 @@ footer strong {
 /* Individual nav links: slightly faded until you interact with them */
 .desktop-nav a {
     text-decoration: none;
-    color: var(--mainText);
-    opacity: .8;
+    color: var(--accent-dark);
+    opacity: .9;
+    font-weight: 800;
     transition: opacity .2s, color .2s;
 }
 
-/* On hover: full opacity and blue color */
 .desktop-nav a:hover {
     opacity: 1;
-    color: var(--blue);
+    color: var(--accent);
 }
 
 /* The link for the page you're currently on: purple and bolder */
 .desktop-nav a.active {
     color: var(--purple);
     opacity: 1;
-    font-weight: 600;
 }
 
+/* Animated underline for desktop nav links: an ::after bar starts at
+       0 width in the center, then grows to full width on hover.
+       (Purple, not blue, for the active page's link.) */
+.desktop-nav a {
+    position: relative;
+}
+
+.desktop-nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: var(--purple);
+    transition: width .3s ease, left .3s ease;
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+    width: 100%;
+    left: 0;
+}
+
+.desktop-nav a.active::after {
+    background: var(--purple);
+}
 
 /* Hamburger menu button. display: none hides it on desktop —
        the 900px media query at the bottom switches it to display: flex
@@ -411,22 +476,19 @@ footer strong {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    border: 1.5px solid rgba(0, 0, 0, 0.12);
-    background: var(--white);
-
+    border: 1.5px solid var(--shadow);
+    background: var(--purple);
     cursor: pointer;
-
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 5px;
-
     transition: background .2s;
 }
 
 /* Light gray tint when hovering the hamburger button */
 .mobile-toggle:hover {
-    background: #eef0f6;
+    border-width: 2px;
 }
 
 /* The three hamburger lines: only ONE <span class="bar"> exists in the
@@ -437,13 +499,9 @@ footer strong {
 .mobile-toggle .bar::after {
     width: 20px;
     height: 2px;
-
-    background: var(--mainText);
-
+    background: var(--accent-dark);
     border-radius: 2px;
-
     display: block;
-
     transition: transform .3s, opacity .3s;
 }
 
@@ -484,7 +542,7 @@ footer strong {
     max-width: 300px;
     height: 100vh;
     /* full viewport height */
-    background: var(--mainText);
+    background: var(--accent-dark);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     display: flex;
@@ -555,12 +613,12 @@ footer strong {
 /* Large white menu links inside the drawer, each with a faint divider line */
 .mobile-nav a {
     text-decoration: none;
-    color: var(--whiteShadow);
+    color: var(--whiteLight);
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 6px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--whiteShadow);
+    border-bottom: 1px solid var(--whiteLight);
     transition: color .2s, padding-left .2s;
     display: block;
 }
@@ -625,6 +683,8 @@ footer strong {
     transition-delay: .34s;
 }
 
+
+
 /* Wrapper for the "Let's Connect" button. margin-top: auto pushes
        it all the way to the bottom of the flex-column drawer. */
 .mobile-nav-cta {
@@ -639,7 +699,7 @@ footer strong {
     text-align: center;
     padding: 14px;
     background: var(--accent);
-    color: var(--blue) !important;
+    color: var(--whiteLight) !important;
 
     border-radius: 12px;
     font-size: 1rem !important;
@@ -647,6 +707,10 @@ footer strong {
     padding-left: 0 !important;
 }
 
+/* The "Get in Touch" pill slowly floats up and down forever */
+.page-hero-eyebrow {
+    animation: float 4s ease-in-out infinite;
+}
 
 
 /* The active slideshow dot pulses with the glowing ripple animation */
@@ -689,7 +753,6 @@ footer strong {
     background-size: 200% 100%;
     /* extra-wide gradient so shimmer can slide */
     animation: shimmer 3s linear infinite;
-
     transform-origin: left center;
     transform: scaleX(0);
     transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
@@ -753,15 +816,14 @@ footer strong {
     box-shadow: 0 28px 60px var(--shadow);
 }
 
-
 /* ===== BUTTONS ===== */
 /* Main pill-shaped purple button used for calls to action */
 .btn-primary {
     display: inline-block;
     padding: 14px 30px;
     border-radius: 999px;
-    background: var(--purple);
-    color: #fff;
+    background: var(--accent);
+    color: var(--white);
     text-decoration: none;
     font-weight: 600;
     font-size: .95rem;
@@ -771,7 +833,7 @@ footer strong {
 
 /* Darker purple + a small upward lift on hover */
 .btn-primary:hover {
-    background: var(--accent-dark);
+    background: var(--accent);
     transform: translateY(-3px);
 }
 
@@ -780,8 +842,8 @@ footer strong {
     display: inline-block;
     padding: 13px 30px;
     border-radius: 999px;
-    border: 1.5px solid var(--soft-border);
-    color: #444;
+    border: 1.5px solid var(--whiteLight);
+    color: var(--accent);
     text-decoration: none;
     font-weight: 500;
     font-size: .95rem;
@@ -789,13 +851,12 @@ footer strong {
 }
 
 .btn-secondary:hover {
-    border-color: #aaa;
-    color: #111;
+    border-color: var(--whiteLight);
+    color: var(--accent);
     transform: translateY(-3px);
 }
 
 /* hero images */
-
 /* ===== PAGE HERO (dark banner at the top of the page) ===== */
 /* position:relative makes this the anchor that the absolutely-positioned
        image and overlays inside it are measured against.
@@ -875,14 +936,14 @@ footer strong {
     font-weight: 700;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--white);
     background: rgba(20, 12, 30, .6);
     /* dark pill keeps white text readable (contrast 4.5:1+) */
-    border: 1px solid rgba(255, 255, 255, .25);
+    border: 1px solid var(--whiteShadow);
     padding: 8px 18px;
     border-radius: 999px;
     margin-bottom: 22px;
-    box-shadow: 0 10px 30px color-mix(in srgb, var(--purple) 35%, transparent);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--purpleShadow) 35%, transparent);
 }
 
 .page-hero-eyebrow i {
@@ -899,13 +960,13 @@ footer strong {
     font-weight: 900;
     line-height: 1.05;
     margin-bottom: 18px;
-    color: #fff;
+    color: var(--white);
 }
 
 /* Hero subtitle line */
 .page-hero p {
     font-size: 1.2rem;
-    color: #fff;
+    color: var(--white);
     max-width: 560px;
     margin: 0 auto;
 }
@@ -920,7 +981,7 @@ footer strong {
 
 .page-hero-icons i {
     font-size: 1.4rem;
-    color: #fff;
+    color: var(--white);
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -936,7 +997,7 @@ footer strong {
 /* On hover the badge lifts up 4px and grows 8% */
 .page-hero-icons i:hover {
     transform: translateY(-4px) scale(1.08);
-    background: color-mix(in srgb, var(--purple) 35%, transparent);
+    background: color-mix(in srgb, var(--purpleShadow) 35%, transparent);
 }
 
 .hero {
@@ -979,7 +1040,7 @@ footer strong {
 
 /* The active page's underline is purple instead of blue */
 .desktop-nav a.active::after {
-    background: var(--purple);
+    background: var(--purpleShadow);
 }
 
 /* Shine sweep on the header CTA: a diagonal white streak (::before)
@@ -1036,8 +1097,8 @@ footer strong {
     display: inline-block;
     padding: 15px 34px;
     border-radius: 999px;
-    background: var(--purple);
-    color: #fff;
+    background: var(--accent);
+    color: var(--white);
     text-decoration: none;
     font-weight: 600;
     font-size: 1rem;
@@ -1046,9 +1107,9 @@ footer strong {
 
 /* Hover: darker purple, lifts 3px, and glows */
 .btn-primary:hover {
-    background: var(--accent-dark);
+    background: var(--accent);
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--purple) 40%, transparent);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--purpleShadow) 40%, transparent);
 }
 
 
@@ -1115,10 +1176,10 @@ footer strong {
 .project-card.fade-up.visible:hover {
     /* .fade-up.visible would otherwise cancel the lift */
     transform: translateY(-8px);
-    border-color: color-mix(in srgb, var(--purple) 35%, transparent);
+    border-color: color-mix(in srgb, var(--purpleShadow) 35%, transparent);
     box-shadow:
         0 18px 45px rgba(0, 0, 0, 0.10),
-        0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+        0 0 0 3px color-mix(in srgb, var(--purpleShadow) 8%, transparent);
 }
 
 /* Card tag badge lifts, grows, and turns purple when the card is hovered */
@@ -1153,53 +1214,10 @@ footer strong {
 
 .feature-visual .placeholder:hover {
     transform: perspective(900px) rotateY(-4deg) rotateX(2deg) translateY(-4px);
-    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 28px 60px var(--accent);
 }
 
-/* Mobile menu links start invisible and shifted right... */
-.mobile-nav a {
-    opacity: 0;
-    transform: translateX(20px);
-    transition: color .2s, padding-left .2s,
-        opacity .4s ease, transform .4s ease;
-}
 
-/* ...and slide into place when the drawer opens */
-.mobile-nav.open a {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Each link waits a bit longer than the one above it,
-       creating a cascading entrance effect */
-.mobile-nav.open a:nth-of-type(1) {
-    transition-delay: .10s;
-}
-
-.mobile-nav.open a:nth-of-type(2) {
-    transition-delay: .16s;
-}
-
-.mobile-nav.open a:nth-of-type(3) {
-    transition-delay: .22s;
-}
-
-.mobile-nav.open a:nth-of-type(4) {
-    transition-delay: .28s;
-}
-
-.mobile-nav.open a:nth-of-type(5) {
-    transition-delay: .34s;
-}
-
-/* Hovering the hamburger button squeezes its lines to 70% width */
-.mobile-toggle:hover .bar {
-    transform: scaleX(.7);
-}
-
-.mobile-toggle .bar {
-    transition: transform .3s ease;
-}
 
 /* Adds a small pulsing purple dot (::before) to the left of every
        section label; padding-left makes room for it */
@@ -1275,7 +1293,7 @@ footer strong {
     position: absolute;
     inset: 7px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    border: 2px solid var(--whiteShadow);
     background: transparent;
 }
 
@@ -1301,13 +1319,13 @@ footer strong {
 
 /* Header CTA hover: darker color and a small upward lift */
 .header-cta:hover {
-    background: var(--accent-dark);
+    background: var(--accent);
     transform: translateY(-2px);
 }
 
 .cta-band {
     background: var(--white);
-    border-top: 1px solid var(--soft-border);
+    border-top: 1px solid var(--whiteLight);
     padding: 80px 24px;
 }
 
@@ -1330,7 +1348,7 @@ footer strong {
 }
 
 .cta-text p {
-    color: #555;
+    color: var(--mainText);
     max-width: 480px;
 }
 
@@ -1383,7 +1401,7 @@ footer strong {
     background: var(--white);
     border-radius: 22px;
 
-    border: 1px solid var(--soft-border);
+    border: 1px solid var(--whiteLight);
 
     overflow: hidden;
 
@@ -1408,12 +1426,9 @@ footer strong {
        zooming image from spilling out. */
 .card-thumb {
     height: 200px;
-
     position: relative;
-
     overflow: hidden;
-
-    background: linear-gradient(135deg, #0a1030, #0d1f40);
+    background: var(--thirtyFive);
 }
 
 /* Thumbnail image fills its box; object-fit: cover crops instead of
@@ -1435,34 +1450,7 @@ footer strong {
 
 /* Optional gradient background choices for card thumbnails
        (used when a card has no photo) */
-.thumb-gradient-purple {
-    background: linear-gradient(135deg, #804070, #4a90e2);
-}
 
-.thumb-gradient-sunset {
-    background: linear-gradient(135deg, #ff7a59, #ffb347, #ffd86b);
-}
-
-.thumb-gradient-mint {
-    background: linear-gradient(135deg, #10b981, #06b6d4);
-}
-
-.thumb-gradient-ink {
-    background: linear-gradient(135deg, #1f1f3a, #5a2c4f);
-}
-
-/* Optional solid-color thumbnail backgrounds */
-.thumb-solid-purple {
-    background: var(--purple);
-}
-
-.thumb-solid-blue {
-    background: var(--blue);
-}
-
-.thumb-solid-ink {
-    background: var(--mainText);
-}
 
 /* Big white text centered over a gradient/solid thumbnail
        (inset: 0 stretches it to cover the whole thumb area) */
@@ -1474,7 +1462,7 @@ footer strong {
     align-items: center;
     justify-content: center;
 
-    color: #fff;
+    color: var(--white);
     font-weight: 800;
     font-size: 1.6rem;
     letter-spacing: -.01em;
@@ -1510,7 +1498,7 @@ footer strong {
 
     background: rgba(0, 0, 0, 0.6);
 
-    color: #fff;
+    color: var(--white);
     font-size: .875rem;
     font-weight: 700;
     letter-spacing: .05em;
@@ -1582,7 +1570,7 @@ footer strong {
     font-weight: 700;
     font-size: .97rem;
     margin-bottom: 6px;
-    color: var(--mainText);
+    color: var(--accent-dark);
 }
 
 /* Short skill description text */
@@ -1667,24 +1655,26 @@ footer strong {
 
 /* ===== CLEANUP: styles moved out of inline style="" attributes ===== */
 .page-main {
-  padding-top: 64px;
+    padding-top: 64px;
 }
 
 /* Closing band: heading and text centered */
 .cta-centered {
-  justify-content: center;
+    justify-content: center;
 }
 
 .cta-centered .cta-text {
-  text-align: center;
-  width: 100%;
+    text-align: center;
+    width: 100%;
 }
 
 .cta-centered .cta-text p {
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* due to many of these having styling in internal CSS, many have !important labels,
+so that they properly override and alter */
 /* Tablet & phone layout (screens 900px wide or less):
        swap desktop nav for the hamburger menu and stack
        side-by-side layouts into single columns */
@@ -1705,43 +1695,49 @@ footer strong {
         display: flex;
     }
 
+    /* CTA text and button stack vertically and center */
+    .cta-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bio-inner {
+        grid-template-columns: 1fr !important;
+    }
+
+    .bio-photo {
+        position: static !important;
+    }
+
     /* Feature sections collapse from two columns to one */
     .feature-inner {
-        grid-template-columns: 1fr;
-
+        grid-template-columns: 1fr !important;
         gap: 32px;
     }
 
     /* Undo the rtl column-swap trick — with only one column,
          the order doesn't need reversing anymore */
     .feature-inner.reverse {
-        direction: ltr;
+        direction: ltr !important;
     }
 
-    /* CTA text and button stack vertically and center */
-    .cta-inner {
-        flex-direction: column;
-
-        text-align: center;
-    }
 
     /* Projects header stacks: heading above the "View all" link */
     .projects-header {
-        flex-direction: column;
-
-        align-items: flex-start;
+        flex-direction: column !important;
+        align-items: flex-start !important;
     }
 
     .photo-columns {
-        column-count: 2;
+        column-count: 2 !important;
     }
 
     .contact-inner {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .contact-form-wrap {
-        padding: 28px 22px;
+        padding: 28px 22px !important;
     }
 }
 
@@ -1768,19 +1764,19 @@ footer strong {
     }
 
     .lightbox-arrow.prev {
-        left: 10px;
+        left: 10px !important;
     }
 
     .lightbox-arrow.next {
-        right: 10px;
+        right: 10px !important;
     }
 
     .photo-columns {
-        column-count: 1;
+        column-count: 1 !important;
     }
 
     .page-hero {
-        padding: 100px 16px 60px;
+        padding: 100px 16px 60px !important;
     }
 }
 
@@ -1789,11 +1785,11 @@ footer strong {
        row contents wrap onto a second line instead of overflowing */
 @media (max-width:480px) {
     .glance-label {
-        width: auto;
+        width: auto !important;
     }
 
     .glance-row {
-        flex-wrap: wrap;
+        flex-wrap: wrap !important;
     }
 
 }
