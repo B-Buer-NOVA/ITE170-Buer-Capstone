@@ -1,6 +1,9 @@
 # ITE170-Buer-Capstone
 ITE 170 Capstone Website upload. Created with template provided by Dr. Gilliam
-https://b-buer-nova.github.io/ITE170-Buer-Capstone/
+
+Live link: https://b-buer-nova.github.io/ITE170-Buer-Capstone/
+
+I did not utilize AI to alter or read the code for the creation of this project.
 
 ## Due Dates
 - m12 initial changes due November 15th; index.html 
