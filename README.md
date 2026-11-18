@@ -6,7 +6,7 @@ Live link: https://b-buer-nova.github.io/ITE170-Buer-Capstone/
 I did not utilize AI to alter or read the code for the creation of this project.
 
 ## Due Dates
-- index.html due November 15th, Sun.
+- index.html due November 15th, Sun. &check;
 - about.html due November 20th, Fri.
 - projects.html due November 24th, Tues.
 - multimedia.html due December 4th, Fri
