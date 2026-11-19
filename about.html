@@ -11,7 +11,7 @@
     .bio-section {
       background: var(--white);
       padding: 100px 24px;
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--purple);
     }
 
     /* Two-column grid: photo column (1fr) narrower than text column (1.3fr).
@@ -48,7 +48,7 @@
       border-radius: 24px;
       object-fit: cover;
       display: block;
-      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      background: color-mix(in srgb, var(--purple) 25%, var(--purpleShadow));
       min-height: 400px;
     }
 
@@ -57,7 +57,7 @@
       width: 100%;
       min-height: 420px;
       border-radius: 24px;
-      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      background: color-mix(in srgb, var(--purple) 25%, var(--purpleShadow));
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -86,7 +86,7 @@
 
     /* Small purple uppercase label ("MY STORY") */
     .bio-text .section-label {
-      color: var(--purple);
+      color: var(--accent);
       font-size: .875rem;
       font-weight: 700;
       letter-spacing: .1em;
@@ -98,17 +98,17 @@
       font-size: 2.4rem;
       font-weight: 900;
       line-height: 1.1;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     .bio-text p {
       font-size: 1.05rem;
-      color: #444;
+      color: var(--mainText);
       line-height: 1.7;
     }
 
     .bio-text strong {
-      color: var(--ink);
+      color: var(--mainText);
     }
 
     /* ===== "AT A GLANCE" QUICK-FACTS CARD ===== */
@@ -116,7 +116,7 @@
     .glance {
       margin-top: 8px;
       background: var(--white);
-      border: 1px solid var(--soft-border);
+      border: 1px solid var(--purple);
       border-radius: 18px;
       padding: 10px 24px;
       box-shadow: 0 10px 28px rgba(0, 0, 0, .06);
@@ -128,7 +128,7 @@
       font-weight: 800;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--purple);
+      color: var(--accent);
       padding: 14px 0 6px;
     }
 
@@ -138,7 +138,7 @@
       align-items: center;
       gap: 16px;
       padding: 14px 0;
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--blue);
     }
 
     /* Square icon badge in one solid color at the start of each row.
@@ -152,8 +152,8 @@
       align-items: center;
       justify-content: center;
       font-size: 1.35rem;
-      color: #fff;
-      background: var(--purple);
+      color: var(--white);
+      background: var(--blue);
       box-shadow: 0 6px 16px color-mix(in srgb, var(--purple) 25%, transparent);
     }
 
@@ -165,145 +165,20 @@
       font-weight: 800;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: #6e6e73;
+      color: var(--accent);
     }
 
     .glance-value {
       font-size: 1.02rem;
       font-weight: 650;
-      color: var(--ink);
-    }
-
-    /* ===== SKILLS SECTION ===== */
-    /* Styles for a skills grid (used on pages that include skill cards) */
-    .skills-section {
-      background: var(--light-bg);
-      padding: 100px 24px;
-      border-top: 1px solid var(--soft-border);
-    }
-
-    .skills-header {
-      max-width: 1180px;
-      margin: 0 auto 52px;
-    }
-
-    /* Section heading in the main color */
-    .skills-header h2 {
-      font-size: 2.4rem;
-      font-weight: 900;
-      margin: 10px 0 14px;
-      color: var(--purple);
-    }
-
-    .skills-header p {
-      font-size: 1.1rem;
-      color: #555;
-      max-width: 520px;
-    }
-
-    /* Responsive card grid: auto-fit + minmax means "fit as many 200px-min
-       columns as will fit, and stretch them evenly" — no media query needed */
-    .skills-grid {
-      max-width: 1180px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    /* One skill card. overflow:hidden keeps the ::before accent bar
-       clipped inside the rounded corners. */
-    .skill-card {
-      background: var(--white);
-      border-radius: 20px;
-      border: 1px solid var(--soft-border);
-      padding: 28px 22px;
-      transition: transform .3s ease, box-shadow .3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Hidden color bar along the card's top edge.
-       transform:scaleX(0) squashes it to zero width; transform-origin:left
-       makes it grow outward from the left edge on hover. */
-    .skill-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--purple);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .4s ease;
-    }
-
-    /* Hover: card floats up and casts a bigger shadow */
-    .skill-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--card-shadow);
-    }
-
-    .skill-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    /* Rounded-square icon on each skill card, one solid color */
-    .skill-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: #fff;
-      background: var(--purple);
-      vertical-align: middle;
-      box-shadow: 0 10px 24px color-mix(in srgb, var(--purple) 28%, transparent);
-      transition: transform .4s cubic-bezier(.2, .8, .2, 1);
-    }
-
-    /* Hover: icon tilts 6 degrees and grows slightly */
-    .skill-card:hover .skill-icon {
-      transform: rotate(-6deg) scale(1.08);
-    }
-
-    .skill-name {
-      display: inline-block;
-      vertical-align: middle;
-      font-weight: 800;
-      font-size: 1.1rem;
-      margin: 0 0 0 12px;
-    }
-
-    .skill-desc {
-      font-size: .9rem;
-      color: #555;
-      line-height: 1.55;
-      margin-top: 14px;
-    }
-
-    /* Thin progress bar under each skill: gray track + solid color fill */
-    .skill-bar-track {
-      height: 4px;
-      background: #e8e8e8;
-      border-radius: 2px;
-      margin-top: 14px;
-    }
-
-    .skill-bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: var(--purple);
+      color: var(--mainText);
     }
 
     /* ===== EDUCATION TIMELINE SECTION ===== */
     .edu-section {
       background: var(--white);
       padding: 100px 24px;
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--blue);
     }
 
     .edu-inner {
@@ -316,7 +191,7 @@
       font-size: 2.4rem;
       font-weight: 900;
       margin: 10px 0 40px;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     /* Timeline entries stacked vertically */
@@ -343,7 +218,7 @@
       top: 40px;
       bottom: 0;
       width: 2px;
-      background: var(--soft-border);
+      background: var(--accent);
     }
 
     /* Round icon dot marking each entry */
@@ -360,16 +235,16 @@
 
     /* "active" dot = current course: solid color with a glowing ring */
     .timeline-dot.active {
-      background: var(--purple);
-      color: #fff;
-      box-shadow: 0 0 0 6px color-mix(in srgb, var(--purple) 15%, transparent), 0 8px 22px color-mix(in srgb, var(--purple) 35%, transparent);
+      background: var(--accent);
+      color: var(--white);
+      box-shadow: 0 0 0 6px var(--purpleMix);
     }
 
     /* "done" dot = completed step: white with a purple outline */
     .timeline-dot.done {
       background: var(--white);
-      color: var(--purple);
-      border: 2px solid var(--purple);
+      color: var(--);
+      border: 2px solid var(--accent);
     }
 
     /* Text beside each dot: date line, title, description */
@@ -386,23 +261,23 @@
 
     .timeline-content .meta {
       font-size: .875rem;
-      color: var(--purple);
+      color: var(--accent-dark);
       font-weight: 600;
       margin-bottom: 8px;
     }
 
     .timeline-content p {
       font-size: .92rem;
-      color: #555;
+      color: var(--mainText);
       line-height: 1.55;
     }
 
     /* ===== VALUES SECTION ===== */
     /* Styles for a "my values" card grid (used on pages that include it) */
     .values-section {
-      background: var(--light-bg);
+      background: var(--paleMintGradient);
       padding: 100px 24px;
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--purple);
     }
 
     .values-inner {
@@ -411,11 +286,11 @@
     }
 
     /* Section heading in the main color */
-    .values-inner h2 {
+    .values-section h2 {
       font-size: 2.4rem;
       font-weight: 900;
       margin: 10px 0 40px;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     /* Responsive grid of value cards (min 260px per column) */
@@ -429,14 +304,14 @@
       background: var(--white);
       border-radius: 20px;
       padding: 32px 26px;
-      border: 1px solid var(--soft-border);
+      border: 1px solid var(--purple);
       transition: transform .3s, box-shadow .3s;
     }
 
     /* Hover: card lifts and gains a shadow */
     .value-card:hover {
       transform: translateY(-6px);
-      box-shadow: var(--card-shadow);
+      box-shadow: var(--purpleShadow);
     }
 
     /* Solid color icon badge at the top of each value card */
@@ -448,7 +323,7 @@
       align-items: center;
       justify-content: center;
       font-size: 2rem;
-      color: #fff;
+      color: var(--white);
       background: var(--purple);
       margin-bottom: 18px;
       box-shadow: 0 12px 28px color-mix(in srgb, var(--purple) 30%, transparent);
@@ -457,13 +332,79 @@
     .value-card h3 {
       font-size: 1.2rem;
       font-weight: 800;
-      margin-bottom: 10px;
+      color: var(--accent);
     }
 
     .value-card p {
-      font-size: .95rem;
-      color: var(--accent);
+      font-size: 1rem;
+      color: var(--mainText);
       line-height: 1.6;
+      margin: 10px 0 20px 0;
+    }
+
+    .value-card .flex-span {
+      /* flexes icon and h3 
+      was originally a span, but had to change to div to validate
+      */
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .value-card i {
+      /* phosphor icons */
+      color: var(--accent);
+      align-self: center;
+      background: var(--purple);
+      font-size: 2rem;
+      padding: .5rem;
+      border-radius: 25px;
+    }
+
+    .value-card a {
+      /* link to a personal project */
+      display: flex;
+      align-self: center;
+      justify-content: center;
+      padding: .5rem 1rem;
+      background: var(--paleMintGradient);
+
+      /* border */
+      border: 1px solid var(--purple);
+      border-radius: 25px;
+
+      /* text and fonts  */
+      font-size: 1rem;
+      font-weight: 700;
+      text-wrap: nowrap;
+      text-decoration: solid underline 3px;
+      text-transform: capitalize;
+      color: var(--accent);
+
+      /* animation */
+      transition: linear .5s;
+    }
+
+    .value-card a:hover {
+      /* animation for external link / button */
+      font-weight: 800;
+      box-shadow: 0 5px 12px var(--purpleMix);
+    }
+
+    /* id linked to article about future plans  */
+    #beyond {
+      /* space it occupies */
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 860px;
+      /* 100 pixels wider than timeline above */
+      background: var(--thirtyFive);
+
+      /* border */
+      border: 1px solid var(--purple);
+      border-radius: 15px;
+      box-shadow: 0px 12px 15px var(--purpleMix);
     }
   </style>
 
@@ -560,7 +501,7 @@
           About Me
         </span>
         <h1>Hi, I'm Your Name</h1>
-        <p>Student at NOVA · Multimedia creator · ITE 170 Capstone</p>
+        <p>Student at NOVA &sdot; Multimedia creator &sdot; ITE 170 Capstone</p>
 
         <!-- Row of decorative circular icons under the intro text -->
         <div class="page-hero-icons" aria-hidden="true">
@@ -582,8 +523,7 @@
              "fade-up" makes it animate in when scrolled into view -->
         <div class="bio-photo fade-up">
           <div class="bio-photo-frame">
-            <img src="https://placehold.co/600x620/e8e8ed/86868b?text=Profile%5CnPhoto" alt="Profile photo placeholder"
-              loading="lazy">
+            <img src="images/berry_selfie.jpg" alt="a selfie of Berry Buer" loading="lazy">
           </div>
         </div>
 
@@ -593,7 +533,7 @@
           <!-- Small uppercase label above the heading -->
           <span class="section-label">My Story</span>
 
-          <h2>Your Full Name</h2>
+          <h2>Berry Buer</h2>
 
           <p>
             Write your first paragraph here. Tell visitors who you are —
@@ -610,7 +550,6 @@
             hobbies, interests, what you do outside of class. Let your
             personality come through.
           </p>
-
           <!-- "At a glance" card: quick facts, one icon + label + value per row -->
           <div class="glance">
             <div class="glance-title">At a glance</div>
@@ -621,21 +560,70 @@
             </div>
             <div class="glance-row">
               <i class="ph ph-graduation-cap" aria-hidden="true"></i>
-              <span class="glance-label">Program</span>
-              <span class="glance-value">IT / Multimedia</span>
+              <span class="glance-label">Programs</span>
+              <span class="glance-value">Visual Arts Major &ndash; IT and Web Development</span>
             </div>
             <div class="glance-row">
               <i class="ph ph-star" aria-hidden="true"></i>
               <span class="glance-label">Semester</span>
-              <span class="glance-value">This semester</span>
+              <span class="glance-value">Fall 2026</span>
             </div>
             <div class="glance-row">
               <i class="ph ph-lightbulb" aria-hidden="true"></i>
               <span class="glance-label">Passion</span>
-              <span class="glance-value">Multimedia</span>
+              <span class="glance-value">Creation</span>
             </div>
           </div>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== values section ===== -->
+    <!-- i noticed there was CSS for this section that didn't apply anywhere, so i'm using it here -->
+    <section class="values-section fade-up">
+      <h2>My Values</h2>
+      <div class="values-grid values-inner">
+
+        <!-- card 1 -->
+        <div class="value-card">
+          <div class="flex-span"><i class="ph-duotone ph-rainbow"></i>
+            <h3>Empathy</h3>
+          </div>
+          <p>I do my best to be understanding and kind. For me, empathy is about putting yourself in someones shoes and
+            understanding their self and circumstances for what they do. </p>
+          <p>I wouldn't call myself an Empath, but I do my best to be empathetic</p>
+        </div>
+
+        <!-- card 2 -->
+        <div class="value-card">
+          <div class="flex-span"><i class="ph-duotone ph-brain"></i>
+            <h3>Knowledge is Power</h3>
+          </div>
+          <p>I love fun facts, and I'm generally very fascinated by every topic there is to know. I love downloading
+            interesting articles and essays from JSTOR as well as any eBooks I can get my hands on.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="value-card">
+          <div class="flex-span"><i class="ph ph-prohibit"></i>
+            <h3>Anti-AI</h3>
+          </div>
+          <p>Personally, I am staunchly Anti-AI. This semester has been a tax on my integrity as I've had assignments
+            that required the use of AI in two of the courses I'm taking. I find using AI in my workflow to be highly
+            unsatisfying, and I am going to contact my representatives about data centers in Virginia.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="value-card">
+          <div class="flex-span"><i class="ph-duotone ph-share-network"></i>
+            <h3>Sharing is Caring</h3>
+          </div>
+          <p>As a frugal individual, I've searched high and low for free software for Windows (the operating platform I
+            use). The link below is a personal project (mostly unfinished) that contains short descriptions and
+            hyperlinks to software I've used over the years. </p>
+          <a href="https://b-buer-nova.github.io/awesome-software-i-love/" rel="noreferrer" target="_blank">Free
+            Software I love</a>
         </div>
       </div>
     </section>
@@ -649,45 +637,61 @@
         <h2 class="fade-up">My learning journey</h2>
 
         <div class="timeline">
+          <!-- #1 -->
+          <div class="timeline-item fade-up">
+            <div class="timeline-dot done"><i class="ph ph-check" aria-hidden="true"></i></div>
+            <div class="timeline-content">
+              <div class="meta">Summer 2023 &ndash; NOVA Bridge Program</div>
+              <h3>What brought you to IT?</h3>
+              <p>During Summer 2023, I joined the 'NOVA Bridge Program' which offered high schoolers
+                the chance to explore the Information Technology or Computer Science fields at the NOVA campuses. I took
+                the IT Program, and I discovered a love for coding and creating websites!
+              </p>
+            </div>
+          </div> <!-- #1 -->
 
-          <!-- Timeline entry 1: the current course (highlighted dot) -->
+          <!-- #2-->
+          <div class="timeline-item fade-up">
+            <div class="timeline-dot done"><i class="ph ph-check" aria-hidden="true"></i></div>
+            <div class="timeline-content">
+              <div class="meta">Fall 2024</div>
+              <h3>My Start at NOVA</h3>
+              <p>I graduated high school as a Magna Cum Laude in May 2026, and I started attending NOVA in August for
+                the Fall 2024 semester. I enrolled into the Visual Arts Associate's program as well as career
+                certificates in Application Programming and Web Design and Development.</p>
+            </div>
+          </div> <!-- #2 -->
+
+          <!-- #3 -->
+          <div class="timeline-item fade-up">
+            <div class="timeline-dot done"><i class="ph ph-check" aria-hidden="true"></i></div>
+            <div class="timeline-content">
+              <div class="meta">Summer 2026</div>
+              <h3>A Completed Certificate!</h3>
+              <p>I finished my Application Programming Career Certificate in Summer 2026! I finally received the
+                physical certificate a week ago. I learned Python coding, and I'm interested in learning JAVA as well
+                (even though it wouldn't count to any credit hours or requirements).</p>
+            </div>
+          </div> <!-- #3 -->
+
+          <!-- #4 -->
           <div class="timeline-item fade-up">
             <div class="timeline-dot active"><i class="ph ph-star" aria-hidden="true"></i></div>
             <div class="timeline-content">
-              <div class="meta">This semester</div>
-              <h3>ITE 170 — Multimedia Capstone</h3>
-              <p>
-                A capstone focused on multimedia: an original Suno song, a
-                short video, original images, a poster, a midterm exam
-                project, and three Canva Design School certificates.
-              </p>
+              <div class="meta">Fall 2026 &ndash; Current Semester</div>
+              <h3>ITE 170 &ndash; Multimedia Software</h3>
+              <p></p>
             </div>
-          </div>
+          </div> <!-- #4 -->
 
-          <!-- Timeline entry 2: a completed course or experience (check-mark dot) -->
-          <div class="timeline-item fade-up">
-            <div class="timeline-dot done"><i class="ph ph-check" aria-hidden="true"></i></div>
-            <div class="timeline-content">
-              <div class="meta">Earlier</div>
-              <h3>Previous Course or Experience</h3>
-              <p>Describe what you learned or did here. Could be a previous course, job, or project that brought you to
-                this point.</p>
-            </div>
-          </div>
+        </div> <!-- full timeline div -->
 
-          <!-- Timeline entry 3: background before NOVA (check-mark dot) -->
-          <div class="timeline-item fade-up">
-            <div class="timeline-dot done"><i class="ph ph-check" aria-hidden="true"></i></div>
-            <div class="timeline-content">
-              <div class="meta">Before NOVA</div>
-              <h3>What brought you to multimedia?</h3>
-              <p>Talk about your background — where you started, what sparked your interest in music, video, or design.
-              </p>
-            </div>
-          </div>
-
-        </div>
       </div>
+
+      <article id="beyond" class="fade-up">
+        <h3>beyond NOVA</h3>
+        <p>[post graduation hopes]</p>
+      </article>
     </section>
 
     <!-- ===== CALL-TO-ACTION BAND: invites visitors to the Projects page ===== -->

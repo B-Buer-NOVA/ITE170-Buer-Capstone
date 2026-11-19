@@ -1,5 +1,4 @@
 # projects.html content drafting
-oh by the way, the multimedia capstone section doesn't flex correctly; check the CSS
 
 ## My Multimedia Capstone
 [Describe your capstone in your own words. What story did you want to tell across your song, video, images, and poster? What was hardest, and what are you most proud of?]

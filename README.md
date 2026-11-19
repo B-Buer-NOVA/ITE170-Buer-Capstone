@@ -23,3 +23,9 @@ tailored :root section and changed any non-variable colors to a variable in the 
 - added major content to home page or index.html
 - personalized text content
 - added image files
+
+### November 18th
+- drafted content for webpages
+- added some images to project.html
+- added content and new section to about.html
+- fixed grid error on project.html
