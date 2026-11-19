@@ -4,42 +4,14 @@ id or class specific tags can go into internal css for each doc
 
 the index.css header doesn't match the rest of the headers
 */
-.thumb-gradient-purple {
-    background: linear-gradient(135deg, rgb(128, 64, 112), rgb(74, 144, 226));
-}
-
-.thumb-gradient-sunset {
-    background: linear-gradient(135deg, #ff7a59, #ffb347, #ffd86b);
-}
-
-.thumb-gradient-mint {
-    background: linear-gradient(135deg, #10b981, #06b6d4);
-}
-
-.thumb-gradient-ink {
-    background: linear-gradient(135deg, #1f1f3a, #5a2c4f);
-}
-
-/* Optional solid-color thumbnail backgrounds */
-.thumb-solid-purple {
-    background: var(--purple);
-}
-
-.thumb-solid-blue {
-    background: var(--blue);
-}
-
-.thumb-solid-ink {
-    background: var(--accent-dark);
-}
 
 :root {
     /* fill with our own colors and whatnot */
-    --test: rgb(255, 0, 255);
+    --test: rgb(255, 0, 175);
     --bg: rgba(0, 0, 255, .2);
     --light-bg: rgba(0, 200, 175, .1);
     --white: rgb(255, 255, 255);
-    --purple: rgb(233, 212, 255);
+    --purple: rgb(233, 212, 255); /* some elements have poor visibility because they have this color; replace them with var(--accent) */
     --purpleShadow: rgb(50, 0, 100);
     --accent-dark: rgb(10, 0, 15);
     --accent: rgb(88, 24, 152);
@@ -50,12 +22,19 @@ the index.css header doesn't match the rest of the headers
     --whiteLight: rgba(225, 255, 255, .8);
     --shadow: rgba(0, 0, 0, 0.1);
     --card-shadow: 0 18px 45px var(--shadow);
-    --soft-border: rgb(224, 224, 229);
 
     --mainText: rgb(5, 5, 5);
 
     --skillGradient: linear-gradient(90deg, var(--accent) 0%, rgb(147, 197, 253) 40%, rgb(255, 255, 255) 50%, rgb(147, 197, 253) 60%, var(--accent) 100%);
-    --thirtyFive: linear-gradient(135deg, rgb(8, 13, 42), rgb(10, 31, 58));
+    --darkBlueFade: linear-gradient(135deg, rgb(8, 13, 42), rgb(10, 31, 58));
+    --purpleMix: color-mix(in srgb, var(--purple) 15%, transparent), 0 8px 22px color-mix(in srgb, var(--accent) 35%, transparent);
+
+    /* thumb gradients */
+    --mintGradient: linear-gradient(135deg, rgb(16, 185, 129), rgb(6, 182, 212));;
+    --paleMintGradient: linear-gradient(135deg, rgba(16, 185, 129, .3), rgba(6, 182, 212, .3));;
+    --duskGradient: linear-gradient(135deg, rgb(128, 64, 112), rgb(74, 144, 226));;
+    --sunsetGradient: linear-gradient(135deg, rgb(255, 122, 89), rgb(255, 179, 71), rgb(255, 216, 107));
+    --midnightGradient: linear-gradient(135deg, rgb(31, 31, 58), rgb(90, 44, 79));
 }
 
 /* ===== RESET & BASE STYLES ===== */
@@ -371,6 +350,10 @@ footer a {
 /* Footer name, slightly brighter than the rest of the footer line */
 footer strong {
     color: var(--whiteLight);
+}
+
+h2 {
+    text-transform: capitalize;
 }
 
 /* Site logo text ("YourName") in the top-left corner */
@@ -1428,7 +1411,7 @@ footer strong {
     height: 200px;
     position: relative;
     overflow: hidden;
-    background: var(--thirtyFive);
+    background: var(--darkBlueFade);
 }
 
 /* Thumbnail image fills its box; object-fit: cover crops instead of
@@ -1545,7 +1528,7 @@ footer strong {
 .skill-card {
     background: var(--white);
     border-radius: 18px;
-    border: 1px solid var(--soft-border);
+    border: 1px solid var(--purple);
     padding: 28px 22px;
 
     transition: transform .3s, box-shadow .3s;
@@ -1605,7 +1588,7 @@ footer strong {
 /* White strip near the bottom of the page ("Let's connect.") */
 .cta-band {
     background: var(--white);
-    border-top: 1px solid var(--soft-border);
+    border-top: 1px solid var(--purple);
     padding: 80px 24px;
 }
 
