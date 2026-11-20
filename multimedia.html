@@ -41,7 +41,7 @@
 
     .scrolling-strip::after {
       right: 0;
-      background: linear-gradient(-90deg, #050509, transparent);
+      background: linear-gradient(-90deg, var(--accent-dark), transparent);
     }
 
     /* The row of tiles. width:max-content lets it grow as wide as its
@@ -790,6 +790,8 @@
     .video-card {
       transition: transform .35s cubic-bezier(.2, .8, .2, 1),
         box-shadow .35s ease;
+      max-width: 800px;
+      margin: auto;
     }
 
     .video-card:hover {
@@ -844,6 +846,28 @@
       transform: translateY(-4px);
       box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
       border-color: color-mix(in srgb, var(--purple) 30%, transparent);
+    }
+
+    .video-card a {
+      padding: .5rem 1rem;
+      background: var(--purple);
+
+      /* border */
+      border: 1px solid var(--accent);
+      border-radius: 25px;
+
+      /* text and fonts  */
+      text-decoration: solid underline 2px;
+      text-transform: capitalize;
+      color: var(--accent-dark);
+
+      /* animation */
+      transition: box-shadow .3s linear;
+    }
+
+    .video-card a:hover {
+      /* animation for external link / button */
+      box-shadow: 0 5px 12px var(--purpleMix);
     }
   </style>
 
@@ -962,13 +986,12 @@
           <div class="video-card fade-up">
             <!-- HTML5 video player. poster = the placeholder image shown
                  before the video plays (swap in a still from your video). -->
-            <video controls preload="metadata"
-              poster="https://placehold.co/1280x720/e8e8ed/86868b?text=Video+Poster+Image" src="media/my-video.mp4">
+            <video controls preload="metadata" src="media/capstone_video.mp4" poster="images/capstone_poster.png">
               Your browser does not support the video element.
             </video>
             <!-- Text portion of the card -->
             <div class="video-card-body">
-              <h3>My Video Title</h3>
+              <h3>My Capstone Video</h3>
               <p>Describe what this video is about — the story you were trying to tell, how you made it, and what you
                 learned in the process.</p>
               <!-- Small pill-shaped badges listing the tools used -->
@@ -980,6 +1003,21 @@
             </div>
           </div>
 
+          <div class="video-card fade-up">
+            <video controls preload="metadata" src="media/playmusictheory_demo.mp4" poster="images/demo_poster.png">
+              Your browser does not support the video element.
+            </video>
+            <div class="video-card-body">
+              <h3>Play Music Theory Demo</h3>
+              <p>A friend recommended this website to be when I was complaining about the AI music assignment to them. It was a paywall blocking major setting including exporting the song, but I find that recording your screen with OBS or other such software works just as fine. It's really fun to make little tunes with!</p>
+              <a href="https://playmusictheory.net/play" target="_blank" rel="noreferrer">Play Music Theory<span style="font-size:1.5rem;">&nearr;</span></a>
+              <!-- Small pill-shaped badges listing the tools used -->
+              <div class="video-tools">
+                <span class="tool-badge">Music Creation</span>
+                <span class="tool-badge">Screen Recording</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1110,7 +1148,7 @@
         <div class="tools-grid">
           <div class="tool-card">
             <div class="tool-icon"><i class="ph ph-music-notes" aria-hidden="true"></i></div>
-            <div class="tool-name">AI Music (Suno)</div>
+            <div class="tool-name"></div>
           </div>
           <div class="tool-card">
             <div class="tool-icon"><i class="ph ph-film-slate" aria-hidden="true"></i></div>
@@ -1126,7 +1164,7 @@
           </div>
           <div class="tool-card">
             <div class="tool-icon"><i class="ph ph-sparkle" aria-hidden="true"></i></div>
-            <div class="tool-name">Prompt Writing</div>
+            <div class="tool-name"></div>
           </div>
           <div class="tool-card">
             <div class="tool-icon"><i class="ph ph-certificate" aria-hidden="true"></i></div>

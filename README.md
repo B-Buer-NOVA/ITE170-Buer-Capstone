@@ -9,8 +9,9 @@ I did not utilize AI to alter or read the code for the creation of this project.
 - __&check;__ index.html due November 15th, Sun.
 - about.html due November 20th, Fri.
 - projects.html due November 24th, Tues.
-- multimedia.html due December 4th, Fri
-- contact.html due December 10th, Thurs.
+- multimedia.html due November 30th, 
+- contact.html due December 4th, Fri
+- final deployment due December 10th, Thurs.
 
 ## major changes to template
 Condensed majority of CSS into one file for easy editing
@@ -29,3 +30,8 @@ tailored :root section and changed any non-variable colors to a variable in the 
 - added some images to project.html
 - added content and new section to about.html
 - fixed grid error on project.html
+
+### November 19th
+- finished content additions for about.html and projects.html
+- added media content for multimedia.html
+- fixed some grid flexing issues

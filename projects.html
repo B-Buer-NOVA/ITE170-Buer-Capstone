@@ -51,13 +51,13 @@
       height: 220px;
       position: relative;
       overflow: hidden;
-      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      background: color-mix(in srgb, var(--purple) 25%, var(--accent-dark));
     }
 
     /* Variant: a gradient background instead of a photo. var() with a
        fallback lets each card override --thumb-grad for its own colors. */
     .card-thumb.thumb-gradient {
-      background: var(--thumb-grad, color-mix(in srgb, var(--purple) 25%, #0c0c12));
+      background: var(--thumb-grad, color-mix(in srgb, var(--purple) 25%, var(--accent-dark)));
     }
 
     /* The thumbnail image fills its box; object-fit:cover crops instead
@@ -78,7 +78,7 @@
 
     /* Video thumbnails get a black background behind the video */
     .card-thumb.thumb-video .thumb-media {
-      background: #000;
+      background: var(--mainText);
     }
 
     /* Same fill + zoom behavior for plain <img> children of the thumb
@@ -102,8 +102,8 @@
       left: 14px;
       padding: 5px 13px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, .65);
-      color: #fff;
+      background: var(--card-shadow);
+      color: var(--white);
       font-size: .875rem;
       font-weight: 600;
       letter-spacing: .04em;
@@ -125,17 +125,17 @@
     /* Status colors: green = done, yellow = in progress, gray = planned */
     .card-status.done {
       background: rgba(22, 163, 74, .8);
-      color: #fff;
+      color: var(--white);
     }
 
     .card-status.progress {
       background: rgba(234, 179, 8, .85);
-      color: #000;
+      color: var(--test);
     }
 
     .card-status.planned {
       background: rgba(0, 0, 0, .5);
-      color: #fff;
+      color: var(--white);
     }
 
     /* Text area of a card (title, description, tags) */
@@ -153,7 +153,7 @@
     /* Card description text */
     .card-body p {
       font-size: .92rem;
-      color: #555;
+      color: var(--test);
       line-height: 1.55;
       margin-bottom: 16px;
     }
@@ -173,7 +173,7 @@
       border: 1px solid var(--soft-border);
       font-size: .875rem;
       font-weight: 600;
-      color: #555;
+      color: var(--test);
     }
 
     /* Optional "View project →" link at the bottom of a card. The gap
@@ -233,28 +233,28 @@
 
     /* On the dark overlay, titles are white... */
     .card-poster .card-body h3 {
-      color: #fff;
+      color: var(--white);
     }
 
     /* ...and body text is translucent white */
     .card-poster .card-body p {
-      color: rgba(255, 255, 255, .8);
+      color: var(--whiteLight);
     }
 
     /* Tech pills switch to a frosted white-on-dark look */
     .card-poster .tech-tag {
       background: rgba(255, 255, 255, .14);
       border-color: rgba(255, 255, 255, .28);
-      color: #fff;
+      color: var(--white);
     }
 
     /* Links get a light blue that reads on the dark background */
     .card-poster .card-link {
-      color: #9ec5ff;
+      color: var(--test);
     }
 
     .card-poster .card-link:hover {
-      color: #fff;
+      color: var(--white);
     }
 
 
@@ -294,7 +294,7 @@
       height: auto;
       object-fit: contain;
       /* whole image, no cropping */
-      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      background: color-mix(in srgb, var(--purple) 25%, var(--accent-dark));
     }
 
     /* Fallback box shown if there is no image yet — dark gradient with
@@ -302,13 +302,13 @@
     .featured-placeholder {
       width: 100%;
       min-height: 360px;
-      background: color-mix(in srgb, var(--purple) 25%, #0c0c12);
+      background: color-mix(in srgb, var(--purple) 25%, var(--accent-dark));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      color: rgba(255, 255, 255, .3);
+      color: var(--whiteLight);
       text-align: center;
       padding: 24px;
     }
@@ -331,8 +331,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--purple);
-      color: #fff;
+      background: var(--accent);
+      color: var(--white);
       padding: 6px 16px;
       border-radius: 999px;
       font-size: .875rem;
@@ -351,7 +351,7 @@
 
     .featured-text p {
       font-size: 1.05rem;
-      color: #444;
+      color: var(--mainText);
       line-height: 1.7;
     }
 
@@ -369,14 +369,14 @@
       align-items: flex-start;
       gap: 10px;
       font-size: .95rem;
-      color: #333;
+      color: var(--accent-dark);
     }
 
     /* Adds a purple checkmark in front of each list item using a
        ::before pseudo-element instead of a normal bullet. */
     .outcomes li::before {
       content: "✓";
-      color: var(--purple);
+      color: var(--blue);
       font-weight: 700;
       flex-shrink: 0;
       margin-top: 1px;
@@ -387,7 +387,7 @@
     /* White band holding the three certificate cards */
     .cert-section {
       background: var(--white);
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--purple);
       padding: 80px 24px;
     }
 
@@ -408,7 +408,7 @@
       font-weight: 700;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     .cert-header h2 {
@@ -420,7 +420,7 @@
 
     .cert-header p {
       font-size: 1.05rem;
-      color: #555;
+      color: var(--accent-dark);
       max-width: 560px;
     }
 
@@ -446,7 +446,7 @@
     .cert-card:hover {
       transform: translateY(-6px);
       border-color: color-mix(in srgb, var(--purple) 35%, transparent);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10), 0 0 0 3px color-mix(in srgb, var(--purple) 8%, transparent);
+      box-shadow: 0 18px 40px var(--purpleMix);
     }
 
     /* Certificate image area. aspect-ratio 1.414/1 matches a landscape
@@ -465,7 +465,7 @@
       height: 100%;
       object-fit: contain;
       border-radius: 10px;
-      background: #fff;
+      background: var(--white);
       transition: transform .45s ease;
     }
 
@@ -491,7 +491,7 @@
       font-weight: 700;
       letter-spacing: .06em;
       text-transform: uppercase;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     .cert-issuer i {
@@ -506,7 +506,7 @@
 
     .cert-date {
       font-size: .88rem;
-      color: #666;
+      color: var(--accent-dark);
     }
 
     /* "View certificate" link — margin-top:auto pins it to the bottom so
@@ -519,7 +519,7 @@
       gap: 6px;
       font-size: .9rem;
       font-weight: 600;
-      color: var(--purple);
+      color: var(--accent);
       text-decoration: none;
       transition: color .2s, gap .2s;
     }
@@ -714,8 +714,7 @@
       <!-- Full-bleed background image for the hero. It is decorative,
            so alt="" and aria-hidden="true" hide it from screen readers.
            (Currently a placeholder image — swap in your own.) -->
-      <img class="page-hero-media" src="https://placehold.co/1600x900/e8e8ed/86868b?text=Projects%5CnHero" alt=""
-        aria-hidden="true">
+      <img class="page-hero-media" src="images/planet_cutouts.png" alt="screenshot of FireAlpaca" aria-hidden="true">
 
       <!-- Text that sits on top of the hero image -->
       <div class="page-hero-content">
@@ -748,16 +747,12 @@
           <!-- Thumbnail image area. loading="lazy" tells the browser to
                wait to download the image until it's about to be seen. -->
           <div class="card-thumb thumb-image">
-            <img class="thumb-media" src="images/posters/apple_alt.png"
-              alt="Apple Orchard Poster" loading="lazy">
+            <img class="thumb-media" src="images/posters/apple_alt.png" alt="Apple Orchard Poster" loading="lazy">
           </div>
           <!-- Card text: title, description, and skill tags -->
           <div class="card-body">
-            <h3>Poster</h3>
-            <p>
-              A poster designed for the capstone — practicing layout,
-              color, typography, and visual hierarchy.
-            </p>
+            <h3>Apple Orchard Poster</h3>
+            <p>A recreation of a previous poster of the same subject by changing the layout.</p>
             <!-- Small pill labels listing the skills/tools used -->
             <div class="card-tags">
               <span class="tech-tag">Design</span>
@@ -770,20 +765,21 @@
         <!-- PROJECT CARD 2: Midterm Exam (HTML/CSS project) -->
         <div class="project-card card-poster fade-up" data-category="multimedia">
           <div class="card-thumb thumb-image">
-            <img class="thumb-media" src="images/posters/midterm_poster.png"
-              alt="Midterm Planetarium Poster" loading="lazy">
+            <img class="thumb-media" src="images/posters/midterm_poster.png" alt="Midterm Planetarium Poster"
+              loading="lazy">
           </div>
           <div class="card-body">
             <h3>Midterm Exam</h3>
             <p>
-              My midterm exam — a multimedia project that pulls together
+              My midterm exam&colon; a multimedia project that pulls together
               the design, image, and editing skills from the first half
-              of the semester.
+              of the semester. It was a fun excuse to use FireAlpaca too! I haven't had the time to make digital art in a bit.
             </p>
             <div class="card-tags">
               <span class="tech-tag">Multimedia</span>
               <span class="tech-tag">Image Editing</span>
               <span class="tech-tag">Design</span>
+              <span class="tech-tag">Original Art</span>
             </div>
           </div>
         </div>
@@ -875,8 +871,8 @@
 
         <!-- Left column: large screenshot/image of the project -->
         <div class="featured-visual">
-          <img src="https://placehold.co/900x560/e8e8ed/86868b?text=Capstone+Project"
-            alt="Capstone project placeholder — replace with an image of your work" loading="lazy">
+          <img src="images/capstone_poster.png"
+            alt="Capstone video poster" loading="lazy">
         </div>
 
         <!-- Right column: text about the featured project -->
@@ -885,16 +881,11 @@
           <div class="featured-badge"><i class="ph-fill ph-star" aria-hidden="true"></i> Capstone Project</div>
 
           <h2>My Multimedia Capstone</h2>
-
-          <p>
-            Describe your capstone in your own words. What story did you
-            want to tell across your song, video, images, and poster?
-            What was hardest, and what are you most proud of?
-          </p>
+          <p>Not my best work, but a short video exploring what I had made up till that point. I also tried animating my introduction sequence by hand, and sadly I didn't have enough time to finish.</p>
 
           <!-- Checkmark list of accomplishments (the ✓ comes from CSS) -->
           <ul class="outcomes">
-            <li>Created an original song with Suno</li>
+            <li>Explored audio production programs</li>
             <li>Produced and edited a short video</li>
             <li>Created and edited original images</li>
             <li>Designed a poster and earned three Canva certificates</li>
@@ -920,7 +911,7 @@
       <div class="cta-inner fade-up">
         <div class="cta-text">
           <h2>Want to see my multimedia work?</h2>
-          <p>My Suno song, video, and the images I created this semester.</p>
+          <p>My music, video, and the images I created this semester.</p>
         </div>
         <a href="multimedia.html" class="btn-primary">Explore Multimedia <i class="ph ph-arrow-right"
             aria-hidden="true"></i></a>
