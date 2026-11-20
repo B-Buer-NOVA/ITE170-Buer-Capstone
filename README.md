@@ -7,8 +7,8 @@ I did not utilize AI to alter or read the code for the creation of this project.
 
 ## Due Dates
 - __&check;__ index.html due November 15th, Sun.
-- about.html due November 20th, Fri.
-- projects.html due November 24th, Tues.
+- __&check;__ about.html due November 20th, Fri.
+- __&check;__ projects.html due November 24th, Tues.
 - multimedia.html due November 30th, 
 - contact.html due December 4th, Fri
 - final deployment due December 10th, Thurs.
