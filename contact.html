@@ -13,7 +13,7 @@
     .contact-section {
       background: var(--white);
       padding: 80px 24px 100px;
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--accent);
     }
 
     /* Two-column CSS Grid: left column (info) is 1 share wide,
@@ -42,7 +42,7 @@
       font-weight: 700;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--purple);
+      color: var(--accent);
       margin-bottom: 6px;
     }
 
@@ -56,7 +56,7 @@
 
     .contact-info p {
       font-size: 1.05rem;
-      color: #444;
+      color: var(--mainText);
       line-height: 1.7;
     }
 
@@ -71,7 +71,7 @@
       padding: 22px 24px;
       border-radius: 18px;
       background: var(--light-bg);
-      border: 1px solid var(--soft-border);
+      border: 1px solid var(--accent);
       transition: transform .3s, box-shadow .3s;
     }
 
@@ -89,18 +89,18 @@
       width: 72px;
       height: 72px;
       border-radius: 18px;
-      background: var(--purple);
+      background: var(--accent);
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      color: #fff;
+      color: var(--white);
       box-shadow: 0 10px 24px color-mix(in srgb, var(--purple) 28%, transparent);
     }
 
     /* Sizes the Phosphor icon font inside the tile */
     .method-icon i {
       display: block;
-      color: #fff;
+      color: var(--purple);
       font-size: 2.25rem;
       line-height: 1;
     }
@@ -115,7 +115,7 @@
     .method-info .method-type {
       font-size: .875rem;
       font-weight: 700;
-      color: var(--purple);
+      color: var(--accent);
       letter-spacing: .06em;
       text-transform: uppercase;
       margin-bottom: 2px;
@@ -124,7 +124,7 @@
     .method-info .method-value {
       font-size: .95rem;
       font-weight: 500;
-      color: #111;
+      color: var(--accent);
     }
 
     /* Links inside cards are blue; underline only on hover */
@@ -143,10 +143,10 @@
     /* White rounded card that contains the whole form */
     .contact-form-wrap {
       background: var(--white);
-      border: 1px solid var(--soft-border);
+      border: 1px solid var(--blue);
       border-radius: 24px;
       padding: 40px 36px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 8px 32px var(--shadow);
     }
 
     /* "Send a message" heading and the smaller line under it */
@@ -158,7 +158,7 @@
 
     .form-subtitle {
       font-size: .92rem;
-      color: #666;
+      color: var(--mainText);
       margin-bottom: 28px;
     }
 
@@ -174,7 +174,7 @@
     .form-group label {
       font-size: .88rem;
       font-weight: 600;
-      color: #333;
+      color: var(--accent-dark);
     }
 
     /* Shared look for text boxes, the drop-down, and the textarea.
@@ -187,10 +187,10 @@
       width: 100%;
       padding: 13px 16px;
       border-radius: 12px;
-      border: 1.5px solid var(--soft-border);
+      border: 1.5px solid var(--accent);
       font-size: .95rem;
       font-family: inherit;
-      color: var(--ink);
+      color: var(--accent-dark);
       background: var(--white);
       outline: none;
       transition: border-color .2s, box-shadow .2s;
@@ -202,7 +202,7 @@
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-      border-color: var(--purple);
+      border-color: var(--blue);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--purple) 12%, transparent);
     }
 
@@ -225,8 +225,8 @@
       padding: 15px;
       border-radius: 12px;
       border: none;
-      background: var(--purple);
-      color: #fff;
+      background: var(--accent);
+      color: var(--white);
       font-size: 1rem;
       font-weight: 600;
       font-family: inherit;
@@ -237,7 +237,7 @@
 
     /* Hover: darker purple, lifts up 2px, glowing shadow */
     .btn-submit:hover {
-      background: var(--accent-dark);
+      background: var(--primaryGradient);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px color-mix(in srgb, var(--purple) 35%, transparent);
     }
@@ -253,9 +253,8 @@
     /* Light gray centered band under the contact form */
     .social-section {
       background: var(--light-bg);
-      border-top: 1px solid var(--soft-border);
+      border-top: 1px solid var(--accent);
       padding: 60px 24px;
-      text-align: center;
     }
 
     .social-inner {
@@ -271,7 +270,7 @@
 
     .social-inner p {
       font-size: 1rem;
-      color: #555;
+      color: var(--mainText);
       margin-bottom: 32px;
     }
 
@@ -294,9 +293,9 @@
       padding: 14px 26px;
       border-radius: 999px;
       background: var(--white);
-      border: 1px solid var(--soft-border);
+      border: 1px solid var(--blue);
       text-decoration: none;
-      color: var(--ink);
+      color: var(--blue);
       font-weight: 600;
       font-size: 1rem;
       transition: transform .25s, box-shadow .25s, border-color .25s;
@@ -306,16 +305,15 @@
     .social-link:hover {
       transform: translateY(-4px);
       box-shadow: var(--card-shadow);
-      border-color: var(--purple);
+      border-color: var(--accent);
     }
 
     /* Purple icon inside the pill, centered with grid */
     .social-link-icon {
       display: grid;
-      place-items: center;
       font-size: 1.6rem;
       line-height: 1;
-      color: var(--purple);
+      color: var(--blue);
     }
 
     .social-link-icon i {
@@ -337,7 +335,7 @@
     .success-message {
       display: none;
       background: var(--light-bg);
-      border: 1.5px solid #22c55e;
+      border: 1.5px solid var(--blue);
       border-radius: 16px;
       padding: 24px;
       text-align: center;
@@ -351,13 +349,13 @@
     /* Dark green heading and text inside the box */
     .success-message h3 {
       font-size: 1.2rem;
-      color: #166534;
+      color: var(--accent);
       margin-bottom: 6px;
     }
 
     .success-message p {
       font-size: .92rem;
-      color: #166534;
+      color: var(--accent-dark);
     }
 
     /* Refines the contact-card hover (overrides the earlier version):
@@ -369,7 +367,7 @@
 
     .contact-method:hover {
       transform: translateY(-4px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 14px 32px var(--shadow);
       border-color: color-mix(in srgb, var(--purple) 35%, transparent);
     }
 
@@ -537,19 +535,19 @@
             <div class="method-icon"><i class="ph ph-graduation-cap" aria-hidden="true"></i></div>
             <div class="method-info">
               <div class="method-type">Institution</div>
-              <div class="method-value">NOVA Annandale · ITE 170</div>
+              <div class="method-value">NOVA Online &sdot; ITE 170</div>
             </div>
           </div>
 
           <!-- Contact card: LinkedIn profile. target="_blank" opens a new tab;
                rel="noopener" is a security best practice for new-tab links. -->
           <div class="contact-method">
-            <div class="method-icon"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></div>
+            <div class="method-icon"><i class="ph ph-github-logo" aria-hidden="true"></i></div>
             <div class="method-info">
-              <div class="method-type">LinkedIn</div>
+              <div class="method-type">GitHub</div>
               <div class="method-value">
-                <a href="#" target="_blank" rel="noopener">My LinkedIn profile <i class="ph ph-arrow-right"
-                    aria-hidden="true"></i></a>
+                <a href="https://github.com/B-Buer-NOVA" target="_blank" rel="noopener">My GitHub Profile <i
+                    class="ph ph-arrow-right" aria-hidden="true"></i></a>
               </div>
             </div>
           </div>
@@ -568,8 +566,8 @@
                onsubmit = runs our JavaScript instead of a normal page reload
                novalidate = turns off the browser's built-in checks so our
                             own JavaScript validation runs instead -->
-          <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST"
-            onsubmit="handleSubmit(event)" novalidate>
+          <form id="contactForm" action="https://formspree.io/f/moedbyoy" method="POST" onsubmit="handleSubmit(event)"
+            novalidate>
 
             <!-- Spam trap ("honeypot"). People never see this box, but spam robots fill in
                  every box they find. Formspree throws away any message where _gotcha has
@@ -626,7 +624,7 @@
           <!-- Success message — hidden by default; JavaScript shows it
                (and hides the form) after the message is sent. -->
           <div class="success-message" id="successMsg">
-            <h3>✅ Message sent!</h3>
+            <h3>&check; Message sent!</h3>
             <p>Thank you for reaching out. I'll get back to you soon.</p>
           </div>
 
@@ -638,18 +636,17 @@
          Pill-shaped buttons linking to social media profiles. -->
     <section class="social-section">
       <div class="social-inner fade-up">
-        <span class="section-label">Find Me Online</span>
-        <h2>Connect on social</h2>
-        <p>Follow my work, see what I'm building, and stay in touch.</p>
+        <span class="section-label">Websites</span>
+        <h2>My Other GitHub Projects</h2>
+        <p>Previous course websites, projects for ITE 170, and a personal project.</p>
 
         <div class="social-links">
-
-          <!-- LinkedIn button (add more social-link anchors here for other sites) -->
-          <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <span class="social-link-icon"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></span>
-            LinkedIn
-          </a>
-
+          <a href="https://b-buer-nova.github.io/itd210-portfolio/index.html" class="social-link" target="_blank"
+            rel="noopener">ITD 210 Portfolio &nearr;</a>
+          <a href="https://b-buer-nova.github.io/canva-prime-number-generator-archive/" class="social-link"
+            target="_blank" rel="noopener">Prime Number Generator &nearr;</a>
+          <a href="https://b-buer-nova.github.io/awesome-software-i-love/" class="social-link" target="_blank"
+            rel="noopener">Awesome Software &nearr;</a>
         </div>
       </div>
     </section>

@@ -35,3 +35,9 @@ tailored :root section and changed any non-variable colors to a variable in the 
 - finished content additions for about.html and projects.html
 - added media content for multimedia.html
 - fixed some grid flexing issues
+
+### November 26th
+- updated pages with Professor's feedback
+- updated colors on multimedia.html and contact.html
+- updated links on contact.html
+- created and link formspree to contact.html
