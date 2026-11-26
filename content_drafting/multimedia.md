@@ -1,4 +1,4 @@
-# multimedia.html content drfafting
+# multimedia.html content drafting
 
 ## Video Work - Motion & Storytelling
 m6 video
@@ -15,5 +15,5 @@ I did not create a song with AI. While I am no musician, I have dabbled in audio
 - AI Music (Suno) - [Ameteur Music Production]
 - Video Editing
 - 
-- Prompt Writng - MY OWN FUCKING HANDS
+- Prompt Writng - MY OWN HANDS
 - Three Canva Certificates
