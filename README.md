@@ -40,4 +40,5 @@ tailored :root section and changed any non-variable colors to a variable in the 
 - updated pages with Professor's feedback
 - updated colors on multimedia.html and contact.html
 - updated links on contact.html
-- created and link formspree to contact.html
+- created and linked Formspree to contact.html
+- added audio and song covers to multimedia.html
